@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Form Service Result · Survey, Instalasi & Maintenance</title>
+  <title>Form Service Result · By Technical Support</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
   <style>
@@ -327,10 +327,62 @@
       .paper { width: 100%; min-width: 0; max-width: none; margin: 0; padding: 0; box-shadow: none; }
       .paper th { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
     }
+    /* Only the final output frame changes; the complete official form is retained. */
+    #outputFrame { position: relative; width: 100%; height: 1280px; overflow: hidden; background: #fff; box-shadow: 0 2px 16px #18395320; }
+    #printArea.paper.output-form { position: absolute; inset: 0 auto auto 0; width: 1280px !important; height: 1280px; max-width: none !important; min-width: 0; min-height: 1280px; margin: 0; padding: 0; border-radius: 0; box-shadow: none; background: #fff; color: #111; font: 12px/1.28 Arial, sans-serif; transform-origin: top left; overflow-wrap: anywhere; }
+    .paper.output-form .output-content { position: absolute; top: 24px; left: 24px; display: flex; flex-direction: column; width: 1232px; min-height: 1232px; transform-origin: top left; }
+    .paper.output-form .output-content > * { flex: 0 0 auto; }
+    .paper.output-form .output-content > .footer { margin-top: auto; padding-top: 9px; }
+    .paper.output-form .output-checklist-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 16px; align-items: start; margin: 0 0 4px; }
+    .paper.output-form .output-checklist-column { min-width: 0; }
+    .paper.output-form h1 { font: bold 18px/1.2 Arial, sans-serif; margin: 0 0 3px; text-align: center; }
+    .paper.output-form h2 { font: bold 13px/1.2 Arial, sans-serif; margin: 11px 0 4px; }
+    .paper.output-form p { line-height: 1.28; margin: 5px 0; }
+    .paper.output-form .sub { margin: 0 0 8px; }
+    .paper.output-form .kop { grid-template-columns: minmax(0,1fr) minmax(0,1.5fr); gap: 16px; margin-bottom: 3px; padding-bottom: 7px; border-bottom: 2.5px solid #111; }
+    .paper.output-form .kop .web { font-size: 15px; }
+    .paper.output-form .kop-info { font-size: 9px; line-height: 1.3; }
+    .paper.output-form .kop-rule { margin-bottom: 9px; }
+    .paper.output-form .preamble { margin: 6px 0 9px; }
+    .paper.output-form table { display: table; width: 100%; border-collapse: collapse; table-layout: fixed; margin: 4px 0 7px; }
+    .paper.output-form table tbody { display: table-row-group; }
+    .paper.output-form table thead { display: table-header-group; }
+    .paper.output-form table tr { display: table-row; margin: 0; padding: 0; border: 0; border-radius: 0; }
+    .paper.output-form table th, .paper.output-form table td { display: table-cell; width: auto !important; border: 1px solid #444; padding: 4px 5px; vertical-align: top; overflow-wrap: anywhere; }
+    .paper.output-form table th { background: #e9f1f5; font-size: 11px; text-align: left; }
+    .paper.output-form .info-table td:nth-child(odd) { width: 18% !important; font-weight: bold; }
+    .paper.output-form .info-table td:nth-child(even) { width: 32% !important; }
+    .paper.output-form .survey-table th:nth-child(1) { width: 30% !important; }
+    .paper.output-form .survey-table th:nth-child(2) { width: 22% !important; }
+    .paper.output-form .survey-table th:nth-child(3) { width: 16% !important; }
+    .paper.output-form .maintenance-table th:nth-child(1) { width: 17% !important; }
+    .paper.output-form .maintenance-table th:nth-child(2) { width: 35% !important; }
+    .paper.output-form .maintenance-table th:nth-child(3), .paper.output-form .maintenance-table th:nth-child(4) { width: 9% !important; }
+    .paper.output-form .maintenance-table th:nth-child(3), .paper.output-form .maintenance-table th:nth-child(4) { padding-inline: 3px; font-size: 10px; white-space: nowrap; }
+    .paper.output-form .installation-table th:nth-child(1) { width: 7% !important; }
+    .paper.output-form .installation-table th:nth-child(3) { width: 10% !important; }
+    .paper.output-form .installation-table th:nth-child(4) { width: 24% !important; }
+    .paper.output-form td[data-label]::before { content: none !important; }
+    .paper.output-form table td.center { text-align: center; }
+    .paper.output-form table small { font-size: 10px; line-height: 1.25; }
+    .paper.output-form .statement-print { margin: 3px 0; }
+    .paper.output-form .signatures { gap: 25px; margin-top: 12px; }
+    .paper.output-form .signature img { width: auto; height: auto; max-width: 100%; max-height: 60px; margin: 0 auto; }
+    .paper.output-form .footer { margin-top: 9px; font-size: 8px; line-height: 1.25; }
+    #previewView .output-format-note { margin: 0 0 12px; font-size: .85rem; color: #37535d; }
+    #previewView .export-status { overflow-wrap: anywhere; }
+    #previewView .export-status a { display: inline-block; padding: 6px 0; }
+    @media print {
+      @page { size: 1280px 1280px; margin: 0; }
+      #workspace, #previewView, #outputFrame { width: 1280px !important; max-width: none !important; }
+      #outputFrame { height: 1280px !important; padding: 0; margin: 0; overflow: hidden; box-shadow: none; }
+      #printArea.paper.output-form { position: relative; inset: auto; transform: none !important; margin: 0; box-shadow: none; break-inside: avoid; }
+      .paper.output-form th { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    }
   </style>
 </head>
 <body>
-  <header class="top no-print"><div class="brand"><i class="bi bi-clipboard2-check" aria-hidden="true"></i> Form Service Result<small>Maintenance berbagai tipe unit · Survey & Instalasi Reverse Osmosis</small></div></header>
+  <header class="top no-print"><div class="brand"><i class="bi bi-clipboard2-check" aria-hidden="true"></i> Form Service Result<small>By Technical Support · Maintenance berbagai tipe unit · Survey & Instalasi Reverse Osmosis</small></div></header>
   <main id="landing" class="container no-print">
     <div class="hero">
       <div><span class="eyebrow">FORM LAPANGAN · MODULAR</span><h1 class="mt-2">Mulai dari pekerjaan hari ini.</h1>
@@ -380,7 +432,8 @@
       </div>
       <p id="exportStatus" class="export-status no-print" role="status" aria-live="polite" hidden></p>
       <div id="previewWarnings" class="no-print"></div>
-      <div class="paper-wrap"><article id="printArea" class="paper"></article></div>
+      <p class="output-format-note no-print">Form resmi lengkap · 1 gambar · rasio 1:1 · JPG di bawah 1 MB.</p>
+      <div class="paper-wrap"><div id="outputFrame"><article id="printArea" class="paper output-form"></article></div></div>
     </section>
   </main>
   <div id="consumerLayer" class="consumer-layer" role="dialog" aria-modal="true" aria-label="Konfirmasi konsumen" hidden>
@@ -1216,11 +1269,63 @@
         ${closingPrint()}${printSignatures()}
         <p class="footer">Form elektronik · ${esc(new Date().toLocaleString('id-ID',{timeZone:'Asia/Jakarta'}))} WIB. Pernyataan konsumen berlaku sesuai kotak yang dipilih dan pengecualian yang tercatat; hak garansi, komplain, dan klaim tetap berlaku menurut ketentuan.</p>`;
     }
+    // Preserve every word and row in renderDocument(); change only the output frame/layout.
+    const OUTPUT_FRAME_WIDTH=1280;
+    const OUTPUT_FRAME_HEIGHT=1280;
+    let fullOutputObserver;
+    function splitFullChecklist(content) {
+      const checklist=content.querySelector('.maintenance-table,.installation-table');
+      const grid=document.createElement('div');grid.className='output-checklist-grid';
+      const left=document.createElement('div'),right=document.createElement('div');
+      left.className=right.className='output-checklist-column';grid.append(left,right);
+      if(checklist) {
+        const rows=Array.from(checklist.tBodies[0].rows),middle=Math.ceil(rows.length/2);
+        for(const [column,part] of [[left,rows.slice(0,middle)],[right,rows.slice(middle)]]) {
+          const table=checklist.cloneNode(false),head=checklist.tHead?.cloneNode(true),body=document.createElement('tbody');
+          if(head)table.appendChild(head);part.forEach(row=>body.appendChild(row));table.appendChild(body);column.appendChild(table);
+        }
+        checklist.replaceWith(grid);
+      } else {
+        const tables=Array.from(content.querySelectorAll('.survey-table'));
+        if(!tables.length)return;
+        const sections=tables.map(table=>({heading:table.previousElementSibling,table,count:table.tBodies[0].rows.length}));
+        const half=sections.reduce((sum,s)=>sum+s.count,0)/2;
+        let cut=1,total=0,best=Infinity;
+        sections.forEach((section,i)=>{total+=section.count;if(i<sections.length-1&&Math.abs(total-half)<best){best=Math.abs(total-half);cut=i+1;}});
+        sections[0].heading.before(grid);
+        sections.forEach(({heading,table},i)=>{const column=i<cut?left:right;column.append(heading,table);});
+      }
+    }
+    function fitFullOutput() {
+      const frame=$('outputFrame'),paper=$('printArea'),content=paper.querySelector('.output-content');
+      if(!frame?.clientWidth||!content)return;
+      const available=OUTPUT_FRAME_WIDTH-48;
+      const innerScale=Math.min(1,available/Math.max(content.offsetHeight,content.scrollHeight),available/Math.max(content.offsetWidth,content.scrollWidth));
+      content.style.transform=`scale(${innerScale})`;
+      content.style.left=((OUTPUT_FRAME_WIDTH-content.offsetWidth*innerScale)/2)+'px';
+      content.dataset.outputScale=String(innerScale);
+      const previewScale=Math.min(1,frame.clientWidth/OUTPUT_FRAME_WIDTH);
+      paper.style.transform=`scale(${previewScale})`;
+      const height=Math.ceil(OUTPUT_FRAME_HEIGHT*previewScale)+'px';
+      if(frame.style.height!==height)frame.style.height=height;
+    }
+    function renderFullOutput(w) {
+      const previous=$('printArea').querySelector('.output-content');
+      if(previous)fullOutputObserver?.unobserve(previous);
+      $('printArea').innerHTML=`<div class="output-content">${renderDocument(w)}</div>`;
+      const content=$('printArea').firstElementChild;
+      splitFullChecklist(content);fitFullOutput();fullOutputObserver?.observe(content);
+    }
+    if(typeof ResizeObserver==='function') {
+      fullOutputObserver=new ResizeObserver(fitFullOutput);fullOutputObserver.observe($('outputFrame'));
+    } else window.addEventListener('resize',fitFullOutput);
+
     function showPreview() {
       if(!requireCompletion([0,1,2])) return;
       const w=warnings();
       $('previewWarnings').innerHTML=w.length?`<div class="warning"><strong>DRAFT</strong><ul>${w.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:'<p class="hint">Dokumen siap ditinjau. Pilih Download JPG, Download PDF, atau Cetak.</p>';
-      $('printArea').innerHTML=renderDocument(w);
+      $('editor').hidden=true; $('previewView').hidden=false;
+      renderFullOutput(w);
       clearExportLink();
       $('exportStatus').hidden=true;
       $('editor').hidden=true; $('previewView').hidden=false; window.scrollTo(0,0);
@@ -1248,73 +1353,80 @@
         .replace(/[^A-Za-z0-9._-]+/g,'_').replace(/_+/g,'_').slice(0,110);
     }
     function clearExportLink() {
-      if(exportUrl) URL.revokeObjectURL(exportUrl);
-      exportUrl='';
+      if(exportUrl)URL.revokeObjectURL(exportUrl);exportUrl='';
     }
     function saveBlob(blob,name) {
       exportUrl=URL.createObjectURL(blob);
-      const status=$('exportStatus'), link=document.createElement('a');
-      status.textContent=`${name} siap. Jika unduhan belum mulai, `;
-      link.href=exportUrl; link.download=name; link.textContent='ketuk di sini untuk menyimpan.';
-      status.appendChild(link); link.click();
+      const status=$('exportStatus'),link=document.createElement('a');
+      status.textContent=`${name} (${Math.ceil(blob.size/1000)} KB) siap. Jika unduhan belum mulai, `;
+      link.href=exportUrl;link.download=name;link.textContent='ketuk di sini untuk menyimpan.';
+      status.appendChild(link);link.click();
     }
-    async function captureDocument() {
+    async function captureFullOutput() {
       await loadExportScript('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js',()=>typeof window.html2canvas==='function');
-      const paper=$('printArea'), scale=Math.min(2,Math.sqrt(12000000/(794*Math.max(paper.scrollHeight,1))));
-      let blockEdges=[];
-      const canvas=await window.html2canvas(paper,{
-        backgroundColor:'#fff',scale,windowWidth:1024,width:794,useCORS:true,logging:false,
+      await document.fonts?.ready;
+      await Promise.allSettled(Array.from($('printArea').querySelectorAll('img')).map(img=>img.decode?.()));
+      fitFullOutput();
+      const result=await window.html2canvas($('printArea'),{
+        backgroundColor:'#fff',scale:2,windowWidth:1600,width:OUTPUT_FRAME_WIDTH,height:OUTPUT_FRAME_HEIGHT,
+        scrollX:0,scrollY:0,useCORS:true,logging:false,
         onclone(doc) {
-          const copy=doc.getElementById('printArea');
-          copy.style.width='794px'; copy.style.maxWidth='none'; copy.style.margin='0';
-          copy.style.boxShadow='none'; copy.style.borderRadius='0';
-          const top=copy.getBoundingClientRect().top;
-          blockEdges=Array.from(copy.querySelectorAll('tr, p, .signatures'))
-            .map(el=>el.getBoundingClientRect().bottom-top).filter(y=>y>0);
+          const paper=doc.getElementById('printArea'),frame=doc.getElementById('outputFrame');
+          paper.style.transform='none';paper.style.boxShadow='none';
+          frame.style.width=OUTPUT_FRAME_WIDTH+'px';frame.style.height=OUTPUT_FRAME_HEIGHT+'px';frame.style.boxShadow='none';
         }
       });
-      if(!canvas.width||!canvas.height) throw new Error('Dokumen tidak berhasil dirender.');
-      return {canvas,blockEdges:blockEdges.map(y=>Math.round(y*canvas.width/794)).sort((a,b)=>a-b)};
+      if(!result.width||result.width!==result.height)throw new Error('Ukuran gambar belum sesuai rasio 1:1.');
+      return result;
     }
-    function makePdf(canvas,blockEdges) {
-      const pdf=new window.jspdf.jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
-      const margin=10, contentWidth=190, contentHeight=277;
-      const pagePixels=Math.floor(canvas.width*contentHeight/contentWidth);
-      for(let start=0,page=0;start<canvas.height;page++) {
-        const ideal=Math.min(start+pagePixels,canvas.height);
-        const candidates=blockEdges.filter(y=>y>start+pagePixels*.78 && y<ideal-8);
-        const end=ideal===canvas.height?ideal:(candidates.at(-1)||ideal);
-        const slice=document.createElement('canvas'); slice.width=canvas.width; slice.height=end-start;
-        const context=slice.getContext('2d',{alpha:false});
-        if(!context) throw new Error('Canvas PDF tidak tersedia.');
-        context.fillStyle='#fff'; context.fillRect(0,0,slice.width,slice.height);
-        context.drawImage(canvas,0,start,canvas.width,slice.height,0,0,slice.width,slice.height);
-        if(page) pdf.addPage();
-        pdf.addImage(slice.toDataURL('image/jpeg',.93),'JPEG',margin,margin,contentWidth,slice.height/canvas.width*contentWidth);
-        start=end;
+    async function squareJpegUnderLimit(source,maxBytes=950000) {
+      let working=source;
+      const qualities=[.97,.92,.86,.80,.74,.66,.58,.50,.42];
+      for(let attempt=0;attempt<12;attempt++) {
+        for(const quality of qualities) {
+          const blob=await new Promise(resolve=>working.toBlob(resolve,'image/jpeg',quality));
+          if(!blob)throw new Error('Gambar JPG tidak dapat dibuat.');
+          if(blob.size<=maxBytes) {
+            const result={blob,width:working.width,height:working.height,quality};
+            if(working!==source){working.width=1;working.height=1;}return result;
+          }
+        }
+        const next=document.createElement('canvas');next.width=next.height=Math.max(128,Math.floor(working.width*.8));
+        const context=next.getContext('2d',{alpha:false});
+        if(!context)throw new Error('Canvas JPG tidak tersedia.');
+        context.imageSmoothingEnabled=true;context.imageSmoothingQuality='high';context.drawImage(working,0,0,next.width,next.height);
+        if(working!==source){working.width=1;working.height=1;}working=next;
       }
+      throw new Error('Gambar belum berhasil dikompres di bawah 1 MB.');
+    }
+    async function makeSinglePagePdf(jpeg) {
+      const pdf=new window.jspdf.jsPDF({orientation:'portrait',unit:'mm',format:[240,240],compress:true});
+      pdf.addImage(new Uint8Array(await jpeg.arrayBuffer()),'JPEG',0,0,240,240);
       return pdf.output('blob');
     }
     async function downloadOutput(format) {
-      if(exportBusy||!outputReady()) return;
-      exportBusy=true;
-      clearExportLink();
-      const filename=outputName();
-      const status=$('exportStatus'); status.hidden=false; status.classList.remove('error');
-      status.textContent=`Menyiapkan file ${format.toUpperCase()}…`;
+      if(exportBusy||!outputReady())return;
+      exportBusy=true;clearExportLink();
+      const filename=outputName()+'_Lengkap_1x1';
+      const status=$('exportStatus');status.hidden=false;status.classList.remove('error');
+      status.textContent=`Menyiapkan form lengkap ${format.toUpperCase()} 1:1…`;
       document.querySelectorAll('#previewView .preview-toolbar button, #workspace [data-action="home"]').forEach(button=>button.disabled=true);
+      let imageCanvas;
       try {
-        if(format==='pdf') await loadExportScript('https://cdn.jsdelivr.net/npm/jspdf@4.2.1/dist/jspdf.umd.min.js',()=>typeof window.jspdf?.jsPDF==='function');
-        const {canvas,blockEdges}=await captureDocument();
-        if(format==='jpg') {
-          const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.93));
-          if(!blob) throw new Error('Gambar JPG tidak dapat dibuat.');
-          saveBlob(blob,filename+'.jpg');
-        } else saveBlob(makePdf(canvas,blockEdges),filename+'.pdf');
+        if(format==='pdf')await loadExportScript('https://cdn.jsdelivr.net/npm/jspdf@4.2.1/dist/jspdf.umd.min.js',()=>typeof window.jspdf?.jsPDF==='function');
+        imageCanvas=await captureFullOutput();
+        let packed=await squareJpegUnderLimit(imageCanvas);
+        if(format==='jpg')saveBlob(packed.blob,filename+'.jpg');
+        else {
+          let blob=await makeSinglePagePdf(packed.blob);
+          for(let limit=850000;blob.size>=1000000&&limit>=250000;limit-=100000){packed=await squareJpegUnderLimit(imageCanvas,limit);blob=await makeSinglePagePdf(packed.blob);}
+          if(blob.size>=1000000)throw new Error('PDF belum berhasil dikompres di bawah 1 MB.');
+          saveBlob(blob,filename+'.pdf');
+        }
       } catch(error) {
-        status.classList.add('error');
-        status.textContent=`Gagal membuat ${format.toUpperCase()}: ${error.message||'coba lagi.'}`;
+        status.classList.add('error');status.textContent=`Gagal membuat ${format.toUpperCase()}: ${error.message||'coba lagi.'}`;
       } finally {
+        if(imageCanvas){imageCanvas.width=1;imageCanvas.height=1;}
         exportBusy=false;
         document.querySelectorAll('#previewView .preview-toolbar button, #workspace [data-action="home"]').forEach(button=>button.disabled=false);
       }
