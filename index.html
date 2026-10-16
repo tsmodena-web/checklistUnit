@@ -710,8 +710,8 @@
     function field(key, label, opts={}) {
       const v = val(data().info,key), wide = opts.wide ? ' wide' : '';
       const missing=validationTarget.key===scopeKey()&&validationTarget.steps.includes(0)&&
-        (!String(data().info[key]||'').trim()||key==='model'&&unitType==='ro'&&!roModelKey(data().info.model));
-      return `<div class="field${wide}${missing?' needs-entry':''}"><label class="form-label" for="f-${key}">${esc(label)}${requirement('required')}</label>${opts.textarea
+        (key!=='wo'&&!String(data().info[key]||'').trim()||key==='model'&&unitType==='ro'&&!roModelKey(data().info.model));
+      return `<div class="field${wide}${missing?' needs-entry':''}"><label class="form-label" for="f-${key}">${esc(label)}${requirement(key==='wo'?'optional':'required')}</label>${opts.textarea
         ? `<textarea class="form-control" id="f-${key}" data-bind="info" data-key="${key}" placeholder="${esc(opts.placeholder || '')}">${v}</textarea>`
         : opts.select ? `<select class="form-select" id="f-${key}" data-bind="info" data-key="${key}"><option value="" ${!roModelKey(data().info[key])?'selected':''}>Pilih model RO</option>${opts.select.map(model=>`<option value="${esc(model)}" ${roModelKey(data().info[key])===roModelKey(model)?'selected':''}>${esc(model)}</option>`).join('')}</select>`
         : `<input class="form-control" id="f-${key}" data-bind="info" data-key="${key}" type="${opts.type || 'text'}" value="${v}" placeholder="${esc(opts.placeholder || '')}" ${opts.readonly?'readonly':''}>`}</div>`;
@@ -719,7 +719,7 @@
     function infoFields() {
       const worker=mode==='survey' ? ['surveyor','Nama surveyor'] : ['technician','Nama teknisi'];
       return `<div class="info mb-3"><strong>Tipe unit:</strong> ${esc(UNIT_META[unitType].label)} &nbsp;·&nbsp; <strong>Konteks:</strong> ${esc(projectName())}</div>
-        <div class="grid">${field('wo','Nomor WO')}${field('date','Tanggal',{type:'date'})}
+        <div class="grid">${field('wo','Nomor WO',{placeholder:'Opsional — isi jika tersedia'})}${field('date','Tanggal',{type:'date'})}
         ${field(worker[0],worker[1])}${field('project','Program / project',{readonly:true})}
         ${field('customer','Nama konsumen / PIC')}${field('model','Model unit',{select:unitType==='ro'?RO_MODELS:null,placeholder:'Ketik model sesuai nameplate / WO'})}
         ${field('address','Alamat konsumen',{textarea:true,wide:true})}
@@ -1030,9 +1030,9 @@
       const step=currentStep(), d=data();
       let label='';
       if (step===0) {
-        const keys=['wo','date',mode==='survey'?'surveyor':'technician','project','customer','model','address','location'];
+        const keys=['date',mode==='survey'?'surveyor':'technician','project','customer','model','address','location'];
         const filled=keys.filter(k=>String(d.info[k]||'').trim()).length;
-        label=`${filled}/8 informasi wajib terisi${mode==='maintenance'&&unitType==='ro'&&d.info.model&&!roModelKey(d.info.model)?' · model RO belum dikenali':''}`;
+        label=`${filled}/7 informasi wajib terisi${mode==='maintenance'&&unitType==='ro'&&d.info.model&&!roModelKey(d.info.model)?' · model RO belum dikenali':''}`;
       } else if(step===1 && mode==='survey') {
         const core=Array.from({length:7},(_,i)=>String(d.rows[i]?.result??'').trim()).filter(Boolean).length;
         label=`${core}/7 parameter inti terisi · material sesuai kebutuhan`;
@@ -1222,7 +1222,7 @@
     function validationIssues() {
       const f=data().info, issues=[];
       const add=(step,message,target)=>issues.push({step,message,target});
-      const required=[['wo','nomor WO'],['date','tanggal'],[mode==='survey'?'surveyor':'technician',mode==='survey'?'surveyor':'teknisi'],
+      const required=[['date','tanggal'],[mode==='survey'?'surveyor':'technician',mode==='survey'?'surveyor':'teknisi'],
         ['project','project'],['customer','konsumen / PIC'],['address','alamat konsumen'],['model','tipe / model unit'],['location','lokasi unit']];
       for (const [k,label] of required) if (!String(f[k]||'').trim()) add(0,'Informasi '+label+' belum diisi.','f-'+k);
       if(unitType==='ro'&&String(f.model||'').trim()&&!roModelKey(f.model))
