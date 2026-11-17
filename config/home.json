@@ -1,0 +1,29 @@
+{
+  "intro": [
+    {
+      "text": "Pilih pekerjaan, unit, dan project untuk mulai mengisi."
+    },
+    {
+      "icon": "house-door",
+      "text": "Form ini hanya untuk kasus **in-home** dan berorientasi untuk **project**. Maintenance, Instalasi, dan Survey lokasi disarankan untuk perbaikan di **instansi atau perusahaan**."
+    }
+  ],
+  "quicklink": {
+    "enabled": true,
+    "icon": "snow",
+    "title": "Penarikan indoor unit pendingin?",
+    "subtitle": "Untuk kasus penarikan indoor, gunakan Checklist Unit Pendingin (General Check atau Pengetesan Bocor Body).",
+    "buttonLabel": "Buka Checklist Unit Pendingin",
+    "url": "https://tsmodena-web.github.io/Checklist-Unit-Pendingin/",
+    "flowSummary": "Lihat panduan alur (flowchart)",
+    "flowAria": "Alur: jika kasusnya penarikan indoor unit pendingin, buka Checklist Unit Pendingin dan pilih General Check atau Pengetesan Bocor Body. Jika tidak, lanjut mengisi Form Service Result.",
+    "flow": {
+      "start": "Mulai: terima WO service",
+      "question": "Unit pendingin dan kasusnya penarikan indoor?",
+      "yesLabel": "YA",
+      "yes": "Buka [Checklist Unit Pendingin](https://tsmodena-web.github.io/Checklist-Unit-Pendingin/), lalu pilih form **General Check** atau **Pengetesan Bocor Body**",
+      "noLabel": "TIDAK",
+      "no": "Lanjut di halaman ini: [pilih pekerjaan, unit, dan project](#activityGrid)"
+    }
+  }
+}

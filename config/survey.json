@@ -1,0 +1,48 @@
+[
+  [
+    "Kondisi lokasi & air",
+    [
+      ["Sumber Air Baku","PAM","-","select",["PAM","Air Tanah","Campuran"]],
+      ["Penampungan","-","-","select",["Toren","GWT","Tidak ada"]],
+      ["Kondisi Penampungan","Bersih","-","select",["Bersih","Kotor","Tidak dapat diperiksa"]],
+      ["Lokasi Air Tanah / GWT","Bebas dari pencemaran air","-","select",["Pemukiman","Pantai","Industri","Tidak berlaku"]],
+      ["Tekanan","1 ~ 3","bar","number"],
+      ["pH","6.5 - 7.5","pH","number"],
+      ["Total Dissolve Solid (TDS)","<500","ppm","number"]
+    ]
+  ],
+  [
+    "Filter tambahan",
+    [["Alkaline Booster","konektor 1/4\"","pcs","quantity"],["Sediment","konektor 1/4\"","pcs","quantity"],["Pipa RO","1/4\"","meter","quantity"],["Fitting \"L\" RO","1/4\"","pcs","quantity"]]
+  ],
+  [
+    "Instalasi RO",
+    [
+      ["Konektor Kran RO","1/2\" to 1/4\"","inch","yesno"],
+      ["Pipa RO (In & Out)","1/4\"","meter","quantity"],
+      ["Fitting \"L\" RO","1/4\"","pcs","quantity"],
+      ["Pipa Drain RO (Khusus RO 9115)","3/8\"","meter","quantity"],
+      ["Plug PVC","1/2\"","pcs","quantity"]
+    ]
+  ],
+  ["Instalasi listrik",[["Stop Kontak","Single","pcs","quantity"],["Kabel","3 x 1.5 mm","meter","quantity"]]],
+  [
+    "Plumbing",
+    [
+      ["Pipa PVC","1/2\"","meter","quantity"],
+      ["Sock \"T\" PVC","1/2\"","pcs","quantity"],
+      ["Sock \"L\" PVC","1/2\"","pcs","quantity"],
+      ["Sock PVC","1/2\"","pcs","quantity"],
+      ["Sock \"L\" Drat Dalam PVC","1/2\"","pcs","quantity"],
+      ["Sock PVC Drat Dalam","1/2\"","pcs","quantity"],
+      ["Dop PVC","1/2\"","pcs","quantity"],
+      ["Lem PVC","Tube","pcs","quantity"],
+      ["Clamp Pipa PVC","1/2\"","pcs","quantity"]
+    ]
+  ],
+  [
+    "Material tambahan",
+    [["Pelindung Pipa RO (Conduit)","20 mm","meter","quantity"],["Clip Conduit","20 mm","pcs","quantity"],["Elbow Conduit","20 mm","pcs","quantity"],["Sock Conduit","20 mm","pcs","quantity"]]
+  ],
+  ["Pekerjaan sipil",[["Bobok Titik","Tembus dinding","titik","quantity"],["Bobok Panjang","Jalur tanam pipa / kabel","meter","quantity"],["Pelubangan Plafon","Jalur pipa / kabel","titik","quantity"]]]
+]

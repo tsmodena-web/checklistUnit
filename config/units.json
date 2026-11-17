@@ -1,0 +1,52 @@
+{
+  "ro": {
+    "label": "Reverse Osmosis",
+    "icon": "droplet-half",
+    "prep": [
+      "TDS meter (acuan ≤ 300 ppm)",
+      "Termometer bila unit memiliki fitur air dingin/panas",
+      "Meteran untuk jarak unit minimal 25 cm di belakang/kanan/kiri",
+      "Riwayat penggantian filter dan alat untuk memeriksa aliran/sumbatan"
+    ]
+  },
+  "stove_oven": {
+    "label": "Kompor / Oven",
+    "icon": "fire",
+    "prep": ["Alat pemeriksaan kebocoran gas sesuai SOP","Meteran untuk jarak dan ventilasi","Alat ukur kelistrikan/baterai bila fitur terkait"]
+  },
+  "dispenser": {
+    "label": "Dispenser",
+    "icon": "cup-straw",
+    "prep": ["Termometer untuk air panas/dingin","Alat pemeriksaan sambungan dan kebocoran air","Acuan tekanan bila unit menggunakan suplai RO"]
+  },
+  "water_heater": {
+    "label": "Water Heater",
+    "icon": "thermometer-half",
+    "prep": ["Alat pemeriksaan gas atau listrik sesuai tipe unit","Termometer untuk suhu air panas","Meteran dan alat pemeriksaan sambungan air"]
+  },
+  "fridge": {
+    "label": "Kulkas / Showcase",
+    "icon": "snow",
+    "prep": ["Termometer freezer/chiller","Meteran untuk jarak dan sirkulasi","Alat pemeriksaan kelistrikan sesuai SOP"]
+  },
+  "hood": {
+    "label": "Cooker Hood",
+    "icon": "wind",
+    "prep": ["Meteran untuk jarak hood ke kompor","Alat pemeriksaan filter dan saluran ducting","Alat pemeriksaan kelistrikan sesuai SOP"]
+  },
+  "washer": {
+    "label": "Washing / Dryer",
+    "icon": "water",
+    "prep": ["Alat pemeriksaan sambungan air dan drainase","Meteran dan alat cek kerataan unit","Alat pemeriksaan grounding sesuai SOP"]
+  },
+  "induction": {
+    "label": "Kompor Induksi",
+    "icon": "lightning-charge",
+    "prep": ["Alat pemeriksaan listrik dan MCB sesuai SOP","Meteran untuk jarak dan sirkulasi","Peralatan uji fungsi zona masak yang sesuai"]
+  },
+  "ac": {
+    "label": "Air Conditioning",
+    "icon": "fan",
+    "prep": ["Termometer suhu udara keluar","Alat ukur tekanan refrigeran sesuai spesifikasi unit","Alat pemeriksaan listrik dan drainase sesuai SOP"]
+  }
+}
