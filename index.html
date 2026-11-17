@@ -264,6 +264,26 @@
     .sig-consent strong { display: block; margin-bottom: 2px; }
     #signatureCanvas { flex: 1; display: block; min-height: 0; width: 100%; border: 2px dashed #91aabd; border-radius: 6px; background: #fff; touch-action: none; }
     .sig-instruction { margin: 0; font-size: .76rem; color: #4c6374; }
+    .quicklink { margin: 14px 0 22px; padding: 16px 18px; border: 1px solid #b9d7ff; border-radius: 6px; background: #eaf3ff; }
+    .quicklink-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+    .quicklink-head strong { display: block; font-size: 1rem; color: #084298; }
+    .quicklink-head span { display: block; font-size: .86rem; color: #3f5a73; margin-top: 2px; }
+    .quicklink details { margin-top: 12px; }
+    .quicklink summary { cursor: pointer; font-size: .86rem; font-weight: 600; color: #084298; }
+    .flow { display: flex; flex-direction: column; align-items: center; gap: 0; margin: 14px 0 4px; font-size: .86rem; }
+    .flow-node { max-width: 360px; width: 100%; padding: 10px 14px; border-radius: 6px; border: 1px solid #b9d7ff; background: #fff; text-align: center; line-height: 1.4; }
+    .flow-node.start { border-radius: 999px; background: #0d6efd; border-color: #0d6efd; color: #fff; font-weight: 600; }
+    .flow-node.decision { border: 2px solid #0d6efd; background: #fff; font-weight: 600; color: #084298; }
+    .flow-node.go { border-color: #198754; background: #e9f7ef; }
+    .flow-node.go a, .flow-node.stay a { font-weight: 600; }
+    .flow-node.stay { border-color: #6c8aa3; background: #f5f7fa; }
+    .flow-arrow { width: 2px; height: 16px; background: #0d6efd; position: relative; }
+    .flow-arrow::after { content: ""; position: absolute; left: -4px; bottom: -1px; border: 5px solid transparent; border-top: 6px solid #0d6efd; border-bottom: 0; }
+    .flow-branches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; width: 100%; max-width: 640px; }
+    .flow-branch { display: flex; flex-direction: column; align-items: center; }
+    .flow-label { margin: 0 0 2px; padding: 1px 10px; border-radius: 999px; font-size: .76rem; font-weight: 700; background: #fff; border: 1px solid #b9d7ff; color: #084298; }
+    .flow-label.yes { border-color: #198754; color: #146c43; }
+    @media screen and (max-width: 600px) { .flow-branches { grid-template-columns: 1fr; } }
     @media screen and (max-width: 800px) { .choice-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .hero { grid-template-columns: 1fr; } .mode-grid { grid-template-columns: 1fr; } }
     @media screen and (max-width: 600px) {
       .grid, .choice-grid, .preflight-list { grid-template-columns: 1fr; }
@@ -480,9 +500,31 @@
   <main id="landing" class="container no-print">
     <div class="hero">
       <div><h1>Form Service Result</h1>
-        <p class="muted">Pilih pekerjaan, unit, dan project untuk mulai mengisi.</p></div>
+        <p class="muted">Pilih pekerjaan, unit, dan project untuk mulai mengisi.</p>
+        <p class="muted mb-0"><i class="bi bi-house-door me-1" aria-hidden="true"></i>Form ini hanya untuk kasus <strong>in-home</strong> dan berorientasi untuk <strong>project</strong>. Maintenance, Instalasi, dan Survey lokasi disarankan untuk perbaikan di <strong>instansi atau perusahaan</strong>.</p></div>
     </div>
     <div id="migrationNotice" class="warning" hidden><strong>Alur Maintenance RO diperbarui.</strong> Periksa kembali hasil dan catatan dari draft lama. Pilihan yang sudah tidak berlaku disesuaikan, dan tanda tangan perlu diulang bila hasil berubah.</div>
+    <aside class="quicklink" aria-label="Quicklink unit pendingin">
+      <div class="quicklink-head">
+        <div><strong><i class="bi bi-snow me-1" aria-hidden="true"></i>Penarikan indoor unit pendingin?</strong><span>Untuk kasus penarikan indoor, gunakan Checklist Unit Pendingin (General Check atau Pengetesan Bocor Body).</span></div>
+        <a class="btn btn-primary" href="https://tsmodena-web.github.io/Checklist-Unit-Pendingin/" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right me-1" aria-hidden="true"></i>Buka Checklist Unit Pendingin</a>
+      </div>
+      <details>
+        <summary>Lihat panduan alur (flowchart)</summary>
+        <div class="flow" role="img" aria-label="Alur: jika kasusnya penarikan indoor unit pendingin, buka Checklist Unit Pendingin dan pilih General Check atau Pengetesan Bocor Body. Jika tidak, lanjut mengisi Form Service Result.">
+          <div class="flow-node start">Mulai: terima WO service</div>
+          <div class="flow-arrow"></div>
+          <div class="flow-node decision">Unit pendingin dan kasusnya penarikan indoor?</div>
+          <div class="flow-arrow"></div>
+          <div class="flow-branches">
+            <div class="flow-branch"><span class="flow-label yes">YA</span><div class="flow-arrow"></div>
+              <div class="flow-node go">Buka <a href="https://tsmodena-web.github.io/Checklist-Unit-Pendingin/" target="_blank" rel="noopener noreferrer">Checklist Unit Pendingin</a> , lalu pilih form <strong>General Check</strong> atau <strong>Pengetesan Bocor Body</strong></div></div>
+            <div class="flow-branch"><span class="flow-label">TIDAK</span><div class="flow-arrow"></div>
+              <div class="flow-node stay">Lanjut di halaman ini: <a href="#activityGrid">pilih pekerjaan, unit, dan project</a></div></div>
+          </div>
+        </div>
+      </details>
+    </aside>
     <section aria-label="Pilih pekerjaan"><h2 class="fs-5 mb-2">1. Pilih pekerjaan</h2>
       <div id="activityGrid" class="choice-grid">
         <button class="choice" data-action="select-activity" data-mode="maintenance" aria-pressed="false"><span class="choice-icon"><i class="bi bi-gear" aria-hidden="true"></i></span><strong>Maintenance</strong><span>Pemeriksaan sebelum, tindakan, dan hasil sesudah.</span><span class="choice-meta">Semua tipe unit <i class="bi bi-arrow-right" aria-hidden="true"></i></span></button>
