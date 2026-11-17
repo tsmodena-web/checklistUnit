@@ -22,6 +22,8 @@ index.html                HASIL build (file yang disajikan GitHub Pages) — jan
 2. `npm install` (sekali), lalu `npm run build`. Build menolak config yang tidak valid.
 3. Buka `index.html`, cek, lalu commit & push.
 
+Untuk preview di tempat yang memblokir CDN (mis. artifact claude.ai): `npm run preview` membuat `preview/index.html` dengan Bootstrap di-inline (tidak ikut di-commit). Tombol unduh JPG/PDF tidak berfungsi di artifact.
+
 ## Cara pakai dengan MCP (disarankan)
 Butuh Node 18+. Jalankan sekali di folder repo: `npm install`.
 

@@ -6,10 +6,14 @@
   "description": "Config + MCP server untuk Form Service Result (MODENA Technical Support)",
   "scripts": {
     "build": "node tools/build.mjs",
-    "mcp": "node tools/mcp-server.mjs"
+    "mcp": "node tools/mcp-server.mjs",
+    "preview": "node tools/make-preview.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
     "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "bootstrap": "^5.3.8"
   }
 }
