@@ -544,7 +544,48 @@
       .preflight { padding:13px; }
       .preflight-list { grid-template-columns:1fr; }
     }
+    /* ===== Legion layer: satu aksen ungu, hero lavender, Plus Jakarta Sans + Inter ===== */
+    :root { --lg-accent:#875bf7; --lg-dark:#5b2fd6; --lg-soft:#f5f3ff; --lg-border:#ddd6fe; --lg-line:#e6e8ee; --lg-ink:#2e3032; --lg-muted:#6b6f76; --lg-bg:#f7f7fb; font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif; }
+    body, body[data-theme] { --accent:var(--lg-accent); --accent-dark:var(--lg-dark); --accent-soft:var(--lg-soft); --accent-border:var(--lg-border); background:var(--lg-bg); color:var(--lg-ink); font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif; }
+    h1, h2, h3, .brand, .choice strong, .form-heading h1 { font-family:"Plus Jakarta Sans",Inter,system-ui,sans-serif; letter-spacing:-.01em; }
+    .top, body[data-theme] .top { border-bottom:1px solid var(--lg-line); }
+    .brand > i { background:linear-gradient(135deg,#875bf7,#5b2fd6); box-shadow:0 3px 9px #875bf733; }
+    .hero { background:var(--lg-soft); border:1px solid var(--lg-border); border-radius:12px; padding:26px 28px; }
+    .hero h1 { font-size:1.9rem; font-weight:800; }
+    .hero p { color:var(--lg-muted); }
+    .hero, .card, .setup-panel, .choice, .context-bar, .completion-nav, .wizard-actions, .preflight, .required-guide, .quicklink { border-color:var(--lg-line); }
+    .choice, .card, .setup-panel { border-radius:10px; }
+    .choice { --tile-accent:var(--lg-accent); --tile-soft:var(--lg-soft); background:#fff !important; border-color:var(--lg-line) !important; }
+    .choice[data-mode], .unit-choice { --tile-accent:var(--lg-accent); --tile-soft:var(--lg-soft); }
+    .choice.active, .choice[data-mode].active { border-color:var(--lg-accent) !important; background:var(--lg-soft) !important; box-shadow:0 0 0 3px #875bf722; }
+    .choice:hover, .choice:focus-visible { border-color:var(--lg-accent) !important; box-shadow:0 4px 14px #875bf71a; }
+    .choice .choice-icon { background:var(--lg-soft); color:var(--lg-accent); border-radius:8px; }
+    .btn-primary, .btn-primary.primary { --bs-btn-bg:var(--lg-accent); --bs-btn-border-color:var(--lg-accent); --bs-btn-hover-bg:var(--lg-dark); --bs-btn-hover-border-color:var(--lg-dark); --bs-btn-active-bg:var(--lg-dark); --bs-btn-active-border-color:var(--lg-dark); --bs-btn-disabled-bg:var(--lg-accent); --bs-btn-disabled-border-color:var(--lg-accent); border-radius:8px; font-weight:600; }
+    .btn-outline-secondary { border-radius:8px; --bs-btn-color:var(--lg-dark); --bs-btn-border-color:var(--lg-border); --bs-btn-hover-bg:var(--lg-soft); --bs-btn-hover-color:var(--lg-dark); --bs-btn-hover-border-color:var(--lg-accent); }
+    .setup-panel .segment .btn[aria-pressed="true"] { border-color:var(--lg-accent); color:var(--lg-dark); }
+    .stepper { background:#efeafd; border-color:var(--lg-border); }
+    .step-tab { color:var(--lg-muted); }
+    .step-tab.active { color:var(--lg-dark); }
+    .step-tab span { background:#e3dbfb; color:var(--lg-dark); }
+    .step-tab.active span { background:var(--lg-accent); color:#fff; }
+    .context-bar, .progress-strip, .preflight, .required-guide { background:var(--lg-soft); border-color:var(--lg-border); color:var(--lg-dark); }
+    .preflight h2 { color:var(--lg-dark); }
+    .preflight-list i, .required-guide i { color:var(--lg-accent); }
+    .eyebrow { color:var(--lg-accent); font-weight:700; }
+    .form-heading .title-icon { background:var(--lg-soft); color:var(--lg-accent); }
+    .completion-nav .completion-count { background:var(--lg-soft); color:var(--lg-dark); border:1px solid var(--lg-border); }
+    .completion-nav button:hover, .completion-nav button:focus-visible { background:var(--lg-soft); color:var(--lg-dark); }
+    .form-control:focus, .form-select:focus { border-color:var(--lg-accent); box-shadow:0 0 0 3px #875bf726; }
+    /* quicklink seperti banner "New" Legion */
+    .quicklink { background:#fffaf0; border:1px solid #f6e3c0; border-radius:12px; }
+    .quicklink-head { color:#7a4b00; }
+    .quicklink .btn-primary { background:var(--lg-accent); border-color:var(--lg-accent); }
+    .quicklink summary { color:var(--lg-dark); }
+    .progress-strip::after { background:linear-gradient(90deg,var(--lg-accent) var(--fill,0%),transparent var(--fill,0%)); opacity:.8; }
+    .preflight-list li, .preflight p { color:var(--lg-ink); }
+    .quicklink-head, .quicklink-head * { color:#7a4b00 !important; }
   </style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
   <header class="top no-print"><div class="brand"><i class="bi bi-clipboard2-check" aria-hidden="true"></i> Form Service Result<small>MODENA · Technical Support</small></div></header>
