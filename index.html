@@ -583,7 +583,7 @@
     .flow-label { background:#fff; border:1px solid var(--ac-b); color:var(--ac-d); font-size:.72rem; letter-spacing:.02em; }
     .flow-label.yes { border-color:#b7e4c7; color:#1a7f4b; background:#f1faf5; }
     /* sorotan belum diisi: tanpa menggeser layout */
-    .needs-entry { border:1px solid #f3c1b5 !important; border-left:3px solid #e5533d !important; border-radius:var(--r); background:#fff7f5; padding-inline:revert !important; }
+    .needs-entry { border:1px solid #f3c1b5 !important; border-left:3px solid #e5533d !important; border-radius:var(--r); background:#fff7f5; padding-inline:18px !important; }
     .field.needs-entry { border:0 !important; background:none; padding:0 !important; border-radius:0; }
     .field.needs-entry > label { color:#b42318; }
     .field.needs-entry .form-control, .field.needs-entry .form-select { border-color:#e5533d; background-color:#fff7f5; box-shadow:0 0 0 3px #e5533d1f; }
@@ -610,6 +610,10 @@
     .completion-nav { top:calc(var(--ctx-h) + 24px); }
     #workspace > .completion-nav { margin-top:16px; }
     .form-heading { margin-top:16px; }
+    details.group > summary::after { color:var(--ac); }
+    details.group[open] > summary { background:var(--ac-s); border-bottom-color:var(--ac-b); }
+    details.group > summary .group-count { color:var(--muted); }
+    .status { background:#f3f4f8; border-color:var(--line); }
     @media (max-width: 600px) {
       .container { padding:14px 16px 96px; }
       .top, body[data-theme] .top { padding:9px 16px; }
