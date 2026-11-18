@@ -493,6 +493,57 @@
     .completion-nav .completion-help { flex:0 0 100%; order:4; color:#6c757d; font-size:.75rem; font-weight:400; line-height:1.4; }
     .completion-nav[open] .completion-help { display:none; }
     @media(max-width:600px) { .form-heading h1 { font-size:1.25rem; } .item-title { font-size:.875rem; } .group-body { padding-inline:12px; } }
+    /* ===== UX layer (gaya TIMS): token tunggal, header ringan, kartu 12px, form lebih ringkas di HP ===== */
+    :root { --ux-ink:#203452; --ux-muted:#63758d; --ux-line:#dce5f2; --ux-blue:#2563eb; --ux-bg:#f4f7fc; }
+    :root, body { color: var(--ux-ink); }
+    body:not([data-theme]) { background: var(--ux-bg); }
+    .top, body[data-theme] .top { background:#fff; color:var(--ux-ink); border-bottom:1px solid var(--ux-line); padding-top:11px; padding-bottom:11px; position:sticky; top:0; z-index:50; }
+    .brand { display:grid; grid-template-columns:32px 1fr; column-gap:10px; align-items:center; font-size:.98rem; font-weight:700; letter-spacing:0; }
+    .brand > i { grid-row:1 / span 2; width:32px; height:32px; display:grid; place-items:center; border-radius:10px; background:var(--ux-blue); color:#fff; box-shadow:0 3px 9px #2563eb22; font-size:1rem; }
+    .brand small { margin:0; color:var(--ux-muted); font-size:.72rem; }
+    .hero, .card, .setup-panel, .choice, .context-bar, .completion-nav, .wizard-actions, .preflight, .required-guide, .quicklink { border-radius:12px; border-color:var(--ux-line); }
+    .hero { padding:22px 24px; }
+    .hero h1 { font-size:1.45rem; font-weight:750; }
+    .choice { padding:18px; min-height:0; }
+    .unit-choice { min-height:0; }
+    .choice strong { font-size:1rem; font-weight:750; }
+    .choice span { font-size:.82rem; }
+    .choice .choice-icon { width:36px; height:36px; border-radius:10px; margin-bottom:12px; }
+    .choice .choice-meta { margin-top:12px; }
+    .choice:hover, .choice:focus-visible { box-shadow:0 4px 14px #2563eb0d; }
+    .stepper { border-radius:12px; padding:4px; background:#eaf0f9; border-color:var(--ux-line); }
+    .step-tab { border-radius:9px; min-height:42px; font-size:.86rem; }
+    .step-tab.active { box-shadow:0 1px 6px #25415f18; }
+    .progress-strip { position:relative; overflow:hidden; border-radius:10px; }
+    .progress-strip::after { content:''; position:absolute; left:0; right:0; bottom:0; height:3px; background:linear-gradient(90deg,var(--accent) var(--fill,0%),transparent var(--fill,0%)); opacity:.55; }
+    .completion-nav .completion-count { border-radius:999px; padding:2px 9px; font-size:.78rem; }
+    .btn { border-radius:9px; }
+    .form-control, .form-select { border-radius:8px; min-height:38px; border-color:#cfdaea; }
+    .form-control:focus, .form-select:focus { border-color:#7fa4f0; box-shadow:0 0 0 3px #2563eb1f; }
+    @media (max-width: 600px) {
+      .container { padding:14px 12px 96px; }
+      .top { padding:9px 12px; }
+      .hero { padding:16px; }
+      .hero h1 { font-size:1.2rem; }
+      .choice-grid { gap:9px; }
+      .choice { padding:14px; }
+      /* baris atas form: konteks + tombol ganti dalam satu baris */
+      #workspace { display:flex; flex-direction:column; }
+      #contextBar { padding:9px 12px; margin-bottom:8px; font-size:.8rem; }
+      nav.tabs { margin:0 0 8px; }
+      nav.tabs .btn { min-height:34px; padding:5px 10px; font-size:.8rem; }
+      .completion-nav { position:static; margin:0 0 12px; }
+      .completion-nav > summary { min-height:40px; padding:8px 12px; }
+      .completion-nav .completion-help { display:none; }
+      .form-heading { margin:4px 0 12px; }
+      .form-heading .title-icon { width:36px; height:36px; font-size:1.1rem; }
+      .form-heading h1 { font-size:1.15rem; }
+      .form-heading p { font-size:.8rem; line-height:1.35; }
+      .stepper { margin:12px 0 14px; }
+      .step-tab { flex-direction:column; gap:2px; min-height:46px; font-size:.74rem; }
+      .preflight { padding:13px; }
+      .preflight-list { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body>
@@ -1199,6 +1250,8 @@
       if (box.dataset.text!==label) {
         box.dataset.text=label;
         box.innerHTML=`<i class="bi bi-${step===0?'person-vcard':step===1?'clipboard-check':'pen'}" aria-hidden="true"></i><span>${esc(label)}</span>`;
+        const m=label.match(/^(\d+)\/(\d+)/);
+        box.style.setProperty('--fill', m&&+m[2]?Math.round(100*(+m[1])/(+m[2]))+'%':'0%');
       }
       renderValidationNotice();
     }
