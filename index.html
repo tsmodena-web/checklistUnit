@@ -570,6 +570,46 @@
     .mode-grid .btn:hover:not(:disabled), .mode-grid .btn:focus-visible { background:var(--ac-d); border-color:var(--ac-d); color:#fff; }
     .mode-grid .btn i, .mode-grid .btn span { color:#fff; }
     .mode-grid .btn:disabled { opacity:.5; }
+    /* flowchart panduan */
+    .flow { margin:16px 0 4px; font-size:.86rem; }
+    .flow-node { max-width:380px; border:1px solid var(--line); border-radius:var(--r); background:#fff; padding:10px 14px; color:var(--ink); }
+    .flow-node a { color:var(--ac-d); font-weight:600; text-decoration:underline; text-underline-offset:2px; }
+    .flow-node.start { background:var(--ac); border-color:var(--ac); color:#fff; border-radius:999px; font-weight:600; }
+    .flow-node.decision { background:var(--ac-s); border:1.5px solid var(--ac); color:var(--ac-d); font-weight:600; }
+    .flow-node.go { background:#f1faf5; border-color:#b7e4c7; }
+    .flow-node.stay { background:var(--bg); border-color:var(--line); }
+    .flow-arrow { background:#b9a8f7; }
+    .flow-arrow::after { border-top-color:#b9a8f7; }
+    .flow-label { background:#fff; border:1px solid var(--ac-b); color:var(--ac-d); font-size:.72rem; letter-spacing:.02em; }
+    .flow-label.yes { border-color:#b7e4c7; color:#1a7f4b; background:#f1faf5; }
+    /* sorotan belum diisi: tanpa menggeser layout */
+    .needs-entry { border:1px solid #f3c1b5 !important; border-left:3px solid #e5533d !important; border-radius:var(--r); background:#fff7f5; padding-inline:revert !important; }
+    .field.needs-entry { border:0 !important; background:none; padding:0 !important; border-radius:0; }
+    .field.needs-entry > label { color:#b42318; }
+    .field.needs-entry .form-control, .field.needs-entry .form-select { border-color:#e5533d; background-color:#fff7f5; box-shadow:0 0 0 3px #e5533d1f; }
+    .needs-entry:focus, .needs-entry:focus-within { outline:3px solid #7c5cf026; outline-offset:2px; }
+    .warning { background:#fff; border:1px solid var(--line); border-left:3px solid #e5a000; border-radius:var(--r); color:var(--ink); padding:12px 14px; font-size:.86rem; }
+    .warning ul { padding-left:18px; color:var(--muted); }
+    .warning strong { color:var(--ink); }
+    .completion-nav .completion-list { padding:6px 8px; }
+    .completion-nav button { border:0; border-radius:8px; border-bottom:0; background:transparent; min-height:40px; padding:9px 10px; color:var(--ink); }
+    .completion-nav button + button { margin-top:2px; }
+    .warning .btn, .warning button { background:#fff; border:1px solid var(--ac-b); color:var(--ac-d); border-radius:8px; font-size:.75rem; font-weight:600; padding:2px 10px; margin-left:6px; }
+    .warning .btn:hover, .warning button:hover { background:var(--ac-s); border-color:var(--ac); }
+    .completion-nav button { font-size:.8rem; line-height:1.35; }
+    .completion-nav .completion-list p { color:var(--muted); }
+    /* header form terkunci: konteks, tab aktif, progres */
+    :root { --ctx-h:46px; }
+    .top, body[data-theme] .top { position:static; }
+    #workspace > .context-bar { position:sticky; top:0; z-index:45; height:var(--ctx-h); padding:10px 150px 10px 14px; line-height:26px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:0; box-shadow:0 10px 0 var(--bg); }
+    #workspace > nav.tabs { position:sticky; top:0; z-index:46; height:var(--ctx-h); margin:0 8px calc(-1 * var(--ctx-h)) 0; align-items:center; pointer-events:none; }
+    #workspace > nav.tabs .btn { pointer-events:auto; }
+    .form-sticky { position:sticky; top:calc(var(--ctx-h) + 10px); z-index:40; background:var(--bg); padding:2px 0 10px; margin-top:6px; }
+    .form-sticky .stepper { margin:0 0 8px; }
+    .form-sticky .progress-strip { margin:0; box-shadow:0 8px 12px -10px #1f243040; }
+    .completion-nav { top:calc(var(--ctx-h) + 24px); }
+    #workspace > .completion-nav { margin-top:16px; }
+    .form-heading { margin-top:16px; }
     @media (max-width: 600px) {
       .container { padding:14px 16px 96px; }
       .top, body[data-theme] .top { padding:9px 16px; }
@@ -581,8 +621,15 @@
       .choice strong, .choice > span:not(.choice-icon) { grid-column:2; margin:0; }
       .hero h1 { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
       .choice .choice-meta { margin-top:4px; justify-content:flex-start; gap:6px; }
+      :root { --ctx-h:42px; }
+      #workspace > .context-bar { padding:8px 52px 8px 12px; line-height:26px; font-size:.82rem; }
+      .form-sticky { top:calc(var(--ctx-h) + 6px); padding:2px 0 8px; margin-top:4px; }
+      .form-sticky .stepper { margin-bottom:6px; }
+      .form-sticky .step-tab { flex-direction:row; gap:6px; min-height:36px; font-size:.78rem; }
+      .form-sticky .step-tab span { flex-basis:20px; height:20px; font-size:.68rem; }
+      .form-sticky .progress-strip { padding:6px 12px; font-size:.78rem; }
+      .completion-nav { top:auto; }
       #workspace > .context-bar { padding:10px 52px 10px 12px; margin-bottom:10px; font-size:.82rem; }
-      #workspace > nav.tabs { margin:4px 5px 0 0; }
       nav.tabs .btn { width:34px; padding:4px 0; font-size:0; }
       nav.tabs .btn i { margin:0 !important; font-size:1rem; }
       .completion-nav { position:static; margin:0 0 12px; }
@@ -1203,8 +1250,8 @@
       $('editor').dataset.scope=scopeKey();
       $('editor').dataset.maintenanceModel=mode==='maintenance'&&unitType==='ro'?roModelKey(data().info.model):'';
       $('editor').innerHTML=`<div class="form-heading"><span class="eyebrow">FORM ${activity().toUpperCase()} · ${esc(UNIT_META[unitType].label.toUpperCase())} · ${esc(projectName().toUpperCase())}</span><div class="title-line"><span class="title-icon"><i class="bi bi-${meta.icon}" aria-hidden="true"></i></span><div>${view.intro}</div></div></div>
-        <nav class="stepper" aria-label="Langkah pengisian">${labels.map((label,i)=>`<button class="step-tab" type="button" data-action="step" data-step="${i}"><span>${i+1}</span>${label}</button>`).join('')}</nav>
-        <div id="progressNotice" class="progress-strip" role="status" aria-live="polite"></div>
+        <div class="form-sticky"><nav class="stepper" aria-label="Langkah pengisian">${labels.map((label,i)=>`<button class="step-tab" type="button" data-action="step" data-step="${i}"><span>${i+1}</span>${label}</button>`).join('')}</nav>
+        <div id="progressNotice" class="progress-strip" role="status" aria-live="polite"></div></div>
         <div id="formWarnings" class="warning" role="alert" hidden></div>
         ${view.panels.map((content,i)=>`<section class="step-panel" data-step-panel="${i}" ${i!==currentStep()?'hidden':''}>${roleGuide(i)}${content}${i===2?closingSection()+signatureCards():''}</section>`).join('')}
         <div class="wizard-actions"><button id="prevStep" class="btn btn-outline-secondary" data-action="previous"><i class="bi bi-arrow-left me-1" aria-hidden="true"></i>Kembali</button><span id="stepCounter" class="step-counter"></span>
