@@ -161,6 +161,13 @@ function renderIntro(home) {
   }).join('\n');
 }
 
+const FLOW_ICON = {
+  wo: '<svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 4h6v3H9z"/><path d="M8.5 12h7M8.5 16h4.5"/></svg>',
+  question: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.6a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1.1.9-1.1 1.7"/><path d="M12 17h.01"/></svg>',
+  unit: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="8" rx="2.5"/><path d="M7 9h10"/><path d="M6 16.5c1 1 2 1 3 0s2-1 3 0 2 1 3 0 2-1 3 0"/><path d="M8 20c.8.8 1.6.8 2.4 0"/></svg>',
+  list: '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="m8.5 12.2 2.4 2.4 4.6-5.2"/></svg>',
+};
+
 function renderGuide(home) {
   const q = home.quicklink;
   if (!q || q.enabled === false) return '';
@@ -172,16 +179,16 @@ function renderGuide(home) {
       </div>
       <details>
         <summary>${esc(q.flowSummary)}</summary>
-        <div class="flow" role="img" aria-label="${esc(q.flowAria)}">
-          <div class="flow-node start">${md(f.start)}</div>
-          <div class="flow-arrow"></div>
-          <div class="flow-node decision">${md(f.question)}</div>
-          <div class="flow-arrow"></div>
+        <div class="flow" role="group" aria-label="${esc(q.flowAria)}">
+          <div class="flow-node start"><span class="flow-ico" aria-hidden="true">${FLOW_ICON.wo}</span><div><span class="flow-cap">Langkah 1</span>${md(f.start)}</div></div>
+          <div class="flow-link" aria-hidden="true"></div>
+          <div class="flow-node decision"><span class="flow-ico" aria-hidden="true">${FLOW_ICON.question}</span><div><span class="flow-cap">Langkah 2 · Cek kasus</span>${md(f.question)}</div></div>
+          <div class="flow-link short" aria-hidden="true"></div>
           <div class="flow-branches">
-            <div class="flow-branch"><span class="flow-label yes">${esc(f.yesLabel)}</span><div class="flow-arrow"></div>
-              <div class="flow-node go">${md(f.yes)}</div></div>
-            <div class="flow-branch"><span class="flow-label">${esc(f.noLabel)}</span><div class="flow-arrow"></div>
-              <div class="flow-node stay">${md(f.no)}</div></div>
+            <div class="flow-branch"><span class="flow-label yes">${esc(f.yesLabel)}</span>
+              <div class="flow-node go"><span class="flow-ico" aria-hidden="true">${FLOW_ICON.unit}</span><div><span class="flow-cap">Buka aplikasi pendingin</span>${md(f.yes)}</div></div></div>
+            <div class="flow-branch"><span class="flow-label">${esc(f.noLabel)}</span>
+              <div class="flow-node stay"><span class="flow-ico" aria-hidden="true">${FLOW_ICON.list}</span><div><span class="flow-cap">Lanjut di halaman ini</span>${md(f.no)}</div></div></div>
           </div>
         </div>
       </details>
