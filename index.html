@@ -1980,7 +1980,7 @@
     <div class="tour-bar"><strong>Simulasi panduan</strong><span id="tourCount" class="tour-count"></span><button class="tour-x" id="tourClose" type="button" aria-label="Tutup panduan">&times;</button></div>
     <div class="tour-progress"><i id="tourFill"></i></div>
     <div class="tour-stage" id="tourStage"></div><div class="tour-auto"><i id="tourAuto"></i></div>
-    <div class="tour-cap"><div class="tour-mascot"><pre id="tourFace" aria-hidden="true"></pre><div class="tour-bubble" id="tourBubble"></div></div><h3 id="tourTitle"></h3><p id="tourText"></p><div class="tour-hint" id="tourHint"></div><div class="tour-dd" id="tourDd"></div>
+    <div class="tour-cap"><div class="tour-mascot"><div class="tour-char" aria-hidden="true"><pre id="tourFace"></pre><span id="tourProp" class="tour-prop"></span></div><div class="tour-bubble" id="tourBubble"></div></div><h3 id="tourTitle"></h3><p id="tourText"></p><div class="tour-hint" id="tourHint"></div><div class="tour-dd" id="tourDd"></div>
       <div class="tour-nav"><button class="btn btn-outline-secondary me-auto" id="tourPlay" type="button">Jeda</button><button class="btn btn-outline-secondary" id="tourPrev" type="button">Kembali</button><button class="btn btn-primary" id="tourNext" type="button">Lanjut</button></div></div>
   </div>
 </div>
@@ -2019,9 +2019,16 @@
 .tour-bubble{position:relative;background:var(--ac-s,#e6f4f1);color:var(--ink,#16232b);border-radius:12px 12px 12px 2px;padding:8px 12px;font-size:.86rem;font-weight:600;min-height:36px;display:flex;align-items:center}
 .tour-bubble::before{content:"";position:absolute;left:-7px;bottom:0;border:7px solid transparent;border-right-color:var(--ac-s,#e6f4f1);border-bottom-color:var(--ac-s,#e6f4f1)}
 .tm ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}.tm li{display:flex;gap:8px;align-items:flex-start;line-height:1.35}.tm li i{font-style:normal;font-weight:800;flex:0 0 16px}.tm li.y i{color:#17734a}.tm li.n i{color:#b3303a}
+.tour-char{position:relative;flex:0 0 auto;display:flex;align-items:flex-end;gap:2px}
+.tour-prop{font-size:26px;line-height:1;animation:pprop .9s ease-in-out infinite;transform-origin:50% 80%}
+@keyframes pprop{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(8deg) translateY(-4px)}}
+.tour-char.morph pre{font:400 44px/1 system-ui,"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif;min-width:56px;text-align:center;animation:ppop .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes ppop{0%{transform:scale(.2) rotate(-40deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+@media (prefers-reduced-motion:reduce){.tour-prop,.tour-char.morph pre{animation:none}}
+@media (max-width:700px){.tour-mascot pre{font-size:17px}.tour-bubble{font-size:.92rem}.tm{font-size:.9rem}.tm-card,.tm-btn,.tm-input{font-size:.86rem}.tm table{font-size:.8rem}.tour-dd{font-size:.88rem}.tour-cap p{font-size:.95rem}.tour-prop{font-size:30px}}
 .tour-dd{display:grid;gap:6px;font-size:.82rem}
 .tour-dd div{display:flex;gap:8px;align-items:flex-start;line-height:1.35}
-.tour-dd b{flex:0 0 58px;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;padding-top:2px}
+.tour-dd b{white-space:nowrap;flex:0 0 96px;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;padding-top:2px}
 .tour-dd .do b{color:#17734a}.tour-dd .dont b{color:#b3303a}
 @media (max-width:700px){.tour-card{grid-template-areas:"bar" "prog" "stage" "auto" "cap"}}
 .tour-nav{margin-top:auto;display:flex;gap:8px;justify-content:flex-end;padding-top:8px}
@@ -2053,13 +2060,13 @@
   const tm=(inner)=>'<div class="tm tour-dim">'+inner+'</div>';
   let st={ng:false,sel:false};
   const STEPS=[
-    {t:'Halo!',x:'Aku Pandu, pemandu singkatmu. Simulasi ini menunjukkan untuk apa form ini dan cara mengisinya.',h:'',f:'hi',m:'Hi! Aku Pandu. Yuk kenalan sama form ini.',
+    {t:'Halo!',x:'Aku Pandu, pemandu singkatmu. Simulasi ini menunjukkan untuk apa form ini dan cara mengisinya.',h:'',f:'hi',m:'Hi! Aku Pandu 👋 Yuk kenalan sama form ini!',
      r:()=>tm('<div style="text-align:center;padding:28px 8px"><div style="font-size:1.1rem;font-weight:700">Form Service Result</div><div class="muted" style="margin-top:6px">Catat hasil servis, rapi dan siap dikirim</div></div>')},
-    {t:'Kegunaan form',x:'Satu form untuk tiga pekerjaan. Pilih sesuai WO.',h:'',f:'point',m:'Ini tiga kegunaannya.',
+    {t:'Kegunaan form',x:'Satu form untuk tiga pekerjaan. Pilih sesuai WO.',h:'',f:'point',m:'Ini tiga kegunaannya 📋',
      r:()=>tm('<div class="tm-grid"><div class="tm-card"><b>Maintenance</b>Cek sebelum dan sesudah, catat tindakan</div><div class="tm-card"><b>Instalasi</b>Pasang, uji fungsi, serah terima</div><div class="tm-card"><b>Survey lokasi</b>Cek air, lokasi, material</div></div>')},
-    {t:'Kasus yang cocok',x:'Form ini untuk kasus in-home dan project. Kasus lain punya jalur sendiri.',h:'',f:'think',m:'Cek dulu, kasusmu cocok di sini?',
+    {t:'Kasus yang cocok',x:'Form ini untuk kasus in-home dan project. Kasus lain punya jalur sendiri.',h:'',f:'think',m:'Cek dulu, kasusmu cocok di sini? 🤔',
      r:()=>tm('<ul><li class="y"><i>✓</i>Servis in-home atau project</li><li class="y"><i>✓</i>RO: Maintenance, Instalasi, Survey lokasi</li><li class="n"><i>✕</i>Penarikan indoor unit pendingin: pakai Checklist Unit Pendingin</li><li class="n"><i>✕</i>Perbaikan di instansi atau perusahaan: tidak disarankan</li></ul>')},
-    {t:'Pencegahan',x:'Kebiasaan kecil supaya form tidak perlu diulang.',h:'',f:'warn',m:'Biar tidak diulang, lakukan ini.',
+    {t:'Pencegahan',x:'Kebiasaan kecil supaya form tidak perlu diulang.',h:'',f:'warn',m:'Biar tidak diulang, lakukan ini 🛡️',
      r:()=>tm('<ul><li class="y"><i>✓</i>Ukur dan catat TDS (air masuk, keluaran unit)</li><li class="y"><i>✓</i>Temuan NG dicek ulang dan diberi tindakan</li><li class="y"><i>✓</i>Lengkapi semua isian sebelum tanda tangan</li><li class="y"><i>✓</i>Cek blok DATA VALIDASI sebelum kirim</li><li class="y"><i>✓</i>Unduh hasil sebelum menutup tab</li></ul>')},
     {t:'1. Pilih pekerjaan',x:'Mulai dari jenis pekerjaan di WO: Maintenance, Instalasi, atau Survey lokasi. Warna tampilan ikut berubah sesuai pilihan.',h:'Klik kartu Maintenance yang menyala.',
      r:()=>tm('<h4>Pilih pekerjaan</h4><div class="tm-grid"><div class="tm-card tour-keep" data-hl><b>Maintenance</b>Pemeriksaan sebelum &amp; sesudah</div><div class="tm-card"><b>Instalasi</b>Pemasangan unit</div><div class="tm-card"><b>Survey lokasi</b>Cek kondisi lokasi</div></div>')},
@@ -2097,9 +2104,13 @@
     think:[['(•_•) ? ','/|\\     ','/ \\     '],['(•_•)  ?','/|\\     ',' | |    '],['(•_•)?? ','/|\\     ','/ \\     ']],
     warn:[['(O_O) ! ','/|\\     ','/ \\     '],['(O_O) !!','\\|/     ','/ \\     ']],
     cheer:[['\\(^o^)/ *','   |     ','  / \\    '],['_(^o^)_ +','   |     ',' _/ \\_   '],['\\(^o^)/ x','   |     ','  / \\    ']]}};
-  const MS=['Klik kartu yang menyala!','Pilih unit sesuai WO.','Regular atau nama project.','Header ini ikut menempel.','Klik NG, lihat apa yang muncul.','Isi angkanya saja, satuan sudah ada.','Hasil ukur masuk ke Keterangan.','Tanda tangan, unduh, lalu kirim!'];
+  const MS=['Klik kartu yang menyala! 👆','Wih, aku jadi tetesan air! 💧 Pilih unit sesuai WO.','Regular atau nama project 🗂️','Header ini ikut menempel 📌','Klik NG, lihat apa yang muncul 🔍','Aku jadi tabung ukur! 🧪 Isi angkanya saja.','Hasil ukur masuk ke Keterangan 📄','Tanda tangan, unduh, lalu kirim! 🚀🎉'];
   let faceT=null,faceI=0;
-  function setFace(k){clearInterval(faceT);const fr=MASCOT.frames[k]||MASCOT.frames.point;faceI=0;const draw=()=>{$('tourFace').textContent=fr[faceI%fr.length].join('\n');faceI++;};draw();if(fr.length>1&&!matchMedia('(prefers-reduced-motion:reduce)').matches)faceT=setInterval(draw,260);}
+  const VIS=[{f:'hi',p:'👋'},{f:'point',p:'📋'},{f:'think',p:'❓'},{f:'warn',p:'🛡️'},{f:'point',p:'🛠️'},{m:'💧'},{f:'point',p:'🗂️'},{f:'point',p:'📌'},{f:'think',p:'🔍'},{m:'🧪'},{f:'point',p:'📄'},{f:'cheer',p:'🚀'}];
+  function setFace(k,prop,morph){clearInterval(faceT);const pre=$('tourFace'),wrap=pre.parentNode;wrap.classList.remove('morph');void wrap.offsetWidth;
+    $('tourProp').textContent=morph?'':(prop||'');
+    if(morph){wrap.classList.add('morph');pre.textContent=morph;return;}
+    const fr=MASCOT.frames[k]||MASCOT.frames.point;faceI=0;const draw=()=>{pre.textContent=fr[faceI%fr.length].join('\n');faceI++;};draw();if(fr.length>1&&!matchMedia('(prefers-reduced-motion:reduce)').matches)faceT=setInterval(draw,260);}
   let typeT=null;
   function say(t){clearInterval(typeT);const b=$('tourBubble');if(matchMedia('(prefers-reduced-motion:reduce)').matches){b.textContent=t;return;}b.textContent='';let n=0;typeT=setInterval(()=>{b.textContent=t.slice(0,++n);if(n>=t.length)clearInterval(typeT);},11);}
   const NGSTEP=8,STEP_MS=3800;let i=0,playing=true,timer=null,clickTimer=null;
@@ -2117,13 +2128,13 @@
     $('tourStage').innerHTML=s.r();
     const hl=$('tourStage').querySelector('[data-hl]');
     if(hl){hl.classList.add('tour-hl');hl.addEventListener('click',()=>{ if(i===NGSTEP){st.ng=true;show(true);} else next(); });}
-    if(!keepTimer){const k=s.f||(i===STEPS.length-1?'cheer':'point');setFace(k);say(s.m||MS[i-4]||'');}
+    if(!keepTimer){const v=VIS[i]||{};setFace(v.f||'point',v.p,v.m);say(s.m||MS[i-4]||'');}
     $('tourTitle').textContent=s.t;$('tourText').textContent=s.x;$('tourHint').textContent=s.h;
     $('tourCount').textContent='Langkah '+(i+1)+' dari '+STEPS.length;
     $('tourFill').style.width=((i+1)/STEPS.length*100)+'%';
     $('tourPrev').disabled=i===0;
     $('tourNext').textContent=i===STEPS.length-1?'Selesai':'Lanjut';
-    $('tourDd').innerHTML='<div class="do"><b>Lakukan</b><span>'+DD[i][0]+'</span></div>'+(DD[i][1]?'<div class="dont"><b>Hindari</b><span>'+DD[i][1]+'</span></div>':'');
+    $('tourDd').innerHTML='<div class="do"><b>✅ Lakukan</b><span>'+DD[i][0]+'</span></div>'+(DD[i][1]?'<div class="dont"><b>🚫 Hindari</b><span>'+DD[i][1]+'</span></div>':'');
     syncPlay();if(!keepTimer)arm();
   }
   function next(){ if(i<STEPS.length-1){i++;show();} else close(); }
