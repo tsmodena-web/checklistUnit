@@ -1990,7 +1990,7 @@
 .tour-auto{grid-area:auto;height:3px;background:#e3e8ec}
 .tour-auto i{display:block;height:100%;width:0;background:var(--ac,#0f766e)}
 .tour-mascot{display:flex;gap:10px;align-items:flex-end}
-.tour-mascot pre{margin:0;font:700 14px/1.1 "Courier New",ui-monospace,monospace;color:var(--ac-d,#0b5d56);flex:0 0 auto;min-width:76px;animation:pbounce .52s ease-in-out infinite}
+.tour-mascot pre{margin:0;font:700 14px/1.1 "Courier New",ui-monospace,monospace;color:var(--ac-d,#0b5d56);flex:0 0 auto;min-width:84px;animation:pbounce .52s ease-in-out infinite}
 @keyframes pbounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 @media (prefers-reduced-motion:reduce){.tour-mascot pre{animation:none}}
 .tour-bubble{position:relative;background:var(--ac-s,#e6f4f1);color:var(--ink,#16232b);border-radius:12px 12px 12px 2px;padding:8px 12px;font-size:.86rem;font-weight:600;min-height:36px;display:flex;align-items:center}
@@ -2037,13 +2037,13 @@
   const tm=(inner)=>'<div class="tm tour-dim">'+inner+'</div>';
   let st={ng:false,sel:false};
   const STEPS=[
-    {t:'Halo!',x:'Aku Pandu, pemandu singkatmu. Simulasi ini menunjukkan untuk apa form ini dan cara mengisinya.',h:'',f:'hi',m:'Hi! Aku Pandu 👋 Yuk kenalan sama form ini!',
+    {t:'Halo!',x:'Saya Pandu. Simulasi ini menunjukkan kegunaan form dan cara mengisinya.',h:'',f:'hi',m:'Halo! Saya Pandu. Ini panduan singkat form-nya.',
      r:()=>tm('<div style="text-align:center;padding:28px 8px"><div style="font-size:1.1rem;font-weight:700">Form Service Result</div><div class="muted" style="margin-top:6px">Catat hasil servis, rapi dan siap dikirim</div></div>')},
-    {t:'Kegunaan form',x:'Satu form untuk tiga pekerjaan. Pilih sesuai WO.',h:'',f:'point',m:'Ini tiga kegunaannya 📋',
+    {t:'Kegunaan form',x:'Satu form untuk tiga pekerjaan. Pilih sesuai WO.',h:'',f:'point',m:'Ini tiga kegunaan form.',
      r:()=>tm('<div class="tm-grid"><div class="tm-card"><b>Maintenance</b>Cek sebelum dan sesudah, catat tindakan</div><div class="tm-card"><b>Instalasi</b>Pasang, uji fungsi, serah terima</div><div class="tm-card"><b>Survey lokasi</b>Cek air, lokasi, material</div></div>')},
-    {t:'Kasus yang cocok',x:'Form ini untuk kasus in-home dan project. Kasus lain punya jalur sendiri.',h:'',f:'think',m:'Cek dulu, kasusmu cocok di sini? 🤔',
+    {t:'Kasus yang cocok',x:'Form ini untuk kasus in-home dan project. Kasus lain punya jalur sendiri.',h:'',f:'think',m:'Cek dulu, kasus Anda cocok di sini?',
      r:()=>tm('<ul><li class="y"><i>✓</i>Servis in-home atau project</li><li class="y"><i>✓</i>RO: Maintenance, Instalasi, Survey lokasi</li><li class="n"><i>✕</i>Penarikan indoor unit pendingin: pakai Checklist Unit Pendingin</li><li class="n"><i>✕</i>Perbaikan di instansi atau perusahaan: tidak disarankan</li></ul>')},
-    {t:'Pencegahan',x:'Kebiasaan kecil supaya form tidak perlu diulang.',h:'',f:'warn',m:'Biar tidak diulang, lakukan ini 🛡️',
+    {t:'Pencegahan',x:'Kebiasaan kecil supaya form tidak perlu diulang.',h:'',f:'warn',m:'Supaya form tidak perlu diulang.',
      r:()=>tm('<ul><li class="y"><i>✓</i>Ukur dan catat TDS (air masuk, keluaran unit)</li><li class="y"><i>✓</i>Temuan NG dicek ulang dan diberi tindakan</li><li class="y"><i>✓</i>Lengkapi semua isian sebelum tanda tangan</li><li class="y"><i>✓</i>Cek blok DATA VALIDASI sebelum kirim</li><li class="y"><i>✓</i>Unduh hasil sebelum menutup tab</li></ul>')},
     {t:'1. Pilih pekerjaan',x:'Mulai dari jenis pekerjaan di WO: Maintenance, Instalasi, atau Survey lokasi. Warna tampilan ikut berubah sesuai pilihan.',h:'Klik kartu Maintenance yang menyala.',
      r:()=>tm('<h4>Pilih pekerjaan</h4><div class="tm-grid"><div class="tm-card tour-keep" data-hl><b>Maintenance</b>Pemeriksaan sebelum &amp; sesudah</div><div class="tm-card"><b>Instalasi</b>Pemasangan unit</div><div class="tm-card"><b>Survey lokasi</b>Cek kondisi lokasi</div></div>')},
@@ -2080,10 +2080,12 @@
     point:[['(•‿•)/  ','/|      ',' / \\    '],['(•‿•)_/ ','/|      ',' / \\    '],['(•‿•)/ ~','/|      ','  |\\    ']],
     think:[['(•_•) ? ','/|\\     ','/ \\     '],['(•_•)  ?','/|\\     ',' | |    '],['(•_•)?? ','/|\\     ','/ \\     ']],
     warn:[['(O_O) ! ','/|\\     ','/ \\     '],['(O_O) !!','\\|/     ','/ \\     ']],
+    drop:[['   .    ','  / \\   ',' /   \\  ','( o o ) ',' \\_~_/  '],['   .    ','  / \\   ',' /   \\  ','( o o ) ',' \\_-_/  ']],
+    gauge:[['.------.','| ppm  |','|  /   |','| /  o |',"'------'"],['.------.','| ppm  |','|   \\  |','| o  \\ |',"'------'"]],
     cheer:[['\\(^o^)/ *','   |     ','  / \\    '],['_(^o^)_ +','   |     ',' _/ \\_   '],['\\(^o^)/ x','   |     ','  / \\    ']]}};
-  const MS=['Klik kartu yang menyala! 👆','Wih, aku jadi tetesan air! 💧 Pilih unit sesuai WO.','Regular atau nama project 🗂️','Header ini ikut menempel 📌','Klik NG, lihat apa yang muncul 🔍','Aku jadi tabung ukur! 🧪 Isi angkanya saja.','Hasil ukur masuk ke Keterangan 📄','Tanda tangan, unduh, lalu kirim! 🚀🎉'];
+  const MS=['Klik kartu yang menyala.','Pilih unit sesuai WO.','Regular atau nama project.','Header ini ikut menempel saat scroll.','Klik NG, lihat kolom yang muncul.','Isi angka hasil ukur dari alat.','Hasil ukur masuk ke Keterangan.','Tanda tangan, unduh, lalu kirim.'];
   let faceT=null,faceI=0;
-  const VIS=[{f:'hi',p:'👋'},{f:'point',p:'📋'},{f:'think',p:'❓'},{f:'warn',p:'🛡️'},{f:'point',p:'🛠️'},{m:'💧'},{f:'point',p:'🗂️'},{f:'point',p:'📌'},{f:'think',p:'🔍'},{m:'🧪'},{f:'point',p:'📄'},{f:'cheer',p:'🚀'}];
+  const VIS=[{f:'hi'},{f:'point',p:'📋'},{f:'think'},{f:'warn'},{f:'point',p:'🛠️'},{f:'drop'},{f:'point',p:'🗂️'},{f:'point',p:'📌'},{f:'think',p:'🔍'},{f:'gauge'},{f:'point',p:'📄'},{f:'cheer'}];
   function setFace(k,prop,morph){clearInterval(faceT);const pre=$('tourFace'),wrap=pre.parentNode;wrap.classList.remove('morph');void wrap.offsetWidth;
     $('tourProp').textContent=morph?'':(prop||'');
     if(morph){wrap.classList.add('morph');pre.textContent=morph;return;}
@@ -2111,7 +2113,7 @@
     $('tourFill').style.width=((i+1)/STEPS.length*100)+'%';
     $('tourPrev').disabled=i===0;
     $('tourNext').textContent=i===STEPS.length-1?'Selesai':'Lanjut';
-    $('tourDd').innerHTML='<div class="do"><b>✅ Lakukan</b><span>'+DD[i][0]+'</span></div>'+(DD[i][1]?'<div class="dont"><b>🚫 Hindari</b><span>'+DD[i][1]+'</span></div>':'');
+    $('tourDd').innerHTML='<div class="do"><b>Lakukan</b><span>'+DD[i][0]+'</span></div>'+(DD[i][1]?'<div class="dont"><b>Hindari</b><span>'+DD[i][1]+'</span></div>':'');
     syncPlay();if(!keepTimer)arm();
   }
   function next(){ if(i<STEPS.length-1){i++;show();} else close(); }
