@@ -1148,6 +1148,8 @@
           <label class="field-label" for="notes">Catatan & rekomendasi lainnya${requirement('optional')}</label><textarea class="form-control" id="notes" data-bind="notes" placeholder="Tindakan, part, temuan, dan tindak lanjut">${val(data(),'notes')}</textarea></section>`,
         `<div class="info">Periksa hasil dan tindak lanjut pada langkah sebelumnya sebelum meminta konfirmasi konsumen.</div>`]};
     }
+    const RISK_URL=/*@@RISK_URL@@*/;
+    function riskNote() { return RISK_URL?`<div class="info risk-note">Kondisi pemasangan berisiko? <a href="${esc(RISK_URL)}" target="_blank" rel="noopener noreferrer">Buka Form Persetujuan Pemasangan</a></div>`:''; }
     function renderInstallation() {
       const groups=[
         ['Kondisi awal & kelengkapan',0,3], ['Kesiapan utilitas',3,6],
@@ -1165,7 +1167,7 @@
             `<details class="note-disclosure" ${c.note?'open':''}><summary><span class="note-open">${c.note?'Lihat catatan':'Tambah catatan'}</span><span class="note-close">Tutup catatan</span></summary><input class="note form-control" data-bind="install" data-index="${i}" data-prop="note" value="${val(c,'note')}" aria-label="Catatan pemeriksaan ${i+1}" placeholder="Catatan (opsional)"></details>`}</div>`;
       }).join('')}</div></details>`).join('');
       return {intro:`<h1>Instalasi</h1><p class="muted">Reverse Osmosis · Pemasangan, uji fungsi, dan serah terima.</p>`,panels:[
-        `${preflight()}${requiredGuide()}<section class="card"><h2>Informasi service</h2>${infoFields()}${preamble()}</section>`,
+        `${preflight()}${requiredGuide()}${riskNote()}<section class="card"><h2>Informasi service</h2>${infoFields()}${preamble()}</section>`,
         `<div class="section-heading"><div><h2>Pemeriksaan instalasi</h2><p class="hint">Buka kelompok, lalu nilai setiap item.</p></div><span class="count-pill">${inspected}/${INSTALL_ITEMS.length}</span></div>
         <div class="legend"><span class="ok">OK · sesuai</span><span class="ng">NG · ada temuan</span><span>NA · tidak berlaku</span></div>
         ${ngItems.length?`<div class="status-line open"><strong>${ngItems.length} item NG tercatat:</strong><ul>${ngItems.map(({item,i})=>`<li>${esc(item)} <button class="jump-link" type="button" data-action="jump-to" data-target="install-item-${i}">Buka item</button></li>`).join('')}</ul><p class="hint mb-0">Catatan temuan dan tindak lanjut dapat ditambahkan bila perlu.</p></div>`:''}${sections}
@@ -2053,7 +2055,7 @@
     {t:'Kegunaan form',x:'Satu form untuk tiga pekerjaan. Pilih sesuai WO.',h:'',f:'point',m:'Ini tiga kegunaan form.',
      r:()=>tm('<div class="tm-grid"><div class="tm-card"><b>Maintenance</b>Cek sebelum dan sesudah, catat tindakan</div><div class="tm-card"><b>Instalasi</b>Pasang, uji fungsi, serah terima</div><div class="tm-card"><b>Survey lokasi</b>Cek air, lokasi, material</div></div>')},
     {t:'Kasus yang cocok',x:'Form ini untuk kasus in-home dan project. Kasus lain punya jalur sendiri.',h:'',f:'think',m:'Cek dulu, kasus Anda cocok di sini?',
-     r:()=>tm('<ul><li class="y"><i>✓</i>Servis in-home atau project</li><li class="y"><i>✓</i>RO: Maintenance, Instalasi, Survey lokasi</li><li class="n"><i>✕</i>Penarikan indoor unit pendingin: pakai Checklist Unit Pendingin</li><li class="n"><i>✕</i>Perbaikan di instansi atau perusahaan: tidak disarankan</li></ul>')},
+     r:()=>tm('<ul><li class="y"><i>✓</i>Servis in-home atau project</li><li class="y"><i>✓</i>RO: Maintenance, Instalasi, Survey lokasi</li><li class="n"><i>✕</i>Penarikan indoor unit pendingin: pakai Checklist Unit Pendingin</li><li class="y"><i>✓</i>Pemasangan di kondisi berisiko: isi juga Form Persetujuan Pemasangan</li><li class="n"><i>✕</i>Perbaikan di instansi atau perusahaan: tidak disarankan</li></ul>')},
     {t:'Pencegahan',x:'Kebiasaan kecil supaya form tidak perlu diulang.',h:'',f:'warn',m:'Supaya form tidak perlu diulang.',
      r:()=>tm('<ul><li class="y"><i>✓</i>Ukur dan catat TDS (air masuk, keluaran unit)</li><li class="y"><i>✓</i>Temuan NG dicek ulang dan diberi tindakan</li><li class="y"><i>✓</i>Lengkapi semua isian sebelum tanda tangan</li><li class="y"><i>✓</i>Cek blok DATA VALIDASI sebelum kirim</li><li class="y"><i>✓</i>Unduh hasil sebelum menutup tab</li></ul>')},
     {t:'1. Pilih pekerjaan',x:'Mulai dari jenis pekerjaan di WO: Maintenance, Instalasi, atau Survey lokasi. Warna tampilan ikut berubah sesuai pilihan.',h:'Klik kartu Maintenance yang menyala.',

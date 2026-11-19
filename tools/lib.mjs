@@ -132,6 +132,11 @@ export function validate(cfg) {
     const f = q.flow || {};
     for (const k of ['start', 'question', 'yesLabel', 'yes', 'noLabel', 'no']) if (!isStr(f[k])) errors.push(`home.quicklink.flow.${k} kosong`);
   }
+  const r = home && home.risk;
+  if (r) {
+    for (const k of ['icon', 'title', 'subtitle', 'buttonLabel', 'url']) if (!isStr(r[k])) errors.push(`home.risk.${k} kosong`);
+    if (isStr(r.url) && !/^https:\/\//.test(r.url)) errors.push('home.risk.url harus diawali https://');
+  }
   for (const rel of [TEMPLATE]) if (!fs.existsSync(abs(rel))) errors.push(`${rel} tidak ditemukan`);
   return { errors, warnings };
 }
@@ -168,9 +173,20 @@ const FLOW_ICON = {
   list: '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="m8.5 12.2 2.4 2.4 4.6-5.2"/></svg>',
 };
 
+function renderRisk(home) {
+  const r = home.risk;
+  if (!r) return '';
+  return `    <aside class="quicklink risklink" aria-label="${esc(r.title)}">
+      <div class="quicklink-head">
+        <div><strong><i class="bi bi-${esc(r.icon)} me-1" aria-hidden="true"></i>${esc(r.title)}</strong><span>${md(r.subtitle)}</span></div>
+        <a class="btn btn-primary primary" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right me-1" aria-hidden="true"></i>${esc(r.buttonLabel)}</a>
+      </div>
+    </aside>`;
+}
+
 function renderGuide(home) {
   const q = home.quicklink;
-  if (!q || q.enabled === false) return '';
+  if (!q || q.enabled === false) return renderRisk(home);
   const f = q.flow;
   return `    <aside class="quicklink" aria-label="${esc(q.title)}">
       <div class="quicklink-head">
@@ -192,7 +208,8 @@ function renderGuide(home) {
           </div>
         </div>
       </details>
-    </aside>`;
+    </aside>
+${renderRisk(home)}`;
 }
 
 function renderProjectButtons(projects) {
@@ -207,6 +224,7 @@ export function render(cfg, template) {
     '/*@@INSTALL_ITEMS@@*/': jsLit(cfg.installation),
     '/*@@PROJECTS@@*/': jsLit(cfg.projects),
     '/*@@PROJECT_EQUIPMENT@@*/': jsLit(cfg.equipment),
+    '/*@@RISK_URL@@*/': jsLit((cfg.home.risk && cfg.home.risk.url) || ''),
     '<!--@@HOME_INTRO@@-->': renderIntro(cfg.home),
     '<!--@@HOME_GUIDE@@-->': renderGuide(cfg.home),
     '<!--@@PROJECT_BUTTONS@@-->': renderProjectButtons(cfg.projects),

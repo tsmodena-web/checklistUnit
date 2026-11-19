@@ -25,5 +25,12 @@
       "noLabel": "TIDAK",
       "no": "Lanjut di halaman ini: [pilih pekerjaan, unit, dan project](#activityGrid)"
     }
+  },
+  "risk": {
+    "icon": "shield-exclamation",
+    "title": "Pemasangan di kondisi berisiko?",
+    "subtitle": "Untuk pemasangan pada kondisi berisiko, gunakan Form Persetujuan Pemasangan.",
+    "buttonLabel": "Buka Form Persetujuan Pemasangan",
+    "url": "https://tsmodena-web.github.io/PersetujuanPemasangan/"
   }
 }
