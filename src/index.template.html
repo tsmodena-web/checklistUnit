@@ -666,6 +666,46 @@
       .step-tab { flex-direction:column; gap:2px; min-height:46px; font-size:.74rem; }
       .preflight-list { grid-template-columns:1fr; }
     }
+  
+    /* ===== Output rework + kontrol (Design layer FSR: output) ===== */
+    .paper.output-form .output-checklist-grid { gap: 14px; }
+    .paper.output-form .maintenance-table th:nth-child(1) { width: 14% !important; }
+    .paper.output-form .maintenance-table th:nth-child(2) { width: 30% !important; }
+    .paper.output-form .maintenance-table th:nth-child(3), .paper.output-form .maintenance-table th:nth-child(4) { width: 9.5% !important; }
+    .paper.output-form .maintenance-table td:first-child { overflow-wrap: normal; word-break: normal; font-size: 10px; color: #2b3a44; }
+    .paper.output-form .output-lower { column-count: 2; column-gap: 28px; margin-top: 2px; }
+    .paper.output-form .output-lower > * { break-inside: avoid; }
+    .paper.output-form .output-lower > h2:first-child { margin-top: 4px; }
+    .paper.output-form .installation-table th:nth-child(4) { width: 30% !important; }
+    .paper.output-form table th { background: #eef2f5; font-size: 10px; color: #2b3a44; white-space: nowrap; padding-inline: 4px; }
+    .paper.output-form table td { font-size: 11px; }
+    .paper.output-form table tbody tr:nth-child(even) td { background: #fafbfc; }
+    .paper.output-form table td.ok, .paper.output-form table td.ng, .paper.output-form table td.replaced { font-weight: 700; letter-spacing: .02em; }
+    .paper.output-form table td.ok { background: #eaf6ef !important; }
+    .paper.output-form table td.ng { background: #fdecec !important; }
+    .paper.output-form table td.replaced { background: #f1ebf8 !important; }
+    .paper.output-form .info-table td { padding: 3px 6px; }
+    .paper.output-form .info-table td:nth-child(odd) { background: #f3f6f8; width: 13% !important; }
+    .paper.output-form .info-table td:nth-child(even) { width: 37% !important; }
+    .paper.output-form .signatures { justify-content: stretch; gap: 20px; }
+    .paper.output-form .signature { flex: 1 1 0; width: auto; }
+    .measure-inline { margin-top: 10px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .measure-inline label { font-size: .8rem; font-weight: 600; color: var(--ink); }
+    .measure-input { display: flex; align-items: center; gap: 6px; }
+    .measure-input input { width: 110px; height: 38px; padding: 4px 10px; }
+    .measure-input span { font-size: .8rem; color: var(--muted); }
+    .btn-group.status { display: inline-flex; gap: 6px; flex-wrap: nowrap; }
+    .btn-group.status > .btn { min-width: 64px; height: 38px; padding: 0 14px; border-radius: 10px !important; border: 1px solid var(--line); background: #fff; color: var(--ink); font-weight: 600; font-size: .86rem; box-shadow: none; transition: background .12s, border-color .12s, color .12s; }
+    .btn-group.status > .btn:hover { background: #f4f6f8; }
+    .btn-group.status > .btn-check:checked + .btn { color: #fff; border-color: transparent; }
+    .btn-group.status > .btn-check[value="OK"]:checked + .btn { background: #198754; }
+    .btn-group.status > .btn-check[value="NG"]:checked + .btn { background: #d6393f; }
+    .btn-group.status > .btn-check[value="NA"]:checked + .btn { background: #6b7a86; }
+    .btn-group.status > .btn-check[value="Ganti"]:checked + .btn { background: #6f42a6; }
+    .btn-group.status > .btn-check:focus-visible + .btn { outline: 2px solid var(--ac); outline-offset: 2px; }
+    .form-control, .form-select { border-radius: 10px; border-color: var(--line); }
+    .form-control:focus, .form-select:focus { border-color: var(--ac); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ac) 18%, transparent); }
+    @media (max-width: 600px) { .btn-group.status { display: flex; width: 100%; } .btn-group.status > .btn { flex: 1 1 0; min-width: 0; } }
   </style>
 </head>
 <body>
@@ -1054,7 +1094,7 @@
           return `<div class="row-card${missing?' needs-entry':''}" id="maintenance-before-${i}" tabindex="-1"><div class="item-title">${esc(item[1])}${requirement(optional?'optional':'required')}</div><div class="item-ref">${unitType==='ro'?'Acuan RO terbaru':'Acuan master'}: ${esc(item[2])}</div>
             ${filter?'<div class="item-guide"><i class="bi bi-funnel me-1" aria-hidden="true"></i>Jika filter mampet, catat NG sebelum tindakan. Hasil sesudah boleh tetap NG bila masih mampet; jelaskan tindak lanjutnya. Pilih Ganti hanya jika filter sudah diganti.</div>':''}
             ${optional?'<p class="hint mb-2">Isi jika filter ini terpasang; jika tidak, biarkan kosong.</p>':''}
-            ${statusButtons(i,'before',c.before)}${c.before==='OK'?'<p class="hint mt-2 mb-0">Hasil sesudah: OK otomatis.</p>':''}${['NG','NA'].includes(c.before)?`<label class="field-label mt-2" for="before-note-${i}">${c.before==='NA'?'Alasan tidak berlaku':'Temuan / kondisi sebelum'}${requirement('optional')}</label><input class="note form-control" id="before-note-${i}" data-bind="check" data-index="${i}" data-prop="beforeNote" value="${val(c,'beforeNote')}" placeholder="${c.before==='NA'?'Alasan jika perlu (opsional)':filter?'Contoh: filter mampet / melewati jadwal penggantian (opsional)':'Keterangan temuan (opsional)'}">`:''}
+            ${statusButtons(i,'before',c.before)}${item[1]==='TDS'?`<div class="measure-inline"><label for="measure-${i}">Hasil ukur TDS <span class="muted">(opsional)</span></label><div class="measure-input"><input class="form-control" id="measure-${i}" type="number" inputmode="decimal" min="0" step="any" data-bind="check" data-index="${i}" data-prop="measure" value="${val(c,'measure')}" placeholder="0"><span>ppm</span></div></div>`:''}${c.before==='OK'?'<p class="hint mt-2 mb-0">Hasil sesudah: OK otomatis.</p>':''}${['NG','NA'].includes(c.before)?`<label class="field-label mt-2" for="before-note-${i}">${c.before==='NA'?'Alasan tidak berlaku':'Temuan / kondisi sebelum'}${requirement('optional')}</label><input class="note form-control" id="before-note-${i}" data-bind="check" data-index="${i}" data-prop="beforeNote" value="${val(c,'beforeNote')}" placeholder="${c.before==='NA'?'Alasan jika perlu (opsional)':filter?'Contoh: filter mampet / melewati jadwal penggantian (opsional)':'Keterangan temuan (opsional)'}">`:''}
             ${filter&&c.before==='NG'?`<label class="inline-check mt-2"><input type="checkbox" data-bind="check" data-index="${i}" data-prop="clogged" ${c.clogged?'checked':''}> Filter mampet / tersumbat</label>`:''}
             ${unitType==='ro'&&c.before==='NG'?'<p class="status-line open mb-0">Masuk daftar tindak lanjut untuk dicek ulang di bawah.</p>':''}</div>`;}).join('')}</div></details>`).join('');
       const after = MAINT_ITEMS.map((item,i)=> {
@@ -1534,7 +1574,7 @@
         `<h2>Kesimpulan</h2><p><strong>${textOrDash(data().conclusion)}</strong></p><h2>Catatan & rekomendasi</h2><p>${textOrDash(data().notes).replace(/\n/g,'<br>')}</p>`;
     }
     function maintenancePrint() {
-      const rows=MAINT_ITEMS.map((item,i)=>{const c=maintenanceCheck(i)||{}, after=c.before==='OK'?'OK':c.after, n=[c.clogged?'Filter mampet / tersumbat':'',c.beforeNote,c.afterNote].filter(Boolean).join(' | ');
+      const rows=MAINT_ITEMS.map((item,i)=>{const c=maintenanceCheck(i)||{}, after=c.before==='OK'?'OK':c.after, n=[item[1]==='TDS'&&String(c.measure??'').trim()!==''?'Hasil ukur: '+c.measure+' ppm':'',c.clogged?'Filter mampet / tersumbat':'',c.beforeNote,c.afterNote].filter(Boolean).join(' · ');
         return `<tr><td data-label="Kelompok">${esc(item[0])}</td><td data-label="Pemeriksaan">${esc(item[1])}<br><small>${esc(item[2])}</small></td><td data-label="Sebelum" class="center ${c.before==='NG'?'ng':c.before==='OK'?'ok':''}">${textOrDash(c.before)}</td><td data-label="Sesudah" class="center ${after==='NG'?'ng':after==='OK'?'ok':after==='Ganti'?'replaced':''}">${textOrDash(after)}</td><td data-label="Catatan">${textOrDash(n)}</td></tr>`;}).join('');
       const missingAfter=MAINT_ITEMS.filter((_,i)=>maintenanceCheck(i)?.before==='NG'&&!maintenanceCheck(i)?.after).length;
       const stillNG=MAINT_ITEMS.filter((_,i)=>maintenanceCheck(i)?.before==='NG'&&maintenanceCheck(i)?.after==='NG').length;
@@ -1622,7 +1662,7 @@
         ${escalationNotice()}${infoTable()}<p class="preamble">${preambleText()}</p>
         ${mode==='survey'?surveyPrint():mode==='installation'?installationPrint():maintenancePrint()}
         ${closingPrint()}${printSignatures()}
-        <p class="footer">Form elektronik · ${esc(new Date().toLocaleString('id-ID',{timeZone:'Asia/Jakarta'}))} WIB. Pernyataan konsumen berlaku sesuai kotak yang dipilih dan pengecualian yang tercatat; hak garansi, komplain, dan klaim tetap berlaku menurut ketentuan.</p>`;
+        <p class="footer">Dokumen dibuat otomatis oleh sistem (Form Service Result) · ${esc(new Date().toLocaleString('id-ID',{timeZone:'Asia/Jakarta'}))} WIB. Pernyataan konsumen berlaku sesuai kotak yang dipilih dan pengecualian yang tercatat; hak garansi, komplain, dan klaim tetap berlaku menurut ketentuan.</p>`;
     }
     // Preserve every word and row in renderDocument(); change only the output frame/layout.
     const OUTPUT_FRAME_WIDTH=1280;
@@ -1634,12 +1674,17 @@
       const left=document.createElement('div'),right=document.createElement('div');
       left.className=right.className='output-checklist-column';grid.append(left,right);
       if(checklist) {
-        const rows=Array.from(checklist.tBodies[0].rows),middle=Math.ceil(rows.length/2);
-        for(const [column,part] of [[left,rows.slice(0,middle)],[right,rows.slice(middle)]]) {
-          const table=checklist.cloneNode(false),head=checklist.tHead?.cloneNode(true),body=document.createElement('tbody');
-          if(head)table.appendChild(head);part.forEach(row=>body.appendChild(row));table.appendChild(body);column.appendChild(table);
-        }
+        const rows=Array.from(checklist.tBodies[0].rows);
         checklist.replaceWith(grid);
+        const make=column=>{const table=checklist.cloneNode(false),head=checklist.tHead?.cloneNode(true),body=document.createElement('tbody');
+          if(head)table.appendChild(head);table.appendChild(body);column.appendChild(table);return body;};
+        const leftBody=make(left);rows.forEach(row=>leftBody.appendChild(row));
+        // Seimbangkan dua kolom berdasarkan tinggi baris nyata, bukan jumlah baris.
+        const heights=rows.map(row=>row.getBoundingClientRect().height),total=heights.reduce((a,b)=>a+b,0);
+        let acc=0,cut=rows.length;
+        for(let k=0;k<rows.length;k++){ if(acc+heights[k]/2>=total/2){cut=k;break;} acc+=heights[k]; }
+        if(total>0&&cut>0&&cut<rows.length){const rightBody=make(right);rows.slice(cut).forEach(row=>rightBody.appendChild(row));}
+        else if(total===0){const rightBody=make(right);rows.slice(Math.ceil(rows.length/2)).forEach(row=>rightBody.appendChild(row));}
       } else {
         const tables=Array.from(content.querySelectorAll('.survey-table'));
         if(!tables.length)return;
@@ -1650,6 +1695,14 @@
         sections[0].heading.before(grid);
         sections.forEach(({heading,table},i)=>{const column=i<cut?left:right;column.append(heading,table);});
       }
+    }
+    function groupLowerSections(content) {
+      const grid=content.querySelector('.output-checklist-grid'),end=content.querySelector('.signatures');
+      if(!grid||!end)return;
+      const lower=document.createElement('div');lower.className='output-lower';
+      let n=grid.nextElementSibling;
+      while(n&&n!==end){const next=n.nextElementSibling;lower.appendChild(n);n=next;}
+      if(lower.children.length)grid.after(lower);
     }
     function fitFullOutput() {
       const frame=$('outputFrame'),paper=$('printArea'),content=paper.querySelector('.output-content');
@@ -1669,7 +1722,7 @@
       if(previous)fullOutputObserver?.unobserve(previous);
       $('printArea').innerHTML=`<div class="output-content">${renderDocument(w)}</div>`;
       const content=$('printArea').firstElementChild;
-      splitFullChecklist(content);fitFullOutput();fullOutputObserver?.observe(content);
+      splitFullChecklist(content);groupLowerSections(content);fitFullOutput();fullOutputObserver?.observe(content);
     }
     if(typeof ResizeObserver==='function') {
       fullOutputObserver=new ResizeObserver(fitFullOutput);fullOutputObserver.observe($('outputFrame'));
@@ -1849,5 +1902,97 @@
     if(migratedRoCount) { $('migrationNotice').hidden=false; saveDraft(); }
     renderUnitGrid();
   </script>
+<button id="tourOpen" class="tour-open no-print" type="button"><i class="bi bi-play-circle" aria-hidden="true"></i> Panduan penggunaan</button>
+<div id="tour" class="tour" hidden role="dialog" aria-modal="true" aria-labelledby="tourTitle">
+  <div class="tour-card">
+    <div class="tour-bar"><strong>Simulasi panduan</strong><span id="tourCount" class="tour-count"></span><button class="tour-x" id="tourClose" type="button" aria-label="Tutup panduan">&times;</button></div>
+    <div class="tour-progress"><i id="tourFill"></i></div>
+    <div class="tour-stage" id="tourStage"></div>
+    <div class="tour-cap"><h3 id="tourTitle"></h3><p id="tourText"></p><div class="tour-hint" id="tourHint"></div>
+      <div class="tour-nav"><button class="btn btn-outline-secondary" id="tourPrev" type="button">Kembali</button><button class="btn btn-primary" id="tourNext" type="button">Lanjut</button></div></div>
+  </div>
+</div>
+<style>
+.tour-open{position:fixed;right:16px;bottom:16px;z-index:60;display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border:0;border-radius:999px;background:var(--ac,#0f766e);color:#fff;font-weight:600;font-size:.88rem;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+.tour-open:hover{filter:brightness(1.06)}
+.tour{position:fixed;inset:0;z-index:200;background:rgba(15,23,32,.55);display:flex;align-items:center;justify-content:center;padding:12px}
+.tour[hidden]{display:none}
+.tour-card{width:min(920px,100%);max-height:100%;overflow:auto;background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.3);display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);grid-template-areas:"bar bar" "prog prog" "stage cap"}
+.tour-bar{grid-area:bar;display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line,#e4e8ec)}
+.tour-count{margin-left:auto;font-size:.8rem;color:var(--muted,#667)}
+.tour-x{border:0;background:none;font-size:1.5rem;line-height:1;color:var(--muted,#667);padding:0 4px}
+.tour-progress{grid-area:prog;height:3px;background:#edf0f2}
+.tour-progress i{display:block;height:100%;background:var(--ac,#0f766e);transition:width .25s}
+.tour-stage{grid-area:stage;padding:16px;background:#f6f8fa;min-height:340px;position:relative}
+.tour-cap{grid-area:cap;padding:18px;display:flex;flex-direction:column;gap:8px}
+.tour-cap h3{font-size:1.05rem;margin:0}.tour-cap p{margin:0;font-size:.9rem;color:#2b3a44}
+.tour-hint{font-size:.8rem;color:var(--ac-d,#0b5d56);background:var(--ac-s,#e6f4f1);border-radius:8px;padding:8px 10px}
+.tour-hint:empty{display:none}
+.tour-nav{margin-top:auto;display:flex;gap:8px;justify-content:flex-end;padding-top:8px}
+.tm{background:#fff;border:1px solid #dfe4e8;border-radius:12px;padding:12px;font-size:.82rem}
+.tm h4{font-size:.85rem;margin:0 0 8px}
+.tm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tm-card{border:1px solid #dfe4e8;border-radius:10px;padding:10px;background:#fff;text-align:left;font-size:.8rem}
+.tm-card b{display:block;margin-bottom:2px}
+.tm-btn{border:1px solid #dfe4e8;background:#fff;border-radius:9px;height:34px;padding:0 14px;font-weight:600;font-size:.8rem}
+.tm-btn.on-OK{background:#198754;color:#fff;border-color:transparent}.tm-btn.on-NG{background:#d6393f;color:#fff;border-color:transparent}
+.tm-row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.tm-input{border:1px solid #dfe4e8;border-radius:9px;height:34px;padding:0 10px;width:110px;font-size:.8rem}
+.tm table{width:100%;border-collapse:collapse;font-size:.75rem}.tm th,.tm td{border:1px solid #cfd6dc;padding:4px 6px;text-align:left}.tm th{background:#eef2f5}
+.tm td.ng{color:#d6393f;font-weight:700;background:#fdecec}.tm td.ok{color:#198754;font-weight:700;background:#eaf6ef}
+.tm-bar{display:flex;gap:6px;align-items:center;background:#0f766e;color:#fff;border-radius:9px;padding:7px 10px;font-size:.75rem;margin-bottom:8px}
+.tm-bar i{flex:1;height:4px;background:rgba(255,255,255,.3);border-radius:4px;overflow:hidden;position:relative}.tm-bar i b{position:absolute;inset:0 auto 0 0;background:#fff}
+.tm-sig{border:1px dashed #9aa7b0;border-radius:10px;height:70px;display:flex;align-items:center;justify-content:center;color:#667;font-size:.78rem}
+.tour-hl{position:relative;z-index:2;outline:3px solid var(--ac,#0f766e);outline-offset:3px;border-radius:10px;animation:tourPulse 1.4s ease-in-out infinite;cursor:pointer}
+.tour-dim .tm > *:not(.tour-keep){opacity:.45}
+@keyframes tourPulse{0%,100%{outline-color:var(--ac,#0f766e)}50%{outline-color:color-mix(in srgb,var(--ac,#0f766e) 25%,transparent)}}
+@media (prefers-reduced-motion:reduce){.tour-hl{animation:none}}
+@media (max-width:700px){.tour-card{grid-template-columns:1fr;grid-template-areas:"bar" "prog" "stage" "cap"}.tour-stage{min-height:0}}
+</style>
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const tm=(inner)=>'<div class="tm tour-dim">'+inner+'</div>';
+  let st={ng:false,sel:false};
+  const STEPS=[
+    {t:'1. Pilih pekerjaan',x:'Mulai dari jenis pekerjaan di WO: Maintenance, Instalasi, atau Survey lokasi. Warna tampilan ikut berubah sesuai pilihan.',h:'Klik kartu Maintenance yang menyala.',
+     r:()=>tm('<h4>Pilih pekerjaan</h4><div class="tm-grid"><div class="tm-card tour-keep" data-hl><b>Maintenance</b>Pemeriksaan sebelum &amp; sesudah</div><div class="tm-card"><b>Instalasi</b>Pemasangan unit</div><div class="tm-card"><b>Survey lokasi</b>Cek kondisi lokasi</div></div>')},
+    {t:'2. Pilih tipe unit',x:'Pilih unit yang dikerjakan. Gunakan kolom cari bila daftar panjang.',h:'Klik Reverse Osmosis.',
+     r:()=>tm('<h4>Pilih tipe unit</h4><div class="tm-row"><input class="tm-input" style="width:100%" placeholder="Cari tipe unit…" disabled></div><div class="tm-grid"><div class="tm-card tour-keep" data-hl><b>Reverse Osmosis</b>RO 9115, 8115 …</div><div class="tm-card"><b>Water Heater</b></div><div class="tm-card"><b>Kulkas</b></div></div>')},
+    {t:'3. Pilih project, lalu mulai',x:'Pilih Regular atau nama project sesuai WO. Project menambah pemeriksaan kelengkapan pada Maintenance.',h:'Klik Mulai form.',
+     r:()=>tm('<h4>Pilih project</h4><div class="tm-row"><button class="tm-btn on-OK" style="background:var(--ac,#0f766e)">Regular</button><button class="tm-btn">PAM Jaya</button><button class="tm-btn">Project lainnya…</button></div><button class="tm-btn tour-keep" data-hl style="background:var(--ac,#0f766e);color:#fff">Mulai form</button>')},
+    {t:'4. Header form selalu terlihat',x:'Header di atas menempel saat Anda scroll: menampilkan unit, project, tab aktif, dan progres pengisian. Isi informasi WO, konsumen, dan alamat di tab pertama.',h:'Perhatikan bar progres yang menyala.',
+     r:()=>tm('<div class="tm-bar tour-keep" data-hl><b>Reverse Osmosis › PAM Jaya › Maintenance</b><i><b style="width:35%"></b></i><span>35%</span></div><h4>Informasi</h4><div class="tm-row"><input class="tm-input" placeholder="Nomor WO" disabled><input class="tm-input" placeholder="Konsumen" disabled><input class="tm-input" placeholder="Alamat" disabled></div>')},
+    {t:'5. Isi hasil OK / NG',x:'Tiap item dipilih OK, NG, atau NA. Jika NG, muncul kolom temuan dan item masuk daftar tindak lanjut untuk dicek ulang.',h:'Klik NG pada item Jarak unit.',
+     r:()=>tm('<h4>Instalasi &amp; kondisi unit</h4><div class="tm-row"><span>Jarak unit ke dinding (min. 25 cm)</span><span class="tour-keep" data-hl-group><button class="tm-btn '+(st.ng?'':'on-OK')+'">OK</button> <button class="tm-btn '+(st.ng?'on-NG':'')+'" data-hl>NG</button> <button class="tm-btn">NA</button></span></div>'+(st.ng?'<input class="tm-input" style="width:100%" value="Filter mampet" disabled>':''))},
+    {t:'6. Catat hasil ukur TDS',x:'Pada item TDS isi angka hasil ukur (ppm). Nilainya otomatis masuk ke kolom Keterangan di laporan.',h:'Ketik angka pada kolom hasil ukur.',
+     r:()=>tm('<h4>Parameter air</h4><div class="tm-row"><span>TDS (≤ 300 ppm)</span><span><button class="tm-btn on-NG">NG</button></span></div><div class="tm-row tour-keep" data-hl><label>Hasil ukur TDS</label><span><input class="tm-input" value="412" disabled> ppm</span></div>')},
+    {t:'7. Tinjau laporan',x:'Pratinjau menampilkan dua kolom seimbang. Hasil ukur TDS dan temuan tampil di kolom Keterangan, dengan OK hijau dan NG merah.',h:'Lihat sel Keterangan yang menyala.',
+     r:()=>tm('<table><tr><th>Pengecekan</th><th>Sebelum</th><th>Sesudah</th><th>Keterangan</th></tr><tr><td>Jarak unit</td><td class="ng">NG</td><td class="ok">Ganti</td><td>Filter mampet</td></tr><tr><td>TDS ≤ 300 ppm</td><td class="ng">NG</td><td class="ng">NG</td><td class="tour-keep" data-hl>Hasil ukur: 412 ppm · Perlu flushing</td></tr></table>')},
+    {t:'8. Tanda tangan dan unduh',x:'Konsumen dan teknisi menandatangani. Setelah itu unduh JPG/PDF atau cetak. Draft otomatis tersimpan di perangkat.',h:'Selesai. Tutup panduan dan coba form asli.',
+     r:()=>tm('<div class="tm-row"><div class="tm-sig tour-keep" data-hl style="flex:1">Tanda tangan konsumen</div><div class="tm-sig" style="flex:1">Tanda tangan teknisi</div></div><div class="tm-row"><button class="tm-btn">Unduh JPG</button><button class="tm-btn">Unduh PDF</button><button class="tm-btn">Cetak</button></div>')}
+  ];
+  let i=0;
+  function show(){
+    const s=STEPS[i];
+    $('tourStage').innerHTML=s.r();
+    const hl=$('tourStage').querySelector('[data-hl]');
+    if(hl){hl.classList.add('tour-hl');hl.addEventListener('click',()=>{ if(i===4)st.ng=true; if(i<STEPS.length-1){ if(i!==4||true){ i===4?show():next(); } } });}
+    $('tourTitle').textContent=s.t;$('tourText').textContent=s.x;$('tourHint').textContent=s.h;
+    $('tourCount').textContent='Langkah '+(i+1)+' dari '+STEPS.length;
+    $('tourFill').style.width=((i+1)/STEPS.length*100)+'%';
+    $('tourPrev').disabled=i===0;
+    $('tourNext').textContent=i===STEPS.length-1?'Selesai':'Lanjut';
+  }
+  function next(){ if(i<STEPS.length-1){i++;show();} else close(); }
+  function open(){i=0;st.ng=false;$('tour').hidden=false;show();$('tourNext').focus();}
+  function close(){$('tour').hidden=true;try{localStorage.setItem('fsrTourSeen','1');}catch(e){}$('tourOpen').focus();}
+  $('tourOpen').addEventListener('click',open);$('tourClose').addEventListener('click',close);
+  $('tourNext').addEventListener('click',next);
+  $('tourPrev').addEventListener('click',()=>{if(i>0){i--;show();}});
+  $('tour').addEventListener('click',e=>{if(e.target===$('tour'))close();});
+  document.addEventListener('keydown',e=>{if($('tour').hidden)return;if(e.key==='Escape')close();if(e.key==='ArrowRight')next();if(e.key==='ArrowLeft'&&i>0){i--;show();}});
+})();
+</script>
 </body>
 </html>
