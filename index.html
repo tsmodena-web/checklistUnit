@@ -1977,10 +1977,10 @@
   </script>
 <div id="tour" class="tour" hidden role="dialog" aria-modal="true" aria-labelledby="tourTitle">
   <div class="tour-card">
-    <div class="tour-bar"><strong>Simulasi panduan</strong><span id="tourCount" class="tour-count"></span><button class="tour-x" id="tourClose" type="button" aria-label="Tutup panduan">&times;</button></div>
+    <div class="tour-bar"><strong>PANDU</strong><span class="tour-tag">Your Technical Knowledge Buddy</span><span id="tourCount" class="tour-count"></span><button class="tour-x" id="tourClose" type="button" aria-label="Tutup panduan">&times;</button></div>
     <div class="tour-progress"><i id="tourFill"></i></div>
     <div class="tour-stage" id="tourStage"></div><div class="tour-auto"><i id="tourAuto"></i></div>
-    <div class="tour-cap"><div class="tour-mascot"><div class="tour-char" aria-hidden="true"><pre id="tourFace"></pre><span id="tourProp" class="tour-prop"></span></div><div class="tour-bubble" id="tourBubble"></div></div><h3 id="tourTitle"></h3><p id="tourText"></p><div class="tour-hint" id="tourHint"></div><div class="tour-dd" id="tourDd"></div>
+    <div class="tour-cap"><div class="tour-mascot"><div class="tour-char" aria-hidden="true"><div id="tourFace"></div></div><div class="tour-bubble" id="tourBubble"></div></div><h3 id="tourTitle"></h3><p id="tourText"></p><div class="tour-hint" id="tourHint"></div><div class="tour-dd" id="tourDd"></div>
       <div class="tour-nav"><button class="btn btn-outline-secondary me-auto" id="tourPlay" type="button">Jeda</button><button class="btn btn-outline-secondary" id="tourPrev" type="button">Kembali</button><button class="btn btn-primary" id="tourNext" type="button">Lanjut</button></div></div>
   </div>
 </div>
@@ -2019,6 +2019,9 @@
 .tour-bubble{flex:1 1 auto;min-width:0;max-height:100px;overflow:hidden;position:relative;background:var(--ac-s,#e6f4f1);color:var(--ink,#16232b);border-radius:12px 12px 12px 2px;padding:8px 12px;font-size:.86rem;font-weight:600;min-height:36px;display:flex;align-items:center}
 .tour-bubble::before{content:"";position:absolute;left:-7px;bottom:0;border:7px solid transparent;border-right-color:var(--ac-s,#e6f4f1);border-bottom-color:var(--ac-s,#e6f4f1)}
 .tm ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}.tm li{display:flex;gap:8px;align-items:flex-start;line-height:1.35}.tm li i{font-style:normal;font-weight:800;flex:0 0 16px}.tm li.y i{color:#17734a}.tm li.n i{color:#b3303a}
+.tour-tag{font-size:.74rem;color:var(--muted,#667);font-weight:500}
+#tourFace{color:#16232b;width:96px;height:96px;line-height:0}
+#tourFace svg{display:block;width:96px;height:96px;image-rendering:pixelated}
 .tour-char{position:relative;flex:none;box-sizing:border-box;width:112px;height:100px;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:0;border:1px solid var(--line,#e4e8ec);border-radius:12px;background:#fff}
 .tour-prop{position:absolute;right:4px;top:4px;font-size:22px;line-height:1;animation:pprop .9s ease-in-out infinite;transform-origin:50% 80%}
 @keyframes pprop{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(8deg) translateY(-4px)}}
@@ -2098,21 +2101,52 @@
     ['Isi angka sesuai alat ukur.','Tulis satuan atau teks di kolom angka.'],
     ['Cek Keterangan dan ringkasan.','Cetak saat masih DRAFT.'],
     ['Tanda tangan setelah konfirmasi dicentang.','Unggah/kirim tanpa tanda tangan lengkap.']];
-  const MASCOT={name:'Pandu',frames:{
-    hi:[['\\(^‿^)/','   |    ','  / \\   '],[' (^‿^)/ ','  /|    ','  / \\   '],['\\(^‿^)  ','   |\\   ','  / \\   ']],
-    point:[['(•‿•)/  ','/|      ',' / \\    '],['(•‿•)_/ ','/|      ',' / \\    '],['(•‿•)/ ~','/|      ','  |\\    ']],
-    think:[['(•_•) ? ','/|\\     ','/ \\     '],['(•_•)  ?','/|\\     ',' | |    '],['(•_•)?? ','/|\\     ','/ \\     ']],
-    warn:[['(O_O) ! ','/|\\     ','/ \\     '],['(O_O) !!','\\|/     ','/ \\     ']],
-    drop:[['   .    ','  / \\   ',' /   \\  ','( o o ) ',' \\_~_/  '],['   .    ','  / \\   ',' /   \\  ','( o o ) ',' \\_-_/  ']],
-    gauge:[['.------.','| ppm  |','|  /   |','| /  o |',"'------'"],['.------.','| ppm  |','|   \\  |','| o  \\ |',"'------'"]],
-    cheer:[['\\(^o^)/ *','   |     ','  / \\    '],['_(^o^)_ +','   |     ',' _/ \\_   '],['\\(^o^)/ x','   |     ','  / \\    ']]}};
+  // PANDU: pixel art 16x16, monokrom. Ganti PROPS/FORMS/POSES di sini untuk mengubah karakter.
+  const MASCOT={name:'Pandu',tagline:'Your Technical Knowledge Buddy'};
   const MS=['Klik kartu yang menyala.','Pilih unit sesuai WO.','Regular atau nama project.','Header ini ikut menempel saat scroll.','Klik NG, lihat kolom yang muncul.','Isi angka hasil ukur dari alat.','Hasil ukur masuk ke Keterangan.','Tanda tangan, unduh, lalu kirim.'];
   let faceT=null,faceI=0;
-  const VIS=[{f:'hi'},{f:'point',p:'📋'},{f:'think'},{f:'warn'},{f:'point',p:'🛠️'},{f:'drop'},{f:'point',p:'🗂️'},{f:'point',p:'📌'},{f:'think',p:'🔍'},{f:'gauge'},{f:'point',p:'📄'},{f:'cheer'}];
-  function setFace(k,prop,morph){clearInterval(faceT);const pre=$('tourFace'),wrap=pre.parentNode;wrap.classList.remove('morph');void wrap.offsetWidth;
-    $('tourProp').textContent=morph?'':(prop||'');
-    if(morph){wrap.classList.add('morph');pre.textContent=morph;return;}
-    const fr=MASCOT.frames[k]||MASCOT.frames.point;faceI=0;const draw=()=>{pre.textContent=fr[faceI%fr.length].join('\n');faceI++;};draw();if(fr.length>1&&!matchMedia('(prefers-reduced-motion:reduce)').matches)faceT=setInterval(draw,260);}
+  const PROPS={
+    clipboard:['..##..','######','#....#','#.##.#','#....#','#.##.#','######'],
+    wrench:['##..##','#....#','##..##','..##..','..##..','..##..','..##..'],
+    question:['.####.','#....#','....#.','...#..','......','...#..'],
+    shield:['######','#....#','#....#','#....#','.#..#.','..##..'],
+    folder:['###...','######','#....#','#....#','#....#','######'],
+    pin:['.####.','.#..#.','..##..','..##..','..#...','..#...'],
+    magnifier:['.####.','#....#','#....#','.####.','....#.','.....#'],
+    doc:['#####.','#...##','#....#','#.##.#','#....#','######'],
+    rocket:['..##..','.####.','.####.','.####.','#.##.#','..##..']};
+  const FORMS={
+    drop:[['................','.......##.......','......#..#......','.....#....#.....','....#......#....','...#........#...','..#...#..#...#..','..#..........#..','..#...####...#..','...#........#...','....#......#....','.....######.....','................','................','................','................']],
+    gauge:[['................','................','.##############.','#..............#','#.############.#','#.#..........#.#','#.#.####.....#.#','#.#..........#.#','#.############.#','#..............#','#..#.#.#.#.#...#','#..............#','.##############.','................','................','................'],
+           ['................','................','.##############.','#..............#','#.############.#','#.#..........#.#','#.#.########.#.#','#.#..........#.#','#.############.#','#..............#','#..#.#.#.#.#...#','#..............#','.##############.','................','................','................']]};
+  const VIS=[{pose:'wave'},{pose:'point',prop:'clipboard'},{pose:'think',prop:'question'},{pose:'warn',prop:'shield'},{pose:'point',prop:'wrench'},{form:'drop'},{pose:'point',prop:'folder'},{pose:'point',prop:'pin'},{pose:'think',prop:'magnifier'},{form:'gauge'},{pose:'point',prop:'doc'},{pose:'cheer',prop:'rocket'}];
+  function pandaGrid(pose,fr,prop){
+    const g=Array.from({length:16},()=>Array(16).fill(0)),P=(x,y)=>{if(x>=0&&x<16&&y>=0&&y<16)g[y][x]=1;};
+    const oy=(pose==='cheer'&&fr%2)||(pose==='wave'&&fr%2)?-1:0,L=pts=>pts.forEach(([x,y])=>P(x,y+oy));
+    L([[3,1],[4,1],[5,1],[6,1],[7,1],[2,2],[8,2],[2,3],[8,3],[2,4],[8,4],[3,5],[4,5],[5,5],[6,5],[7,5],[4,3],[6,3]]);
+    if(pose==='warn')L([[5,4]]);else if(pose!=='think')L([[5,4]]);
+    L([[5,6],[5,7],[5,8],[5,9],[5,10],[5,11]]);
+    const f=fr%2,wide=pose==='cheer';
+    L(wide?[[4,12],[3,13],[2,14],[6,12],[7,13],[8,14]]:(pose==='wave'&&f?[[4,12],[4,13],[3,14],[6,12],[6,13],[6,14]]:[[4,12],[4,13],[3,14],[6,12],[6,13],[7,14]]));
+    const idleL=[[4,8],[3,9]];
+    const A={wave:[idleL,f?[[6,6],[7,5],[8,5]]:[[6,6],[7,5],[8,4]]],
+      point:[idleL,f?[[6,7],[7,7],[8,7]]:[[6,7],[7,7],[8,7],[9,7]]],
+      think:[idleL,f?[[6,7],[7,7]]:[[6,7],[7,6]]],
+      warn:[f?[[4,6],[3,6],[2,6]]:[[4,6],[3,5],[2,4]],f?[[6,6],[7,6],[8,6]]:[[6,6],[7,5],[8,4]]],
+      cheer:[f?[[4,6],[3,6],[2,6]]:[[4,6],[3,5],[2,4]],f?[[6,6],[7,6],[8,6]]:[[6,6],[7,5],[8,4]]]}[pose]||[idleL,[[6,8],[7,9]]];
+    A.forEach(L);
+    if(prop&&PROPS[prop]){PROPS[prop].forEach((row,y)=>[...row].forEach((c,x)=>{if(c==='#')P(10+x,5+y-(oy?1:0)+(pose==='think'?0:0));}));}
+    return g;
+  }
+  function paint(g){
+    let r='';for(let y=0;y<16;y++)for(let x=0;x<16;x++)if(g[y][x])r+='<rect x="'+x+'" y="'+y+'" width="1" height="1"/>';
+    $('tourFace').innerHTML='<svg viewBox="0 0 16 16" width="96" height="96" shape-rendering="crispEdges" fill="currentColor" aria-hidden="true">'+r+'</svg>';
+  }
+  function setFace(v){clearInterval(faceT);faceI=0;
+    const still=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    const tick=()=>{ if(v.form){const fr=FORMS[v.form];paint(fr[faceI%fr.length].map(row=>[...row].map(c=>c==='#'?1:0)));}
+      else paint(pandaGrid(v.pose||'point',faceI,v.prop)); faceI++; };
+    tick(); if(!still)faceT=setInterval(tick,320);}
   let typeT=null;
   function say(t){clearInterval(typeT);const b=$('tourBubble');if(matchMedia('(prefers-reduced-motion:reduce)').matches){b.textContent=t;return;}b.textContent='';let n=0;typeT=setInterval(()=>{b.textContent=t.slice(0,++n);if(n>=t.length)clearInterval(typeT);},11);}
   const NGSTEP=8,STEP_MS=3800;let i=0,playing=true,timer=null,clickTimer=null;
@@ -2130,7 +2164,7 @@
     $('tourStage').innerHTML=s.r();
     const hl=$('tourStage').querySelector('[data-hl]');
     if(hl){hl.classList.add('tour-hl');hl.addEventListener('click',()=>{ if(i===NGSTEP){st.ng=true;show(true);} else next(); });}
-    if(!keepTimer){const v=VIS[i]||{};setFace(v.f||'point',v.p,v.m);say(s.m||MS[i-4]||'');}
+    if(!keepTimer){setFace(VIS[i]||{pose:'point'});say(s.m||MS[i-4]||'');}
     $('tourTitle').textContent=s.t;$('tourText').textContent=s.x;$('tourHint').textContent=s.h;
     $('tourCount').textContent='Langkah '+(i+1)+' dari '+STEPS.length;
     $('tourFill').style.width=((i+1)/STEPS.length*100)+'%';
