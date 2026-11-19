@@ -1989,20 +1989,20 @@
 .tour-hint:empty{display:none}
 .tour-auto{grid-area:auto;height:3px;background:#e3e8ec}
 .tour-auto i{display:block;height:100%;width:0;background:var(--ac,#0f766e)}
-.tour-mascot{display:flex;gap:10px;align-items:flex-end}
-.tour-mascot pre{margin:0;font:700 14px/1.1 "Courier New",ui-monospace,monospace;color:var(--ac-d,#0b5d56);flex:0 0 auto;min-width:84px;animation:pbounce .52s ease-in-out infinite}
+.tour-mascot{display:flex;gap:10px;align-items:center;height:104px;min-height:104px;max-height:104px}
+.tour-mascot pre{margin:0;font:700 13px/1.1 "Courier New",ui-monospace,monospace;color:var(--ac-d,#0b5d56);flex:none;white-space:pre;min-width:0;animation:pbounce .52s ease-in-out infinite}
 @keyframes pbounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 @media (prefers-reduced-motion:reduce){.tour-mascot pre{animation:none}}
-.tour-bubble{position:relative;background:var(--ac-s,#e6f4f1);color:var(--ink,#16232b);border-radius:12px 12px 12px 2px;padding:8px 12px;font-size:.86rem;font-weight:600;min-height:36px;display:flex;align-items:center}
+.tour-bubble{flex:1 1 auto;min-width:0;max-height:100px;overflow:hidden;position:relative;background:var(--ac-s,#e6f4f1);color:var(--ink,#16232b);border-radius:12px 12px 12px 2px;padding:8px 12px;font-size:.86rem;font-weight:600;min-height:36px;display:flex;align-items:center}
 .tour-bubble::before{content:"";position:absolute;left:-7px;bottom:0;border:7px solid transparent;border-right-color:var(--ac-s,#e6f4f1);border-bottom-color:var(--ac-s,#e6f4f1)}
 .tm ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}.tm li{display:flex;gap:8px;align-items:flex-start;line-height:1.35}.tm li i{font-style:normal;font-weight:800;flex:0 0 16px}.tm li.y i{color:#17734a}.tm li.n i{color:#b3303a}
-.tour-char{position:relative;flex:0 0 auto;display:flex;align-items:flex-end;gap:2px}
-.tour-prop{font-size:26px;line-height:1;animation:pprop .9s ease-in-out infinite;transform-origin:50% 80%}
+.tour-char{position:relative;flex:none;box-sizing:border-box;width:112px;height:100px;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:0;border:1px solid var(--line,#e4e8ec);border-radius:12px;background:#fff}
+.tour-prop{position:absolute;right:4px;top:4px;font-size:22px;line-height:1;animation:pprop .9s ease-in-out infinite;transform-origin:50% 80%}
 @keyframes pprop{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(8deg) translateY(-4px)}}
 .tour-char.morph pre{font:400 44px/1 system-ui,"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif;min-width:56px;text-align:center;animation:ppop .5s cubic-bezier(.2,1.6,.4,1)}
 @keyframes ppop{0%{transform:scale(.2) rotate(-40deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
 @media (prefers-reduced-motion:reduce){.tour-prop,.tour-char.morph pre{animation:none}}
-@media (max-width:700px){.tour-mascot pre{font-size:17px}.tour-bubble{font-size:.92rem}.tm{font-size:.9rem}.tm-card,.tm-btn,.tm-input{font-size:.86rem}.tm table{font-size:.8rem}.tour-dd{font-size:.88rem}.tour-cap p{font-size:.95rem}.tour-prop{font-size:30px}}
+@media (max-width:700px){.tour-bubble{font-size:.92rem}.tm{font-size:.9rem}.tm-card,.tm-btn,.tm-input{font-size:.86rem}.tm table{font-size:.8rem}.tour-dd{font-size:.88rem}.tour-cap p{font-size:.95rem}.tour-prop{font-size:30px}}
 .tour-dd{display:grid;gap:6px;font-size:.82rem}
 .tour-dd div{display:flex;gap:8px;align-items:flex-start;line-height:1.35}
 .tour-dd b{white-space:nowrap;flex:0 0 96px;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;padding-top:2px}
