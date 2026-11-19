@@ -727,7 +727,7 @@
         <li><b>Tinjau</b><span>lalu tanda tangan</span></li>
         <li><b>Unduh</b><span>JPG, PDF, atau cetak</span></li>
       </ol>
-      <dl class="lab-out"><div><dt>Hasil</dt><dd>Form Service Result (JPG / PDF)</dd></div><div><dt>Dipakai untuk</dt><dd>Bukti servis ke konsumen · arsip Technical Support</dd></div></dl>
+      <dl class="lab-out"><div><dt>Hasil</dt><dd>Form Service Result (JPG / PDF)</dd></div><div><dt>Setelah itu</dt><dd>Unggah ke sistem GCCS atau kirim ke Technical Support</dd></div></dl>
     </section>
     <aside class="quicklink" aria-label="Penarikan indoor unit pendingin?">
       <div class="quicklink-head">
@@ -2060,7 +2060,7 @@
      r:()=>tm('<h4>Parameter air</h4><div class="tm-row"><span>TDS (≤ 300 ppm)</span><span><button class="tm-btn on-NG">NG</button></span></div><div class="tm-row tour-keep" data-hl><label>Hasil ukur TDS</label><span><input class="tm-input" value="412" disabled> ppm</span></div>')},
     {t:'7. Tinjau laporan',x:'Pratinjau menampilkan dua kolom seimbang. Hasil ukur TDS dan temuan tampil di kolom Keterangan, dengan OK hijau dan NG merah.',h:'Lihat sel Keterangan yang menyala.',
      r:()=>tm('<table><tr><th>Pengecekan</th><th>Sebelum</th><th>Sesudah</th><th>Keterangan</th></tr><tr><td>Jarak unit</td><td class="ng">NG</td><td class="ok">Ganti</td><td>Filter mampet</td></tr><tr><td>TDS ≤ 300 ppm</td><td class="ng">NG</td><td class="ng">NG</td><td class="tour-keep" data-hl>Hasil ukur: 412 ppm · Perlu flushing</td></tr></table>')},
-    {t:'8. Tanda tangan dan unduh',x:'Konsumen dan teknisi menandatangani. Setelah itu unduh JPG/PDF atau cetak. Draft otomatis tersimpan di perangkat.',h:'Selesai. Tutup panduan dan coba form asli.',
+    {t:'8. Tanda tangan dan unduh',x:'Konsumen dan teknisi menandatangani, lalu unduh JPG/PDF. Hasilnya diunggah ke sistem GCCS atau dikirim ke Technical Support.',h:'Selesai. Tutup panduan dan coba form asli.',
      r:()=>tm('<div class="tm-row"><div class="tm-sig tour-keep" data-hl style="flex:1">Tanda tangan konsumen</div><div class="tm-sig" style="flex:1">Tanda tangan teknisi</div></div><div class="tm-row"><button class="tm-btn">Unduh JPG</button><button class="tm-btn">Unduh PDF</button><button class="tm-btn">Cetak</button></div>')}
   ];
   const DD=[
@@ -2071,7 +2071,7 @@
     ['Tandai semua item. NG: isi temuan.','Lewati item wajib.'],
     ['Isi angka sesuai alat ukur.','Tulis satuan atau teks di kolom angka.'],
     ['Cek Keterangan dan ringkasan.','Cetak saat masih DRAFT.'],
-    ['Tanda tangan setelah konfirmasi dicentang.','Kirim tanpa tanda tangan teknisi.']];
+    ['Tanda tangan setelah konfirmasi dicentang.','Unggah/kirim tanpa tanda tangan lengkap.']];
   const STEP_MS=6500;let i=0,playing=true,timer=null,clickTimer=null;
   function clearT(){clearTimeout(timer);clearTimeout(clickTimer);}
   function arm(){
