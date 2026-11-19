@@ -786,7 +786,6 @@
       <div class="preview-toolbar no-print">
         <button class="btn btn-outline-secondary" data-action="edit"><i class="bi bi-arrow-left me-1" aria-hidden="true"></i>Edit form</button><span class="spacer"></span>
         <button class="btn btn-outline-secondary" data-action="download-jpg"><i class="bi bi-image me-1" aria-hidden="true"></i>Unduh JPG</button>
-        <button class="btn btn-outline-secondary" data-action="download-json" title="Data terstruktur untuk validasi otomatis / AI"><i class="bi bi-braces me-1" aria-hidden="true"></i>Unduh JSON</button>
         <button class="btn btn-outline-secondary" data-action="download-pdf"><i class="bi bi-filetype-pdf me-1" aria-hidden="true"></i>Unduh PDF</button>
         <button class="btn btn-primary primary" data-action="print"><i class="bi bi-printer me-1" aria-hidden="true"></i>Cetak</button>
       </div>
@@ -1569,7 +1568,6 @@
       if (action==='edit') { clearExportLink(); $('previewView').hidden=true; $('editor').hidden=false; renderEditor(); window.scrollTo(0,0); }
       if (action==='download-jpg') void downloadOutput('jpg');
       if (action==='download-pdf') void downloadOutput('pdf');
-      if (action==='download-json') downloadJson();
       if (action==='print') {
         if(outputReady()) window.print();
       }
@@ -1697,11 +1695,12 @@
     function validationBlock() {
       const r=reportData(),code=reportCode(r);
       const rec=r.items.map(x=>{const n=String(x.no).padStart(2,'0');
-        if(mode==='maintenance')return n+'='+(x.before||'-')+'/'+(x.after||'-')+(x.measure_ppm!==null?'('+x.measure_ppm+'ppm)':'');
-        if(mode==='installation')return n+'='+(x.status||'-')+(x.measure_ppm!==null?'('+x.measure_ppm+'ppm)':'');
-        return n+'='+(x.result===null||x.result===''?'-':x.result);}).join(' ');
-      const fmt=mode==='maintenance'?'format: no=sebelum/sesudah':mode==='installation'?'format: no=hasil':'format: no=hasil ukur';
-      return `<div class="validation-block"><b>DATA VALIDASI</b> · ${esc(summaryLine())} · Kode: <b>${code}</b> · ${r.open_issues.length?'Status: DRAFT ('+r.open_issues.length+' isian belum lengkap)':'Status: LENGKAP'}<br>${esc(r.mode)} | ${esc(r.unit)} | WO ${esc(r.info.wo||'-')} | ${esc(r.info.date||'-')} | ${esc(fmt)}<br>${esc(rec)}</div>`;
+        if(mode==='maintenance')return n+': '+(x.before||'-')+' / '+(x.after||'-')+(x.measure_ppm!==null?' ('+x.measure_ppm+' ppm)':'');
+        if(mode==='installation')return n+': '+(x.status||'-')+(x.measure_ppm!==null?' ('+x.measure_ppm+' ppm)':'');
+        return n+': '+(x.result===null||x.result===''?'-':x.result);});
+      const rows=[];for(let k=0;k<rec.length;k+=6)rows.push(rec.slice(k,k+6).join('  |  '));
+      const fmt=mode==='maintenance'?'FORMAT NO: SEBELUM / SESUDAH':mode==='installation'?'FORMAT NO: HASIL':'FORMAT NO: HASIL UKUR';
+      return `<div class="validation-block"><b>DATA VALIDASI</b>  KODE: <b>${code}</b>  STATUS: ${r.open_issues.length?'DRAFT ('+r.open_issues.length+' ISIAN BELUM LENGKAP)':'LENGKAP'}<br>${esc(summaryLine().toUpperCase())}<br>${esc(r.mode.toUpperCase())} | ${esc(r.unit.toUpperCase())} | WO: ${esc(r.info.wo||'-')} | TANGGAL: ${esc(r.info.date||'-')} | ${fmt}<br>${rows.map(esc).join('<br>')}</div>`;
     }
     function renderDocument(w) {
       const title=mode==='survey'?'FORM SURVEY LOKASI':mode==='installation'?'FORM INSTALASI':'FORM MAINTENANCE';
@@ -1831,10 +1830,6 @@
       const r=reportData(),m=r.summary;
       const tds=r.items.filter(x=>x.measure_ppm!==null&&x.measure_ppm!==undefined).map(x=>'TDS '+x.measure_ppm+' ppm');
       return mode==='survey'?`Ringkasan: ${m.filled}/${m.total} parameter terisi`:`Ringkasan: ${m.total} item · OK ${m.ok} · NG ${m.ng} · Ganti ${m.replaced} · NA ${m.na}${m.unchecked?' · Belum diperiksa '+m.unchecked:''}${tds.length?' · '+tds.join(', '):''}`;
-    }
-    function downloadJson() {
-      const r=reportData();r.generated_at=new Date().toISOString();r.code=reportCode({...r,generated_at:undefined,code:undefined});
-      clearExportLink();saveBlob(new Blob([JSON.stringify(r,null,2)],{type:'application/json'}),outputName()+'.json');
     }
     function saveBlob(blob,name) {
       exportUrl=URL.createObjectURL(blob);
@@ -2054,8 +2049,8 @@
 @keyframes tourPulse{0%,100%{outline-color:var(--ac,#0f766e)}50%{outline-color:color-mix(in srgb,var(--ac,#0f766e) 25%,transparent)}}
 @media (prefers-reduced-motion:reduce){.tour-hl{animation:none}}
 @media (max-width:700px){.tour-card{grid-template-columns:1fr;grid-template-areas:"bar" "prog" "stage" "cap"}.tour-stage{min-height:0}}
-    .validation-block { margin-top: 10px; padding: 5px 8px; border: 1px dashed #8a97a0; border-radius: 4px; font: 9px/1.45 "Courier New", ui-monospace, monospace; color: #1f2d36; word-break: break-word; break-inside: avoid; }
-    .paper.output-form .validation-block { margin-top: 8px; font-size: 9.5px; }
+    .validation-block { margin-top: 10px; padding: 5px 8px; border: 1px dashed #8a97a0; border-radius: 4px; font: 10px/1.5 "Courier New", ui-monospace, monospace; color: #1f2d36; word-break: break-word; break-inside: avoid; }
+    .paper.output-form .validation-block { margin-top: 8px; font-size: 11px; line-height: 1.5; color: #000; border: 1px solid #000; }
 </style>
 <script>
 (function(){
