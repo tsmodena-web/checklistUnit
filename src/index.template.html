@@ -751,6 +751,7 @@
       <div class="preview-toolbar no-print">
         <button class="btn btn-outline-secondary" data-action="edit"><i class="bi bi-arrow-left me-1" aria-hidden="true"></i>Edit form</button><span class="spacer"></span>
         <button class="btn btn-outline-secondary" data-action="download-jpg"><i class="bi bi-image me-1" aria-hidden="true"></i>Unduh JPG</button>
+        <button class="btn btn-outline-secondary" data-action="download-json" title="Data terstruktur untuk validasi otomatis / AI"><i class="bi bi-braces me-1" aria-hidden="true"></i>Unduh JSON</button>
         <button class="btn btn-outline-secondary" data-action="download-pdf"><i class="bi bi-filetype-pdf me-1" aria-hidden="true"></i>Unduh PDF</button>
         <button class="btn btn-primary primary" data-action="print"><i class="bi bi-printer me-1" aria-hidden="true"></i>Cetak</button>
       </div>
@@ -1531,6 +1532,7 @@
       if (action==='edit') { clearExportLink(); $('previewView').hidden=true; $('editor').hidden=false; renderEditor(); window.scrollTo(0,0); }
       if (action==='download-jpg') void downloadOutput('jpg');
       if (action==='download-pdf') void downloadOutput('pdf');
+      if (action==='download-json') downloadJson();
       if (action==='print') {
         if(outputReady()) window.print();
       }
@@ -1655,13 +1657,22 @@
       return `<div class="signatures">${roleNames().map(([role,label])=>`<div class="signature"><strong>${esc(label)},</strong>
         ${sigImage(role==='customer'&&customerSignatureBlocked()?null:data().signatures[role])||'<div style="height:75px"></div>'}<span class="line">${textOrDash(data().info[role==='customer'?'customer':role])}</span></div>`).join('')}</div>`;
     }
+    function validationBlock() {
+      const r=reportData(),code=reportCode(r);
+      const rec=r.items.map(x=>{const n=String(x.no).padStart(2,'0');
+        if(mode==='maintenance')return n+'='+(x.before||'-')+'/'+(x.after||'-')+(x.measure_ppm!==null?'('+x.measure_ppm+'ppm)':'');
+        if(mode==='installation')return n+'='+(x.status||'-')+(x.measure_ppm!==null?'('+x.measure_ppm+'ppm)':'');
+        return n+'='+(x.result===null||x.result===''?'-':x.result);}).join(' ');
+      const fmt=mode==='maintenance'?'format: no=sebelum/sesudah':mode==='installation'?'format: no=hasil':'format: no=hasil ukur';
+      return `<div class="validation-block"><b>DATA VALIDASI</b> · ${esc(summaryLine())} · Kode: <b>${code}</b> · ${r.open_issues.length?'Status: DRAFT ('+r.open_issues.length+' isian belum lengkap)':'Status: LENGKAP'}<br>${esc(r.mode)} | ${esc(r.unit)} | WO ${esc(r.info.wo||'-')} | ${esc(r.info.date||'-')} | ${esc(fmt)}<br>${esc(rec)}</div>`;
+    }
     function renderDocument(w) {
       const title=mode==='survey'?'FORM SURVEY LOKASI':mode==='installation'?'FORM INSTALASI':'FORM MAINTENANCE';
       return `<div class="kop"><div class="web">modena.com</div><div class="kop-info">Jl. Prof. Dr. Satrio C-4 No. 13, Jakarta 12950, Indonesia<br><b>Call Center 1500715</b><br>Senin - Jumat: 07.00 - 19.00 WIB<br>Sabtu - Minggu: 07.00 - 17.00 WIB</div></div><div class="kop-rule"></div>
         <h1>${title}</h1><p class="sub">Tipe unit: ${esc(UNIT_META[unitType].label)} · Program / project: ${esc(projectName())} ${w.length?'<span class="draft">· DRAFT</span>':''}</p>
         ${escalationNotice()}${infoTable()}<p class="preamble">${preambleText()}</p>
         ${mode==='survey'?surveyPrint():mode==='installation'?installationPrint():maintenancePrint()}
-        ${closingPrint()}${printSignatures()}
+        ${closingPrint()}${printSignatures()}${validationBlock()}
         <p class="footer">Dokumen dibuat otomatis oleh sistem (Form Service Result) · ${esc(new Date().toLocaleString('id-ID',{timeZone:'Asia/Jakarta'}))} WIB. Pernyataan konsumen berlaku sesuai kotak yang dipilih dan pengecualian yang tercatat; hak garansi, komplain, dan klaim tetap berlaku menurut ketentuan.</p>`;
     }
     // Preserve every word and row in renderDocument(); change only the output frame/layout.
@@ -1762,6 +1773,31 @@
     }
     function clearExportLink() {
       if(exportUrl)URL.revokeObjectURL(exportUrl);exportUrl='';
+    }
+    function reportData() {
+      const d=data(),f=d.info;let items=[];
+      if(mode==='maintenance') items=MAINT_ITEMS.map((it,i)=>{const c=maintenanceCheck(i)||{},after=c.before==='OK'?'OK':(c.after||null);
+        return {no:i+1,group:it[0],check:it[1],reference:it[2],before:c.before||null,after,measure_ppm:it[1]==='TDS'&&String(c.measure??'').trim()!==''?Number(c.measure):null,note:[c.clogged?'Filter mampet / tersumbat':'',c.beforeNote,c.afterNote].filter(Boolean).join(' | ')||null};});
+      else if(mode==='installation') items=INSTALL_ITEMS.map((it,i)=>{const c=d.checks[i]||{};
+        return {no:i+1,check:it,status:c.status||null,measure_ppm:[3,22].includes(i)&&c.measurement!==undefined&&String(c.measurement).trim()!==''?Number(c.measurement):null,note:c.note||null};});
+      else { let k=0; items=SURVEY_SECTIONS.flatMap(sec=>sec[1].map(it=>{const r=d.rows[k++]||{};return {no:k,section:sec[0],parameter:it[0],reference:it[1],unit:it[2]==='-'?null:it[2],result:r.result??null,customer_provides:!!r.customerProvides,note:r.note||null};})); }
+      const st=items.map(x=>x.status||x.after||null);
+      const summary=mode==='survey'?{total:items.length,filled:items.filter(x=>x.result!==null&&String(x.result)!=='').length}:
+        {total:items.length,ok:st.filter(x=>x==='OK').length,ng:st.filter(x=>x==='NG').length,replaced:st.filter(x=>x==='Ganti').length,na:st.filter(x=>x==='NA').length,unchecked:st.filter(x=>!x).length};
+      const body={schema:'fsr-report/1',mode,unit:unitType,project:projectName(),info:{wo:f.wo||null,date:f.date||null,worker:(mode==='survey'?f.surveyor:f.technician)||null,customer:f.customer||null,address:f.address||null,model:f.model||null,location:f.location||null},
+        items,summary,follow_up:d.followUp||[],conclusion:d.conclusion||null,notes:d.notes||null,statements_checked:d.statements||[],objection:d.objection||null,consent:!!d.consent,
+        signatures:Object.fromEntries(roleNames().map(([r])=>[r,!!d.signatures[r]])),open_issues:warnings()};
+      return body;
+    }
+    function reportCode(obj) { const t=JSON.stringify(obj);let h=5381;for(let i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))>>>0;return h.toString(16).toUpperCase().padStart(8,'0'); }
+    function summaryLine() {
+      const r=reportData(),m=r.summary;
+      const tds=r.items.filter(x=>x.measure_ppm!==null&&x.measure_ppm!==undefined).map(x=>'TDS '+x.measure_ppm+' ppm');
+      return mode==='survey'?`Ringkasan: ${m.filled}/${m.total} parameter terisi`:`Ringkasan: ${m.total} item · OK ${m.ok} · NG ${m.ng} · Ganti ${m.replaced} · NA ${m.na}${m.unchecked?' · Belum diperiksa '+m.unchecked:''}${tds.length?' · '+tds.join(', '):''}`;
+    }
+    function downloadJson() {
+      const r=reportData();r.generated_at=new Date().toISOString();r.code=reportCode({...r,generated_at:undefined,code:undefined});
+      clearExportLink();saveBlob(new Blob([JSON.stringify(r,null,2)],{type:'application/json'}),outputName()+'.json');
     }
     function saveBlob(blob,name) {
       exportUrl=URL.createObjectURL(blob);
@@ -1948,6 +1984,8 @@
 @keyframes tourPulse{0%,100%{outline-color:var(--ac,#0f766e)}50%{outline-color:color-mix(in srgb,var(--ac,#0f766e) 25%,transparent)}}
 @media (prefers-reduced-motion:reduce){.tour-hl{animation:none}}
 @media (max-width:700px){.tour-card{grid-template-columns:1fr;grid-template-areas:"bar" "prog" "stage" "cap"}.tour-stage{min-height:0}}
+    .validation-block { margin-top: 10px; padding: 5px 8px; border: 1px dashed #8a97a0; border-radius: 4px; font: 9px/1.45 "Courier New", ui-monospace, monospace; color: #1f2d36; word-break: break-word; break-inside: avoid; }
+    .paper.output-form .validation-block { margin-top: 8px; font-size: 9.5px; }
 </style>
 <script>
 (function(){
