@@ -1979,9 +1979,9 @@
   <div class="tour-card">
     <div class="tour-bar"><strong>Simulasi panduan</strong><span id="tourCount" class="tour-count"></span><button class="tour-x" id="tourClose" type="button" aria-label="Tutup panduan">&times;</button></div>
     <div class="tour-progress"><i id="tourFill"></i></div>
-    <div class="tour-stage" id="tourStage"></div>
-    <div class="tour-cap"><h3 id="tourTitle"></h3><p id="tourText"></p><div class="tour-hint" id="tourHint"></div>
-      <div class="tour-nav"><button class="btn btn-outline-secondary" id="tourPrev" type="button">Kembali</button><button class="btn btn-primary" id="tourNext" type="button">Lanjut</button></div></div>
+    <div class="tour-stage" id="tourStage"></div><div class="tour-auto"><i id="tourAuto"></i></div>
+    <div class="tour-cap"><h3 id="tourTitle"></h3><p id="tourText"></p><div class="tour-hint" id="tourHint"></div><div class="tour-dd" id="tourDd"></div>
+      <div class="tour-nav"><button class="btn btn-outline-secondary me-auto" id="tourPlay" type="button">Jeda</button><button class="btn btn-outline-secondary" id="tourPrev" type="button">Kembali</button><button class="btn btn-primary" id="tourNext" type="button">Lanjut</button></div></div>
   </div>
 </div>
 <style>
@@ -1999,7 +1999,7 @@
 @media (max-width:700px){.lab-steps{grid-template-columns:1fr;gap:0}.lab-steps li{padding:2px 0 14px 38px;min-height:40px}.lab-steps li::after{top:28px;bottom:0;left:12px;right:auto;width:2px;height:auto;background:repeating-linear-gradient(180deg,var(--ac-b,#bfe0da) 0 6px,transparent 6px 11px)}.lab-out{grid-template-columns:1fr}}
 .tour{position:fixed;inset:0;z-index:200;background:rgba(15,23,32,.55);display:flex;align-items:center;justify-content:center;padding:12px}
 .tour[hidden]{display:none}
-.tour-card{width:min(920px,100%);max-height:100%;overflow:auto;background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.3);display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);grid-template-areas:"bar bar" "prog prog" "stage cap"}
+.tour-card{width:min(920px,100%);max-height:100%;overflow:auto;background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.3);display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);grid-template-areas:"bar bar" "prog prog" "stage cap" "auto cap"}
 .tour-bar{grid-area:bar;display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line,#e4e8ec)}
 .tour-count{margin-left:auto;font-size:.8rem;color:var(--muted,#667)}
 .tour-x{border:0;background:none;font-size:1.5rem;line-height:1;color:var(--muted,#667);padding:0 4px}
@@ -2010,6 +2010,13 @@
 .tour-cap h3{font-size:1.05rem;margin:0}.tour-cap p{margin:0;font-size:.9rem;color:#2b3a44}
 .tour-hint{font-size:.8rem;color:var(--ac-d,#0b5d56);background:var(--ac-s,#e6f4f1);border-radius:8px;padding:8px 10px}
 .tour-hint:empty{display:none}
+.tour-auto{grid-area:auto;height:3px;background:#e3e8ec}
+.tour-auto i{display:block;height:100%;width:0;background:var(--ac,#0f766e)}
+.tour-dd{display:grid;gap:6px;font-size:.82rem}
+.tour-dd div{display:flex;gap:8px;align-items:flex-start;line-height:1.35}
+.tour-dd b{flex:0 0 58px;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;padding-top:2px}
+.tour-dd .do b{color:#17734a}.tour-dd .dont b{color:#b3303a}
+@media (max-width:700px){.tour-card{grid-template-areas:"bar" "prog" "stage" "auto" "cap"}}
 .tour-nav{margin-top:auto;display:flex;gap:8px;justify-content:flex-end;padding-top:8px}
 .tm{background:#fff;border:1px solid #dfe4e8;border-radius:12px;padding:12px;font-size:.82rem}
 .tm h4{font-size:.85rem;margin:0 0 8px}
@@ -2056,21 +2063,42 @@
     {t:'8. Tanda tangan dan unduh',x:'Konsumen dan teknisi menandatangani. Setelah itu unduh JPG/PDF atau cetak. Draft otomatis tersimpan di perangkat.',h:'Selesai. Tutup panduan dan coba form asli.',
      r:()=>tm('<div class="tm-row"><div class="tm-sig tour-keep" data-hl style="flex:1">Tanda tangan konsumen</div><div class="tm-sig" style="flex:1">Tanda tangan teknisi</div></div><div class="tm-row"><button class="tm-btn">Unduh JPG</button><button class="tm-btn">Unduh PDF</button><button class="tm-btn">Cetak</button></div>')}
   ];
-  let i=0;
-  function show(){
+  const DD=[
+    ['Sesuaikan dengan WO.','Salah pilih pekerjaan, lalu isi.'],
+    ['Pilih model sesuai WO.','Pilih unit mirip tapi beda model.'],
+    ['Pilih Regular bila bukan project.','Kosongkan nama project lainnya.'],
+    ['Isi WO, konsumen, alamat lengkap.','Biarkan kosong: dokumen jadi DRAFT.'],
+    ['Tandai semua item. NG: isi temuan.','Lewati item wajib.'],
+    ['Isi angka sesuai alat ukur.','Tulis satuan atau teks di kolom angka.'],
+    ['Cek Keterangan dan ringkasan.','Cetak saat masih DRAFT.'],
+    ['Tanda tangan setelah konfirmasi dicentang.','Kirim tanpa tanda tangan teknisi.']];
+  const STEP_MS=6500;let i=0,playing=true,timer=null,clickTimer=null;
+  function clearT(){clearTimeout(timer);clearTimeout(clickTimer);}
+  function arm(){
+    clearT();const bar=$('tourAuto');bar.style.transition='none';bar.style.width='0';
+    if(!playing)return;
+    void bar.offsetWidth;bar.style.transition='width '+STEP_MS+'ms linear';bar.style.width='100%';
+    if(i===4)clickTimer=setTimeout(()=>{if(playing&&i===4){st.ng=true;show(true);}},2500);
+    timer=setTimeout(()=>{ if(i<STEPS.length-1){i++;show();} else {playing=false;clearT();syncPlay();} },STEP_MS);
+  }
+  function syncPlay(){$('tourPlay').textContent=playing?'Jeda':(i===STEPS.length-1?'Ulangi':'Putar');}
+  function show(keepTimer){
     const s=STEPS[i];
     $('tourStage').innerHTML=s.r();
     const hl=$('tourStage').querySelector('[data-hl]');
-    if(hl){hl.classList.add('tour-hl');hl.addEventListener('click',()=>{ if(i===4)st.ng=true; if(i<STEPS.length-1){ if(i!==4||true){ i===4?show():next(); } } });}
+    if(hl){hl.classList.add('tour-hl');hl.addEventListener('click',()=>{ if(i===4){st.ng=true;show(true);} else next(); });}
     $('tourTitle').textContent=s.t;$('tourText').textContent=s.x;$('tourHint').textContent=s.h;
     $('tourCount').textContent='Langkah '+(i+1)+' dari '+STEPS.length;
     $('tourFill').style.width=((i+1)/STEPS.length*100)+'%';
     $('tourPrev').disabled=i===0;
     $('tourNext').textContent=i===STEPS.length-1?'Selesai':'Lanjut';
+    $('tourDd').innerHTML='<div class="do"><b>Lakukan</b><span>'+DD[i][0]+'</span></div><div class="dont"><b>Hindari</b><span>'+DD[i][1]+'</span></div>';
+    syncPlay();if(!keepTimer)arm();
   }
   function next(){ if(i<STEPS.length-1){i++;show();} else close(); }
-  function open(){i=0;st.ng=false;$('tour').hidden=false;show();$('tourNext').focus();}
-  function close(){$('tour').hidden=true;try{localStorage.setItem('fsrTourSeen','1');}catch(e){}$('tourOpen').focus();}
+  $('tourPlay').addEventListener('click',()=>{ if(!playing&&i===STEPS.length-1){i=0;st.ng=false;} playing=!playing; show(); });
+  function open(){i=0;st.ng=false;playing=true;$('tour').hidden=false;show();$('tourNext').focus();}
+  function close(){clearT();$('tour').hidden=true;try{localStorage.setItem('fsrTourSeen','1');}catch(e){}$('tourOpen').focus();}
   $('tourOpen').addEventListener('click',open);$('tourClose').addEventListener('click',close);
   $('tourNext').addEventListener('click',next);
   $('tourPrev').addEventListener('click',()=>{if(i>0){i--;show();}});
