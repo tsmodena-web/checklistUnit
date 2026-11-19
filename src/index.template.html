@@ -881,6 +881,8 @@
         state=saved.drafts;
         for(const [key,d] of Object.entries(state)) {
           if(!key.startsWith('ro|')||!key.endsWith('|maintenance')||!d?.checks) continue;
+          // Bersihkan catatan migrasi keliru dari versi sebelumnya (OK/OK otomatis bukan data lama).
+          if(typeof d.notes==='string') d.notes=d.notes.replace(/(?:^|\n\n)Catatan dari alur RO sebelumnya \(periksa ulang\):(?:\nItem \d+ sebelumnya punya hasil sesudah OK)+(?=\n\n|$)/g,'').trim();
           const review=[];
           for(const [index,c] of Object.entries(d.checks)) {
             if(!c || typeof c!=='object') continue;
@@ -888,7 +890,7 @@
             if(c.before==='NA') {
               review.push(`${item} sebelumnya NA${c.beforeNote?' ('+c.beforeNote+')':''}${c.after?' · sesudah '+c.after:''}`);
               c.before=''; c.beforeNote=''; c.after=''; c.afterNote=''; c.clogged=false;
-            } else if(c.before!=='NG'&&(c.after||c.afterNote)) {
+            } else if(c.before!=='NG'&&!(c.before==='OK'&&c.after==='OK'&&!c.afterNote)&&(c.after||c.afterNote)) {
               review.push(`${item} sebelumnya punya hasil sesudah ${c.after||'-'}${c.afterNote?' ('+c.afterNote+')':''}`);
               c.after=''; c.afterNote='';
             } else if(c.after==='Ganti' && MAINT_CHECKLISTS.ro[Number(index)]?.[0]!=='Filter') {
