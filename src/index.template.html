@@ -1957,7 +1957,7 @@
     <div class="tour-bar"><strong>Simulasi panduan</strong><span id="tourCount" class="tour-count"></span><button class="tour-x" id="tourClose" type="button" aria-label="Tutup panduan">&times;</button></div>
     <div class="tour-progress"><i id="tourFill"></i></div>
     <div class="tour-stage" id="tourStage"></div><div class="tour-auto"><i id="tourAuto"></i></div>
-    <div class="tour-cap"><h3 id="tourTitle"></h3><p id="tourText"></p><div class="tour-hint" id="tourHint"></div><div class="tour-dd" id="tourDd"></div>
+    <div class="tour-cap"><div class="tour-mascot"><pre id="tourFace" aria-hidden="true"></pre><div class="tour-bubble" id="tourBubble"></div></div><h3 id="tourTitle"></h3><p id="tourText"></p><div class="tour-hint" id="tourHint"></div><div class="tour-dd" id="tourDd"></div>
       <div class="tour-nav"><button class="btn btn-outline-secondary me-auto" id="tourPlay" type="button">Jeda</button><button class="btn btn-outline-secondary" id="tourPrev" type="button">Kembali</button><button class="btn btn-primary" id="tourNext" type="button">Lanjut</button></div></div>
   </div>
 </div>
@@ -1989,6 +1989,11 @@
 .tour-hint:empty{display:none}
 .tour-auto{grid-area:auto;height:3px;background:#e3e8ec}
 .tour-auto i{display:block;height:100%;width:0;background:var(--ac,#0f766e)}
+.tour-mascot{display:flex;gap:10px;align-items:flex-end}
+.tour-mascot pre{margin:0;font:700 15px/1.05 "Courier New",ui-monospace,monospace;color:var(--ac-d,#0b5d56);flex:0 0 auto;min-width:54px}
+.tour-bubble{position:relative;background:var(--ac-s,#e6f4f1);color:var(--ink,#16232b);border-radius:12px 12px 12px 2px;padding:8px 12px;font-size:.86rem;font-weight:600;min-height:36px;display:flex;align-items:center}
+.tour-bubble::before{content:"";position:absolute;left:-7px;bottom:0;border:7px solid transparent;border-right-color:var(--ac-s,#e6f4f1);border-bottom-color:var(--ac-s,#e6f4f1)}
+.tm ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}.tm li{display:flex;gap:8px;align-items:flex-start;line-height:1.35}.tm li i{font-style:normal;font-weight:800;flex:0 0 16px}.tm li.y i{color:#17734a}.tm li.n i{color:#b3303a}
 .tour-dd{display:grid;gap:6px;font-size:.82rem}
 .tour-dd div{display:flex;gap:8px;align-items:flex-start;line-height:1.35}
 .tour-dd b{flex:0 0 58px;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;padding-top:2px}
@@ -2023,6 +2028,14 @@
   const tm=(inner)=>'<div class="tm tour-dim">'+inner+'</div>';
   let st={ng:false,sel:false};
   const STEPS=[
+    {t:'Halo!',x:'Aku Pandu, pemandu singkatmu. Simulasi ini menunjukkan untuk apa form ini dan cara mengisinya.',h:'',f:'hi',m:'Hi! Aku Pandu. Yuk kenalan sama form ini.',
+     r:()=>tm('<div style="text-align:center;padding:28px 8px"><div style="font-size:1.1rem;font-weight:700">Form Service Result</div><div class="muted" style="margin-top:6px">Catat hasil servis, rapi dan siap dikirim</div></div>')},
+    {t:'Kegunaan form',x:'Satu form untuk tiga pekerjaan. Pilih sesuai WO.',h:'',f:'point',m:'Ini tiga kegunaannya.',
+     r:()=>tm('<div class="tm-grid"><div class="tm-card"><b>Maintenance</b>Cek sebelum dan sesudah, catat tindakan</div><div class="tm-card"><b>Instalasi</b>Pasang, uji fungsi, serah terima</div><div class="tm-card"><b>Survey lokasi</b>Cek air, lokasi, material</div></div>')},
+    {t:'Kasus yang cocok',x:'Form ini untuk kasus in-home dan project. Kasus lain punya jalur sendiri.',h:'',f:'think',m:'Cek dulu, kasusmu cocok di sini?',
+     r:()=>tm('<ul><li class="y"><i>✓</i>Servis in-home atau project</li><li class="y"><i>✓</i>RO: Maintenance, Instalasi, Survey lokasi</li><li class="n"><i>✕</i>Penarikan indoor unit pendingin: pakai Checklist Unit Pendingin</li><li class="n"><i>✕</i>Perbaikan di instansi atau perusahaan: tidak disarankan</li></ul>')},
+    {t:'Pencegahan',x:'Kebiasaan kecil supaya form tidak perlu diulang.',h:'',f:'warn',m:'Biar tidak diulang, lakukan ini.',
+     r:()=>tm('<ul><li class="y"><i>✓</i>Ukur dan catat TDS (air masuk, keluaran unit)</li><li class="y"><i>✓</i>Temuan NG dicek ulang dan diberi tindakan</li><li class="y"><i>✓</i>Lengkapi semua isian sebelum tanda tangan</li><li class="y"><i>✓</i>Cek blok DATA VALIDASI sebelum kirim</li><li class="y"><i>✓</i>Unduh hasil sebelum menutup tab</li></ul>')},
     {t:'1. Pilih pekerjaan',x:'Mulai dari jenis pekerjaan di WO: Maintenance, Instalasi, atau Survey lokasi. Warna tampilan ikut berubah sesuai pilihan.',h:'Klik kartu Maintenance yang menyala.',
      r:()=>tm('<h4>Pilih pekerjaan</h4><div class="tm-grid"><div class="tm-card tour-keep" data-hl><b>Maintenance</b>Pemeriksaan sebelum &amp; sesudah</div><div class="tm-card"><b>Instalasi</b>Pemasangan unit</div><div class="tm-card"><b>Survey lokasi</b>Cek kondisi lokasi</div></div>')},
     {t:'2. Pilih tipe unit',x:'Pilih unit yang dikerjakan. Gunakan kolom cari bila daftar panjang.',h:'Klik Reverse Osmosis.',
@@ -2041,6 +2054,10 @@
      r:()=>tm('<div class="tm-row"><div class="tm-sig tour-keep" data-hl style="flex:1">Tanda tangan konsumen</div><div class="tm-sig" style="flex:1">Tanda tangan teknisi</div></div><div class="tm-row"><button class="tm-btn">Unduh JPG</button><button class="tm-btn">Unduh PDF</button><button class="tm-btn">Cetak</button></div>')}
   ];
   const DD=[
+    ['Ikuti satu per satu, bisa dijeda.',''],
+    ['Pilih pekerjaan sesuai WO.','Pakai satu pilihan untuk semua kasus.'],
+    ['Gunakan untuk in-home dan project.','Pakai untuk penarikan indoor pendingin.'],
+    ['Lengkapi, lalu cek DATA VALIDASI.','Tutup tab sebelum mengunduh.'],
     ['Sesuaikan dengan WO.','Salah pilih pekerjaan, lalu isi.'],
     ['Pilih model sesuai WO.','Pilih unit mirip tapi beda model.'],
     ['Pilih Regular bila bukan project.','Kosongkan nama project lainnya.'],
@@ -2049,13 +2066,19 @@
     ['Isi angka sesuai alat ukur.','Tulis satuan atau teks di kolom angka.'],
     ['Cek Keterangan dan ringkasan.','Cetak saat masih DRAFT.'],
     ['Tanda tangan setelah konfirmasi dicentang.','Unggah/kirim tanpa tanda tangan lengkap.']];
-  const STEP_MS=6500;let i=0,playing=true,timer=null,clickTimer=null;
+  const MASCOT={name:'Pandu',frames:{hi:[[' \\o/ ','  |  ',' / \\ '],['  o_ ',' /|  ',' / \\ ']],point:[[' o/  ','/|   ',' /\\  ']],think:[[' o ? ','/|\\  ','/ \\  ']],warn:[[' o ! ','/|\\  ','/ \\  ']],cheer:[[' \\o/ ','  |  ',' / \\ '],['  o  ','\\/|\\/',' / \\ ']]}};
+  const MS=['Klik kartu yang menyala!','Pilih unit sesuai WO.','Regular atau nama project.','Header ini ikut menempel.','Klik NG, lihat apa yang muncul.','Isi angkanya saja, satuan sudah ada.','Hasil ukur masuk ke Keterangan.','Tanda tangan, unduh, lalu kirim!'];
+  let faceT=null,faceI=0;
+  function setFace(k){clearInterval(faceT);const fr=MASCOT.frames[k]||MASCOT.frames.point;faceI=0;const draw=()=>{$('tourFace').textContent=fr[faceI%fr.length].join('\n');faceI++;};draw();if(fr.length>1&&!matchMedia('(prefers-reduced-motion:reduce)').matches)faceT=setInterval(draw,650);}
+  let typeT=null;
+  function say(t){clearInterval(typeT);const b=$('tourBubble');if(matchMedia('(prefers-reduced-motion:reduce)').matches){b.textContent=t;return;}b.textContent='';let n=0;typeT=setInterval(()=>{b.textContent=t.slice(0,++n);if(n>=t.length)clearInterval(typeT);},22);}
+  const NGSTEP=8,STEP_MS=6500;let i=0,playing=true,timer=null,clickTimer=null;
   function clearT(){clearTimeout(timer);clearTimeout(clickTimer);}
   function arm(){
     clearT();const bar=$('tourAuto');bar.style.transition='none';bar.style.width='0';
     if(!playing)return;
     void bar.offsetWidth;bar.style.transition='width '+STEP_MS+'ms linear';bar.style.width='100%';
-    if(i===4)clickTimer=setTimeout(()=>{if(playing&&i===4){st.ng=true;show(true);}},2500);
+    if(i===NGSTEP)clickTimer=setTimeout(()=>{if(playing&&i===NGSTEP){st.ng=true;show(true);}},2500);
     timer=setTimeout(()=>{ if(i<STEPS.length-1){i++;show();} else {playing=false;clearT();syncPlay();} },STEP_MS);
   }
   function syncPlay(){$('tourPlay').textContent=playing?'Jeda':(i===STEPS.length-1?'Ulangi':'Putar');}
@@ -2063,19 +2086,20 @@
     const s=STEPS[i];
     $('tourStage').innerHTML=s.r();
     const hl=$('tourStage').querySelector('[data-hl]');
-    if(hl){hl.classList.add('tour-hl');hl.addEventListener('click',()=>{ if(i===4){st.ng=true;show(true);} else next(); });}
+    if(hl){hl.classList.add('tour-hl');hl.addEventListener('click',()=>{ if(i===NGSTEP){st.ng=true;show(true);} else next(); });}
+    if(!keepTimer){const k=s.f||(i===STEPS.length-1?'cheer':'point');setFace(k);say(s.m||MS[i-4]||'');}
     $('tourTitle').textContent=s.t;$('tourText').textContent=s.x;$('tourHint').textContent=s.h;
     $('tourCount').textContent='Langkah '+(i+1)+' dari '+STEPS.length;
     $('tourFill').style.width=((i+1)/STEPS.length*100)+'%';
     $('tourPrev').disabled=i===0;
     $('tourNext').textContent=i===STEPS.length-1?'Selesai':'Lanjut';
-    $('tourDd').innerHTML='<div class="do"><b>Lakukan</b><span>'+DD[i][0]+'</span></div><div class="dont"><b>Hindari</b><span>'+DD[i][1]+'</span></div>';
+    $('tourDd').innerHTML='<div class="do"><b>Lakukan</b><span>'+DD[i][0]+'</span></div>'+(DD[i][1]?'<div class="dont"><b>Hindari</b><span>'+DD[i][1]+'</span></div>':'');
     syncPlay();if(!keepTimer)arm();
   }
   function next(){ if(i<STEPS.length-1){i++;show();} else close(); }
   $('tourPlay').addEventListener('click',()=>{ if(!playing&&i===STEPS.length-1){i=0;st.ng=false;} playing=!playing; show(); });
   function open(){i=0;st.ng=false;playing=true;$('tour').hidden=false;show();$('tourNext').focus();}
-  function close(){clearT();$('tour').hidden=true;try{localStorage.setItem('fsrTourSeen','1');}catch(e){}$('tourOpen').focus();}
+  function close(){clearT();clearInterval(faceT);clearInterval(typeT);$('tour').hidden=true;try{localStorage.setItem('fsrTourSeen','1');}catch(e){}$('tourOpen').focus();}
   $('tourOpen').addEventListener('click',open);$('tourClose').addEventListener('click',close);
   $('tourNext').addEventListener('click',next);
   $('tourPrev').addEventListener('click',()=>{if(i>0){i--;show();}});
