@@ -785,6 +785,7 @@
     <section id="previewView" hidden>
       <div class="preview-toolbar no-print">
         <button class="btn btn-outline-secondary" data-action="edit"><i class="bi bi-arrow-left me-1" aria-hidden="true"></i>Edit form</button><span class="spacer"></span>
+        <button class="btn btn-outline-secondary zoom-btn" data-action="zoom-output" aria-pressed="false"><i class="bi bi-zoom-in me-1" aria-hidden="true"></i><span>Perbesar</span></button>
         <button class="btn btn-outline-secondary" data-action="download-jpg"><i class="bi bi-image me-1" aria-hidden="true"></i>Unduh JPG</button>
         <button class="btn btn-outline-secondary" data-action="download-pdf"><i class="bi bi-filetype-pdf me-1" aria-hidden="true"></i>Unduh PDF</button>
         <button class="btn btn-primary primary" data-action="print"><i class="bi bi-printer me-1" aria-hidden="true"></i>Cetak</button>
@@ -1566,6 +1567,7 @@
       if (action==='preview') showPreview();
       if (action==='jump-to') jumpToIssue(b.dataset.target);
       if (action==='edit') { clearExportLink(); $('previewView').hidden=true; $('editor').hidden=false; renderEditor(); window.scrollTo(0,0); }
+      if (action==='zoom-output') { outputZoom=!outputZoom; b.setAttribute('aria-pressed',String(outputZoom)); b.querySelector('span').textContent=outputZoom?'Perkecil':'Perbesar'; fitFullOutput(); }
       if (action==='download-jpg') void downloadOutput('jpg');
       if (action==='download-pdf') void downloadOutput('pdf');
       if (action==='print') {
@@ -1714,7 +1716,7 @@
     // Preserve every word and row in renderDocument(); change only the output frame/layout.
     const OUTPUT_FRAME_WIDTH=1280;
     const OUTPUT_FRAME_HEIGHT=1280;
-    let fullOutputObserver;
+    let fullOutputObserver,outputZoom=false;
     function splitFullChecklist(content) {
       const checklist=content.querySelector('.maintenance-table,.installation-table');
       const grid=document.createElement('div');grid.className='output-checklist-grid';
@@ -1759,9 +1761,15 @@
       content.style.transform=`scale(${innerScale})`;
       content.style.left=((OUTPUT_FRAME_WIDTH-content.offsetWidth*innerScale)/2)+'px';
       content.dataset.outputScale=String(innerScale);
-      const previewScale=Math.min(1,frame.clientWidth/OUTPUT_FRAME_WIDTH);
+      const fitScale=Math.min(1,frame.clientWidth/OUTPUT_FRAME_WIDTH);
+      const zoomed=outputZoom&&fitScale<0.8,previewScale=zoomed?Math.min(1,Math.max(fitScale,0.7)):fitScale;
       paper.style.transform=`scale(${previewScale})`;
-      const height=Math.ceil(OUTPUT_FRAME_HEIGHT*previewScale)+'px';
+      frame.style.overflow=zoomed?'auto':'hidden';frame.style.touchAction=zoomed?'pan-x pan-y':'';
+      let sizer=frame.querySelector('.output-sizer');
+      if(zoomed){if(!sizer){sizer=document.createElement('div');sizer.className='output-sizer';frame.appendChild(sizer);}
+        sizer.style.width=Math.ceil(OUTPUT_FRAME_WIDTH*previewScale)+'px';sizer.style.height=Math.ceil(OUTPUT_FRAME_HEIGHT*previewScale)+'px';}
+      else sizer?.remove();
+      const height=(zoomed?Math.min(Math.ceil(OUTPUT_FRAME_HEIGHT*previewScale),Math.round(innerHeight*0.7)):Math.ceil(OUTPUT_FRAME_HEIGHT*previewScale))+'px';
       if(frame.style.height!==height)frame.style.height=height;
     }
     function renderFullOutput(w) {
@@ -2014,6 +2022,11 @@
 .tour-bubble{flex:1 1 auto;min-width:0;max-height:100px;overflow:hidden;position:relative;background:var(--ac-s,#e6f4f1);color:var(--ink,#16232b);border-radius:12px 12px 12px 2px;padding:8px 12px;font-size:.86rem;font-weight:600;min-height:36px;display:flex;align-items:center}
 .tour-bubble::before{content:"";position:absolute;left:-7px;bottom:0;border:7px solid transparent;border-right-color:var(--ac-s,#e6f4f1);border-bottom-color:var(--ac-s,#e6f4f1)}
 .tm ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}.tm li{display:flex;gap:8px;align-items:flex-start;line-height:1.35}.tm li i{font-style:normal;font-weight:800;flex:0 0 16px}.tm li.y i{color:#17734a}.tm li.n i{color:#b3303a}
+.zoom-btn{display:none}
+.output-sizer{position:absolute;left:0;top:0;pointer-events:none;visibility:hidden}
+@media (max-width:600px){.zoom-btn{display:inline-flex;align-items:center}}
+@media (pointer:coarse){#workspace > nav.tabs .btn{min-height:40px!important;min-width:40px}.btn:not(.btn-sm){min-height:44px}.form-control,.form-select{min-height:44px}.btn-group.status>.btn{min-height:44px}.measure-input input{height:44px}.tour-x{min-width:44px;min-height:44px}}
+@media (max-height:480px) and (orientation:landscape){.tour-card{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"bar bar" "prog prog" "stage cap" "auto cap"}.tour-stage{min-height:0;max-height:220px;overflow:auto}.tour-cap{max-height:230px;overflow:auto}}
 .tour-tag{font-size:.74rem;color:var(--muted,#667);font-weight:500}
 #tourFace{color:#16232b;width:96px;height:96px;line-height:0}
 #tourFace svg{display:block;width:96px;height:96px;image-rendering:pixelated}
