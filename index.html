@@ -2013,7 +2013,9 @@
 .tour-auto{grid-area:auto;height:3px;background:#e3e8ec}
 .tour-auto i{display:block;height:100%;width:0;background:var(--ac,#0f766e)}
 .tour-mascot{display:flex;gap:10px;align-items:flex-end}
-.tour-mascot pre{margin:0;font:700 15px/1.05 "Courier New",ui-monospace,monospace;color:var(--ac-d,#0b5d56);flex:0 0 auto;min-width:54px}
+.tour-mascot pre{margin:0;font:700 14px/1.1 "Courier New",ui-monospace,monospace;color:var(--ac-d,#0b5d56);flex:0 0 auto;min-width:76px;animation:pbounce .52s ease-in-out infinite}
+@keyframes pbounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@media (prefers-reduced-motion:reduce){.tour-mascot pre{animation:none}}
 .tour-bubble{position:relative;background:var(--ac-s,#e6f4f1);color:var(--ink,#16232b);border-radius:12px 12px 12px 2px;padding:8px 12px;font-size:.86rem;font-weight:600;min-height:36px;display:flex;align-items:center}
 .tour-bubble::before{content:"";position:absolute;left:-7px;bottom:0;border:7px solid transparent;border-right-color:var(--ac-s,#e6f4f1);border-bottom-color:var(--ac-s,#e6f4f1)}
 .tm ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}.tm li{display:flex;gap:8px;align-items:flex-start;line-height:1.35}.tm li i{font-style:normal;font-weight:800;flex:0 0 16px}.tm li.y i{color:#17734a}.tm li.n i{color:#b3303a}
@@ -2089,19 +2091,24 @@
     ['Isi angka sesuai alat ukur.','Tulis satuan atau teks di kolom angka.'],
     ['Cek Keterangan dan ringkasan.','Cetak saat masih DRAFT.'],
     ['Tanda tangan setelah konfirmasi dicentang.','Unggah/kirim tanpa tanda tangan lengkap.']];
-  const MASCOT={name:'Pandu',frames:{hi:[[' \\o/ ','  |  ',' / \\ '],['  o_ ',' /|  ',' / \\ ']],point:[[' o/  ','/|   ',' /\\  ']],think:[[' o ? ','/|\\  ','/ \\  ']],warn:[[' o ! ','/|\\  ','/ \\  ']],cheer:[[' \\o/ ','  |  ',' / \\ '],['  o  ','\\/|\\/',' / \\ ']]}};
+  const MASCOT={name:'Pandu',frames:{
+    hi:[['\\(^‿^)/','   |    ','  / \\   '],[' (^‿^)/ ','  /|    ','  / \\   '],['\\(^‿^)  ','   |\\   ','  / \\   ']],
+    point:[['(•‿•)/  ','/|      ',' / \\    '],['(•‿•)_/ ','/|      ',' / \\    '],['(•‿•)/ ~','/|      ','  |\\    ']],
+    think:[['(•_•) ? ','/|\\     ','/ \\     '],['(•_•)  ?','/|\\     ',' | |    '],['(•_•)?? ','/|\\     ','/ \\     ']],
+    warn:[['(O_O) ! ','/|\\     ','/ \\     '],['(O_O) !!','\\|/     ','/ \\     ']],
+    cheer:[['\\(^o^)/ *','   |     ','  / \\    '],['_(^o^)_ +','   |     ',' _/ \\_   '],['\\(^o^)/ x','   |     ','  / \\    ']]}};
   const MS=['Klik kartu yang menyala!','Pilih unit sesuai WO.','Regular atau nama project.','Header ini ikut menempel.','Klik NG, lihat apa yang muncul.','Isi angkanya saja, satuan sudah ada.','Hasil ukur masuk ke Keterangan.','Tanda tangan, unduh, lalu kirim!'];
   let faceT=null,faceI=0;
-  function setFace(k){clearInterval(faceT);const fr=MASCOT.frames[k]||MASCOT.frames.point;faceI=0;const draw=()=>{$('tourFace').textContent=fr[faceI%fr.length].join('\n');faceI++;};draw();if(fr.length>1&&!matchMedia('(prefers-reduced-motion:reduce)').matches)faceT=setInterval(draw,650);}
+  function setFace(k){clearInterval(faceT);const fr=MASCOT.frames[k]||MASCOT.frames.point;faceI=0;const draw=()=>{$('tourFace').textContent=fr[faceI%fr.length].join('\n');faceI++;};draw();if(fr.length>1&&!matchMedia('(prefers-reduced-motion:reduce)').matches)faceT=setInterval(draw,260);}
   let typeT=null;
-  function say(t){clearInterval(typeT);const b=$('tourBubble');if(matchMedia('(prefers-reduced-motion:reduce)').matches){b.textContent=t;return;}b.textContent='';let n=0;typeT=setInterval(()=>{b.textContent=t.slice(0,++n);if(n>=t.length)clearInterval(typeT);},22);}
-  const NGSTEP=8,STEP_MS=6500;let i=0,playing=true,timer=null,clickTimer=null;
+  function say(t){clearInterval(typeT);const b=$('tourBubble');if(matchMedia('(prefers-reduced-motion:reduce)').matches){b.textContent=t;return;}b.textContent='';let n=0;typeT=setInterval(()=>{b.textContent=t.slice(0,++n);if(n>=t.length)clearInterval(typeT);},11);}
+  const NGSTEP=8,STEP_MS=3800;let i=0,playing=true,timer=null,clickTimer=null;
   function clearT(){clearTimeout(timer);clearTimeout(clickTimer);}
   function arm(){
     clearT();const bar=$('tourAuto');bar.style.transition='none';bar.style.width='0';
     if(!playing)return;
     void bar.offsetWidth;bar.style.transition='width '+STEP_MS+'ms linear';bar.style.width='100%';
-    if(i===NGSTEP)clickTimer=setTimeout(()=>{if(playing&&i===NGSTEP){st.ng=true;show(true);}},2500);
+    if(i===NGSTEP)clickTimer=setTimeout(()=>{if(playing&&i===NGSTEP){st.ng=true;show(true);}},1500);
     timer=setTimeout(()=>{ if(i<STEPS.length-1){i++;show();} else {playing=false;clearT();syncPlay();} },STEP_MS);
   }
   function syncPlay(){$('tourPlay').textContent=playing?'Jeda':(i===STEPS.length-1?'Ulangi':'Putar');}
