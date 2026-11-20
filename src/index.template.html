@@ -2044,6 +2044,99 @@
     .validation-block { margin-top: 10px; padding: 5px 8px; border: 1px dashed #8a97a0; border-radius: 4px; font: 10px/1.5 "Courier New", ui-monospace, monospace; color: #1f2d36; word-break: break-word; break-inside: avoid; }
     .paper.output-form .validation-block { margin-top: 8px; font-size: 11px; line-height: 1.5; color: #000; border: 1px solid #000; }
 </style>
+<style id="standar-ui-v1">
+/* ===== STANDAR UI BERSAMA MODENA TS v1 (2026-W47) =====
+   Blok ini IDENTIK di Form Service Result, Checklist Unit Pendingin, dan Persetujuan Pemasangan.
+   Hanya tampilan. Tidak menyentuh area output (.paper / #outputFrame / #printArea). */
+:root{
+  --ui-ink:#1f2430; --ui-muted:#667085; --ui-line:#e4e7ec; --ui-bg:#f6f7fb; --ui-card:#fff; --ui-field:#d0d5dd;
+  --ui-primary:#7c5cf0; --ui-primary-d:#5b3fd1; --ui-primary-soft:#f4f1ff; --ui-primary-line:#ddd5fb;
+  --ui-danger:#c4321c; --ui-danger-bg:#fff1ee; --ui-danger-line:#f3b9ae;
+  --ui-warn:#7a4a00; --ui-warn-bg:#fff3d6; --ui-warn-line:#d99a00;
+  --ui-info:#1e40af; --ui-info-bg:#e8f0ff; --ui-info-line:#7ea2f2;
+  --ui-ok:#198754; --ui-ok-bg:#e8f6ee; --ui-ok-line:#6fc69a;
+  --ui-font:Inter,"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+  --ui-r-card:10px; --ui-r-ctl:8px; --ui-r-tile:9px; --ui-r-pill:999px;
+  --ui-touch:44px; --ui-gap:12px;
+  --ui-focus:3px solid color-mix(in srgb, var(--ui-primary) 35%, transparent);
+}
+body{font-family:var(--ui-font)}
+button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:var(--ui-focus);outline-offset:2px}
+input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=range]),select,textarea{border-radius:var(--ui-r-ctl);font-size:max(16px,1rem)}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition:none !important;animation:none !important;scroll-behavior:auto !important}
+}
+/* ===== akhir STANDAR UI BERSAMA v1 ===== */
+</style>
+<style id="ui-review-2026-w47">
+/* Tinjauan UI 2026-W47: hanya tampilan (warna, ukuran sentuh, fokus, tipografi). Tidak menyentuh .paper / #outputFrame / #printArea. */
+:root { --ng:#c4321c; --field-border:#d0d5dd; }
+/* field: border token, radius 8px, warna teks token */
+body input.form-control, body select.form-control, body textarea.form-control, body .form-select, body #unitSearch, body input.form-control:not(:focus) { border-color:var(--field-border); border-radius:8px; color:var(--ink); }
+body .form-control:focus, body .form-select:focus { border-color:var(--ac); }
+/* fokus keyboard standar: 3px primer 35%, offset 2px */
+body a:focus-visible, body button:focus-visible, body summary:focus-visible, body .btn:focus-visible, body .choice:focus-visible, body input:focus-visible, body select:focus-visible, body textarea:focus-visible, body .btn-check:focus-visible + .btn { outline:3px solid color-mix(in srgb, var(--ac) 35%, transparent); outline-offset:2px; }
+/* status NG memakai token bahaya */
+body .status .btn-check[value=NG] + .btn { color:var(--ng); border-color:var(--ng); }
+body .status .btn-check[value=NG]:checked + .btn { background:var(--ng); border-color:var(--ng); color:#fff; }
+body .status .btn-check[value=NG]:not(:checked) + .btn:hover { background:#fff1ee; color:var(--ng); }
+body .status .btn-check[value=OK]:checked + .btn { background:#198754; border-color:#198754; }
+/* tanpa bayangan pada kartu / tab */
+body .choice:hover, body .choice:focus-visible, body .choice.active, body .choice[data-mode].active { box-shadow:none; }
+body .step-tab.active { box-shadow:none; }
+/* ukuran teks minimal 12px */
+body .flow-cap, body .flow-label, body .lab-out dt { font-size:12px; }
+body small.d-block.text-secondary { font-size:12px; }
+body .requirement { font-size:12px; }
+body .step-tab span, body .form-sticky .step-tab span { font-size:12px; flex-basis:22px; width:22px; height:22px; }
+body .flow-node.start .flow-cap { color:#fff; }
+/* ukuran sentuh >= 44px */
+body .quicklink .btn, body .lab .btn { min-height:44px; }
+body .quicklink summary { padding:12px 0; }
+body .flow-node a { display:inline-block; padding:14px 0; margin:-14px 0; }
+body .form-sticky .stepper .step-tab, body .stepper .step-tab { min-height:44px; }
+body details.group > summary, body .completion-nav > summary { min-height:48px; }
+body .completion-nav button { min-height:44px; }
+body #workspace > .tabs .btn, body #workspace .btn.btn-outline-danger { min-height:44px; }
+body #workspace > nav.tabs .btn { min-height:44px !important; min-width:44px; }
+@media (max-width:600px) { body nav.tabs .btn { width:44px; } }
+body .note-disclosure > summary { min-height:44px; }
+/* kontras AA pada tema warna per mode: isi tombol/penanda memakai varian gelap */
+body[data-theme] .btn.btn-primary, body[data-theme] .btn.btn-primary.primary, body[data-theme] .mode-grid .btn, body[data-theme] .mode-grid .btn.btn-outline-secondary { --bs-btn-bg:var(--ac-d); --bs-btn-border-color:var(--ac-d); background:var(--ac-d); border-color:var(--ac-d); color:#fff; }
+body[data-theme] .btn.btn-primary:hover:not(:disabled), body[data-theme] .mode-grid .btn:hover:not(:disabled) { background:color-mix(in srgb, var(--ac-d) 85%, #000); border-color:color-mix(in srgb, var(--ac-d) 85%, #000); }
+body[data-theme] .step-tab.active span, body[data-theme] .flow-node.start { background:var(--ac-d); border-color:var(--ac-d); }
+body .step-tab:not(.active), body .setup-panel .segment .btn:not([aria-pressed="true"]) { color:#586174; }
+body .muted, body .hint { color:#5b6577; }
+/* pencarian tipe unit lengket agar tetap terjangkau di daftar panjang */
+#unitSection > .d-flex { position:sticky; top:0; z-index:20; background:var(--bg); padding:8px 0; margin-bottom:4px !important; }
+@media (min-width:801px) { #unitSection > .d-flex { top:64px; } }
+@media (max-width:600px) { #unitSection > .d-flex > div[style] { max-width:none !important; } }
+/* ===== Penyeragaman ke blok standar-ui-v1 (komponen setara tampil sama di tiga app) ===== */
+body { background:var(--ui-bg); color:var(--ui-ink); line-height:1.5; }
+body .top, body[data-theme] .top { padding-top:10px; padding-bottom:10px; border-bottom:1px solid var(--ui-line); }
+body .brand { min-height:44px; line-height:1.5; font-size:1rem; font-weight:700; }
+body .brand small { font-size:.75rem; font-weight:400; color:var(--ui-muted); }
+body .hero, body .quicklink, body .card, body .setup-panel, body .preflight, body .warning, body .progress-strip, body .completion-nav, body .wizard-actions, body #workspace > .context-bar { border-radius:var(--ui-r-card); box-shadow:none; }
+body .hero h1, body .form-heading h1, body main h1 { font-size:1.4rem; font-weight:700; }
+body main h2, body .card h2 { font-size:1.1rem; font-weight:700; }
+body a.btn { text-decoration:none; }
+body .btn:not(.btn-sm):not(nav.tabs .btn) { font-size:.9375rem; font-weight:600; line-height:1.3; border-width:1px; border-radius:var(--ui-r-ctl); min-height:var(--ui-touch); }
+body .btn-primary, body .mode-grid .btn { border-width:1px; padding:10px 16px; }
+body .btn-outline-secondary { --bs-btn-color:var(--ui-ink); --bs-btn-border-color:var(--ui-field); --bs-btn-bg:#fff; --bs-btn-hover-color:var(--ui-ink); --bs-btn-hover-bg:var(--ui-primary-soft); --bs-btn-hover-border-color:var(--ui-primary-line); --bs-btn-active-color:var(--ui-ink); --bs-btn-active-bg:var(--ui-primary-soft); --bs-btn-active-border-color:var(--ui-primary-line); }
+body .form-control, body .form-select { min-height:48px; border-radius:var(--ui-r-ctl); }
+body textarea.form-control { min-height:96px; }
+body .stepper { background:#eef0f5; border:0; border-radius:var(--ui-r-tile); padding:4px; gap:4px; }
+body .step-tab span { width:22px; height:22px; }
+body .step-tab { border-radius:var(--ui-r-tile); min-height:var(--ui-touch); font-size:.8125rem; font-weight:600; }
+body .step-tab.active { box-shadow:none; }
+body .choice, body .unit-choice { border-radius:var(--ui-r-card); box-shadow:none; }
+body .choice:hover, body .choice:focus-visible, body .choice.active { box-shadow:none; }
+body .choice .choice-icon, body .form-heading .title-icon, body .setup-head .choice-icon { border-radius:var(--ui-r-tile); }
+body .wizard-actions { border-color:var(--ui-line); background:#fff; }
+@media (max-width:600px) { body .wizard-actions { border-radius:var(--ui-r-card) var(--ui-r-card) 0 0; } }
+body .requirement.required { color:var(--ui-danger); }
+</style>
 <script>
 (function(){
   const $=id=>document.getElementById(id);
