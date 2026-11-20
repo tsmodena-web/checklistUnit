@@ -1,0 +1,23 @@
+/* ===== STANDAR UI BERSAMA MODENA TS v1 (2026-W47) =====
+   Blok ini IDENTIK di Form Service Result, Checklist Unit Pendingin, dan Persetujuan Pemasangan.
+   Hanya tampilan. Tidak menyentuh area output (.paper / #outputFrame / #printArea). */
+:root{
+  --ui-ink:#1f2430; --ui-muted:#667085; --ui-line:#e4e7ec; --ui-bg:#f6f7fb; --ui-card:#fff; --ui-field:#d0d5dd;
+  --ui-primary:#7c5cf0; --ui-primary-d:#5b3fd1; --ui-primary-soft:#f4f1ff; --ui-primary-line:#ddd5fb;
+  --ui-danger:#c4321c; --ui-danger-bg:#fff1ee; --ui-danger-line:#f3b9ae;
+  --ui-warn:#7a4a00; --ui-warn-bg:#fff3d6; --ui-warn-line:#d99a00;
+  --ui-info:#1e40af; --ui-info-bg:#e8f0ff; --ui-info-line:#7ea2f2;
+  --ui-ok:#198754; --ui-ok-bg:#e8f6ee; --ui-ok-line:#6fc69a;
+  --ui-font:Inter,"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+  --ui-r-card:10px; --ui-r-ctl:8px; --ui-r-tile:9px; --ui-r-pill:999px;
+  --ui-touch:44px; --ui-gap:12px;
+  --ui-focus:3px solid color-mix(in srgb, var(--ui-primary) 35%, transparent);
+}
+body{font-family:var(--ui-font)}
+button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:var(--ui-focus);outline-offset:2px}
+input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=range]),select,textarea{border-radius:var(--ui-r-ctl);font-size:max(16px,1rem)}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition:none !important;animation:none !important;scroll-behavior:auto !important}
+}
+/* ===== akhir STANDAR UI BERSAMA v1 ===== */
