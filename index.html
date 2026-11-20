@@ -2073,6 +2073,50 @@
     .validation-block { margin-top: 10px; padding: 5px 8px; border: 1px dashed #8a97a0; border-radius: 4px; font: 10px/1.5 "Courier New", ui-monospace, monospace; color: #1f2d36; word-break: break-word; break-inside: avoid; }
     .paper.output-form .validation-block { margin-top: 8px; font-size: 11px; line-height: 1.5; color: #000; border: 1px solid #000; }
 </style>
+<style id="ui-review-2026-w47">
+/* Tinjauan UI 2026-W47: hanya tampilan (warna, ukuran sentuh, fokus, tipografi). Tidak menyentuh .paper / #outputFrame / #printArea. */
+:root { --ng:#c4321c; --field-border:#d0d5dd; }
+/* field: border token, radius 8px, warna teks token */
+body input.form-control, body select.form-control, body textarea.form-control, body .form-select, body #unitSearch, body input.form-control:not(:focus) { border-color:var(--field-border); border-radius:8px; color:var(--ink); }
+body .form-control:focus, body .form-select:focus { border-color:var(--ac); }
+/* fokus keyboard standar: 3px primer 35%, offset 2px */
+body a:focus-visible, body button:focus-visible, body summary:focus-visible, body .btn:focus-visible, body .choice:focus-visible, body input:focus-visible, body select:focus-visible, body textarea:focus-visible, body .btn-check:focus-visible + .btn { outline:3px solid color-mix(in srgb, var(--ac) 35%, transparent); outline-offset:2px; }
+/* status NG memakai token bahaya */
+body .status .btn-check[value=NG] + .btn { color:var(--ng); border-color:var(--ng); }
+body .status .btn-check[value=NG]:checked + .btn { background:var(--ng); border-color:var(--ng); color:#fff; }
+body .status .btn-check[value=NG]:not(:checked) + .btn:hover { background:#fff1ee; color:var(--ng); }
+body .status .btn-check[value=OK]:checked + .btn { background:#198754; border-color:#198754; }
+/* tanpa bayangan pada kartu / tab */
+body .choice:hover, body .choice:focus-visible, body .choice.active, body .choice[data-mode].active { box-shadow:none; }
+body .step-tab.active { box-shadow:none; }
+/* ukuran teks minimal 12px */
+body .flow-cap, body .flow-label, body .lab-out dt { font-size:12px; }
+body small.d-block.text-secondary { font-size:12px; }
+body .requirement { font-size:12px; }
+body .step-tab span, body .form-sticky .step-tab span { font-size:12px; flex-basis:22px; width:22px; height:22px; }
+body .flow-node.start .flow-cap { color:#fff; }
+/* ukuran sentuh >= 44px */
+body .quicklink .btn, body .lab .btn { min-height:44px; }
+body .quicklink summary { padding:12px 0; }
+body .flow-node a { display:inline-block; padding:14px 0; margin:-14px 0; }
+body .form-sticky .stepper .step-tab, body .stepper .step-tab { min-height:44px; }
+body details.group > summary, body .completion-nav > summary { min-height:48px; }
+body .completion-nav button { min-height:44px; }
+body #workspace > .tabs .btn, body #workspace .btn.btn-outline-danger { min-height:44px; }
+body #workspace > nav.tabs .btn { min-height:44px !important; min-width:44px; }
+@media (max-width:600px) { body nav.tabs .btn { width:44px; } }
+body .note-disclosure > summary { min-height:44px; }
+/* kontras AA pada tema warna per mode: isi tombol/penanda memakai varian gelap */
+body[data-theme] .btn.btn-primary, body[data-theme] .btn.btn-primary.primary, body[data-theme] .mode-grid .btn, body[data-theme] .mode-grid .btn.btn-outline-secondary { --bs-btn-bg:var(--ac-d); --bs-btn-border-color:var(--ac-d); background:var(--ac-d); border-color:var(--ac-d); color:#fff; }
+body[data-theme] .btn.btn-primary:hover:not(:disabled), body[data-theme] .mode-grid .btn:hover:not(:disabled) { background:color-mix(in srgb, var(--ac-d) 85%, #000); border-color:color-mix(in srgb, var(--ac-d) 85%, #000); }
+body[data-theme] .step-tab.active span, body[data-theme] .flow-node.start { background:var(--ac-d); border-color:var(--ac-d); }
+body .step-tab:not(.active), body .setup-panel .segment .btn:not([aria-pressed="true"]) { color:#586174; }
+body .muted, body .hint { color:#5b6577; }
+/* pencarian tipe unit lengket agar tetap terjangkau di daftar panjang */
+#unitSection > .d-flex { position:sticky; top:0; z-index:20; background:var(--bg); padding:8px 0; margin-bottom:4px !important; }
+@media (min-width:801px) { #unitSection > .d-flex { top:64px; } }
+@media (max-width:600px) { #unitSection > .d-flex > div[style] { max-width:none !important; } }
+</style>
 <script>
 (function(){
   const $=id=>document.getElementById(id);
