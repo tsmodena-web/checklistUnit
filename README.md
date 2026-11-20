@@ -12,6 +12,7 @@ config/            <- yang diedit (data)
   installation.json  pemeriksaan Instalasi (RO)
   home.json          teks home, banner quicklink, flowchart
 src/index.template.html   kode aplikasi (jarang diubah)
+tools/core.mjs            validasi + render (dipakai build dan Checklist Config Manager)
 tools/build.mjs           config + template  ->  index.html
 tools/mcp-server.mjs      MCP server untuk mengedit config lewat Claude
 index.html                HASIL build (file yang disajikan GitHub Pages) — jangan diedit manual
