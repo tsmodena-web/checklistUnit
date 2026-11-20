@@ -23,4 +23,4 @@ Satu bahasa visual untuk [[Form Service Result]], [[Checklist Unit Pendingin]], 
 - [[Bahasa Antarmuka]] `#ux/bahasa`
 - [[Output JPG dan PDF]] `#ux/output`
 
-> Catatan yang belum ada akan dibuat oleh evaluasi pertama berdasarkan kondisi aplikasi saat ini.
+> Catatan standar dibuat oleh evaluasi pertama [[2026-W47]] dari kondisi aplikasi saat itu.
