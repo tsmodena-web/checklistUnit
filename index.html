@@ -2165,6 +2165,12 @@ body .choice .choice-icon, body .form-heading .title-icon, body .setup-head .cho
 body .wizard-actions { border-color:var(--ui-line); background:#fff; }
 @media (max-width:600px) { body .wizard-actions { border-radius:var(--ui-r-card) var(--ui-r-card) 0 0; } }
 body .requirement.required { color:var(--ui-danger); }
+/* ===== Tinjauan UI 2026-W48: hanya tampilan ===== */
+/* pilihan centang/radio: target sentuh >=44px, kotak 20px berwarna primer, border dan radius token */
+body .inline-check { min-height:var(--ui-touch); border-color:var(--ui-field); border-radius:var(--ui-r-ctl); background:#fff; }
+body .inline-check input[type=checkbox], body .inline-check input[type=radio] { width:20px; height:20px; flex:0 0 20px; margin:0; accent-color:var(--ui-primary-d); }
+body .inline-check:hover:not(.disabled) { background:var(--ui-primary-soft); border-color:var(--ui-primary-line); }
+body .inline-check:has(input:checked) { border-color:var(--ui-primary); background:var(--ui-primary-soft); }
 </style>
 <script>
 (function(){
