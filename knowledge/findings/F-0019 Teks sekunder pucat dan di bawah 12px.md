@@ -4,11 +4,11 @@ id: F-0019
 app: pendingin
 severity: rendah
 area: aksesibilitas
-status: di-pr
+status: selesai
 found: 2026-11-20
 review: "[[2026-W47]]"
 pr: https://github.com/tsmodena-web/Checklist-Unit-Pendingin/pull/2
-tags: [finding, app/pendingin, ux/aksesibilitas, status/di-pr]
+tags: [finding, app/pendingin, ux/aksesibilitas, status/selesai]
 ---
 # F-0019 Teks sekunder pucat dan di bawah 12px
 
@@ -18,6 +18,6 @@ tags: [finding, app/pendingin, ux/aksesibilitas, status/di-pr]
 
 **Usulan.** Muted #667085, minimal 12px. (Perubahan tampilan saja; lihat [[K-0001 Evaluasi tidak mengubah informasi]].)
 
-**Status.** Diperbaiki di PR: https://github.com/tsmodena-web/Checklist-Unit-Pendingin/pull/2
+**Status.** Selesai: diperbaiki di PR https://github.com/tsmodena-web/Checklist-Unit-Pendingin/pull/2 (merged 2026-11-20).
 
 Terkait: [[Checklist Unit Pendingin]] · [[Evaluasi UI]] · [[2026-W47]]

@@ -4,11 +4,11 @@ id: F-0006
 app: fsr
 severity: rendah
 area: tipografi
-status: di-pr
+status: selesai
 found: 2026-11-20
 review: "[[2026-W47]]"
 pr: https://github.com/tsmodena-web/checklistUnit/pull/2
-tags: [finding, app/fsr, ui/tipografi, status/di-pr]
+tags: [finding, app/fsr, ui/tipografi, status/selesai]
 ---
 # F-0006 Teks di bawah 12px
 
@@ -18,6 +18,6 @@ tags: [finding, app/fsr, ui/tipografi, status/di-pr]
 
 **Usulan.** Naikkan ke 12px. (Perubahan tampilan saja; lihat [[K-0001 Evaluasi tidak mengubah informasi]].)
 
-**Status.** Diperbaiki di PR: https://github.com/tsmodena-web/checklistUnit/pull/2
+**Status.** Selesai: diperbaiki di PR https://github.com/tsmodena-web/checklistUnit/pull/2 (merged 2026-11-20).
 
 Terkait: [[Form Service Result]] · [[Evaluasi UI]] · [[2026-W47]]
