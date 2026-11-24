@@ -1432,7 +1432,7 @@
     }
     function navigateStep(target) {
       const next=Math.max(0,Math.min(2,target));
-      if(next>currentStep()&&!requireCompletion(Array.from({length:next},(_,i)=>i))) return;
+      // Stepper bebas: perpindahan langkah tidak digerbang field wajib; validasi tetap di Pratinjau/tanda tangan.
       setStep(next);
     }
     function renderProgress() {
